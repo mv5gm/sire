@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Empleado extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['cedula','nombre','segundo','paterno','materno','direccion','horas','tipo','banco','cuenta','tipo_cuenta'];
+
+    public function impartes(){
+    	return $this->hasMany(Imparte::class);
+    }
+    public function abonos(){
+    	return $this->hasMany(Abono::class);
+    }
+}
