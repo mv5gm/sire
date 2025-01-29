@@ -15,4 +15,7 @@ class Mensualidad extends Model
     public function pago(){
     	return $this->belongsTo(Pago::class);
     }
+    public function mess(){
+    	return $this->hasmany(Mes::class);
+    }
 }

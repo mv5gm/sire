@@ -8,6 +8,8 @@ use App\Models\Representado;
 use App\Models\Estudiante;
 use App\Models\Pago;
 use App\Models\Aescolar;
+use App\Models\Mensualidad;
+use App\Models\Mes;
 use App\Livewire\Forms\PagoRegistrar;
 use App\Livewire\Forms\PagoEditar;
 use App\Livewire\Forms\imprimirPago;
@@ -19,7 +21,12 @@ class Crud extends Component
     public $openEditar = false;
     public $openEliminar = false;
     public $openReporte = false;
+    public $mostrarCodigo = false;
+    public $mostrarMeses = false;
     public $representante_id;
+    public $estudiantes = [];
+    public $meses = [];
+    public $ahno;
     
     public $listaRepre;
     public $listaEstu;
@@ -34,6 +41,8 @@ class Crud extends Component
     public PagoEditar $editarForm;
     public imprimirPago $imprimirForm;
 
+    public $mes;
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -44,28 +53,28 @@ class Crud extends Component
         $this->aescolars = Aescolar::all();
     }
 
-    public function updated(){
+    public function updatedRegistrarForm(){
         
         $consulta = Representante::where('id',$this->registrarForm->representante_id)->with('representados.estudiante')->first();
 
         if ($consulta != null){
             $this->listaEstu = $consulta->representados;        
+        }   
+
+        if( $this->registrarForm->forma == 'Transferencia'  ){
+            $this->mostrarCodigo = true;
         }
 
-        //dd($this->listaEstu);
-    }
+        if( $this->registrarForm->tipo == 'Mensualidad'  ){
+            $this->mostrarMeses = true;
+        }
+    }       
 
     public function render()
-    {
-        //$items = Pago::with('representante')->with('tpago')->orWhereRelation('representante','cedula','like','%'.$this->buscar.'%')->orWhereRelation('representante','nombre','like','%'.$this->buscar.'%')->orderBy('cedula')->paginate(10);
-
+    {       
         $items = Pago::select('pagos.*')
             ->join('representantes','representantes.id','=','pagos.representante_id')
-            ->join('estudiantes','estudiantes.id','=','pagos.estudiante_id')
             ->orWhere('representantes.nombre','like','%'.$this->buscar.'%')
-            ->orWhere('representantes.cedula','like','%'.$this->buscar.'%')
-            ->orWhere('estudiantes.nombre','like','%'.$this->buscar.'%')
-            ->orWhere('estudiantes.cedula','like','%'.$this->buscar.'%')
             ->orderBy('pagos.fecha')
             ->paginate();
 
@@ -73,19 +82,41 @@ class Crud extends Component
     }   
 
     public function registrar(){
-        
+
+        if(count($this->estudiantes) == 0){
+            dd('no hay estudiantes');
+        }   
+            
+        //dd($this->ahno);
+
         $this->registrarForm->validate();
 
-        //dd($this->registrarForm);
+        $pago = $this->registrarForm->guardar();
+            
+        foreach ($this->estudiantes as $key) {
+                
+            $mensualidad = new Mensualidad;
+            $mensualidad->pago_id = $pago->id;
+            $mensualidad->estudiante_id = $key;
+            $mensualidad->save();
 
-        $this->registrarForm->guardar();
-
-        //$this->registrarForm->reset();
+            if($this->registrarForm->tipo == 'Mensualidad'){
+                
+                foreach ($this->meses as $key){  
+                    
+                    $mes = new Mes;
+                    $mes->mes = $key;
+                    $mes->ahno = $this->ahno;
+                    $mes->mensualidad_id = $mensualidad->id;
+                    $mes->save();
+                }    
+            }       
+        }           
 
         $this->open = false;
 
-        $this->dispatch('success',['mensaje' => 'Operacion exitosa!']);
-    }       
+        $this->dispatch('success');
+    }               
     public function editar($id){
         
         $this->resetValidation();

@@ -11,14 +11,12 @@ use App\Models\Representante;
 class PagoRegistrar extends Form
 {
     public $representante_id;
-    public $estudiante_id;
     public $cantidad;
     public $dolar;
     public $fecha;
     public $tipo;
     public $forma;
     public $codigo;
-    public $aescolar_id;
 
     public function guardar(){
 
@@ -28,11 +26,11 @@ class PagoRegistrar extends Form
         	'fecha' => $this->fecha,
         	'forma' => $this->forma,
             'representante_id' => $this->representante_id,
-        	'estudiante_id' => $this->estudiante_id,
             'tipo' => $this->tipo,
-            'codigo' => $this->codigo,
-        	'aescolar_id' => $this->aescolar_id,
+            'codigo' => $this->codigo
         ]);
+
+        return $pago;
 
         //Pago::create($this->all());
     }
@@ -45,8 +43,6 @@ class PagoRegistrar extends Form
         }   
         return [
             'representante_id' =>'required|exists:representantes,id',
-            'estudiante_id' =>'required|exists:estudiantes,id',
-            'aescolar_id' =>'required|exists:aescolars,id',
             'cantidad' =>'required|decimal:0,2|min:1|max:1000000',
             'dolar' =>'required|decimal:0,2|min:1|max:1000000',
             'fecha' =>'required|date',
@@ -58,7 +54,7 @@ class PagoRegistrar extends Form
     public function validationAttributes(){
         return [
             'tipo' => 'Tipo de pago',
-            'cedula' => 'Cedula del representante'
+            'forma' => 'Forma de Pago'
         ];
     }
 }

@@ -70,6 +70,17 @@
                     </div>
                 </div>
             </div>
+            
+            @can('users.index')
+
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
+                <button class="btn btn-primary ">
+                    Crear respaldo DB
+                </button>
+            </div>
+
+            @endcan
+
         </div>
     </div>
 </x-app-layout>

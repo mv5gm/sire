@@ -21,6 +21,7 @@
                     <td>ID</td>
                     <td>Cantidad</td>
                     <td>Representante</td>
+                    <td>Fecha</td>
                     <td>Tipo</td>
                     <td>Opciones</td>
                 </tr>
@@ -29,16 +30,13 @@
                 @foreach($items as $key)
                     <tr wire:key="item-{{$key->id}}" >
                         <td>{{$key->id}}</td>
-                        <td>{{$key->cantidad}}</td>
-                        <td>{{$key->representante->nombre.' '.$key->representante->paterno }}</td>
+                        <td>{{$key->representante->nombre}} {{$key->representante->paterno}}</td>
+                        <td>{{$key->fecha}}</td>
                         <td>{{$key->tipo}}</td>
                         <td>
                             <x-button wire:click="editar({{$key->id}})" >
-                                <i class="fa-solid fa-pen-to-square"></i>
+                              <i class="fa-solid fa-pen-to-square"></i>
                             </x-button>
-                            <x-secondary-button class="btn btn-primary" wire:click='reporte({{$key->representante->id}})' >
-                                <i class="fa-solid fa-file-pdf"></i>
-                            </x-secondary-button>
                             <x-danger-button wire:click="borrar({{$key->id}})">
                                 <i class="fa-solid fa-trash"></i>
                             </x-danger-button>
@@ -68,35 +66,29 @@
                         
                         <option value="{{$key->id}}">{{$key->cedula.'-'.$key->nombre.' '.$key->paterno}}</option>    
                     
-                    @empty
-                            
+                    @empty    
 
                     @endforelse
 
                 </x-select>
                 <x-input-error for="registrarForm.representante_id"/>
-
-                <x-label class='mt-4'>Estudiante</x-label>
                 
-                <x-select wire:model='registrarForm.estudiante_id'  wire.target='updated' wire:loading.attr="disabled" name="id" class="w-full" id='repre_id_reg' >
-                 
-                    <option value="">Seleccione</option>
-
-                    @forelse($listaEstu as $key)
-                        
-                        <option value="{{$key->estudiante->id}}">{{
-                            $key->estudiante->cedula.'-'.
-                            $key->estudiante->nombre.' '.
-                            $key->estudiante->paterno
-                        }}</option>    
+                @if($listaEstu->count())
                     
-                    @empty
+                    <x-label class='mt-4'>Estudiante</x-label>
+                    
+                    @forelse($listaEstu as $key)  
                         
-                        <option value="">Seleccione</option>    
+                        <label> 
+                            <input type="checkbox" wire:model="estudiantes" value="{{$key->estudiante->id}}" name='estudiantes'>
+                            {{$key->estudiante->nombre.' '.$key->estudiante->paterno}}
+                        </label>
+                    @empty
 
                     @endforelse
 
-                </x-select>
+                @endif
+                
                 <x-input-error for="registrarForm.estudiante_id"/>
 
                 <x-label class='mt-4'>Cantidad(en $)</x-label>
@@ -104,26 +96,118 @@
                 <x-input-error for="registrarForm.cantidad"/>
 
                 <x-label class='mt-4'>Tipo de pago</x-label>
-                <x-select wire:model="registrarForm.tipo" name="forma" class='w-full form-control'>
+                <x-select wire:model.live="registrarForm.tipo" name="forma" class='w-full form-control'>
                     <option value="" >Seleccione</option>
                     <option value='Aranceles'>Aranceles</option>
                     <option value='Uniformes'>Uniformes</option>
                     <option value='Mensualidad'>Mensualidad</option>
                 </x-select>
                 <x-input-error for="registrarForm.tipo"/>
-    
+        
+                @if( $mostrarMeses )
+                    <table class="w-full">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <label>Enero  
+                                    <input type="checkbox" wire:model='meses' value="Enero">
+                                </label>
+                    
+                            </td>
+                            <td>
+                                <label>Febrero  
+                                    <input type="checkbox" wire:model='meses' value="Febrero">
+                                </label>            
+                            </td>
+                            <td>
+                                <label>Marzo 
+                                    <input type="checkbox" wire:model='meses' value="Marzo">
+                                </label>            
+                            </td>
+                            <td>
+                                <label>Abril  
+                                    <input type="checkbox" wire:model='meses' value="Abril">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Mayo  
+                                    <input type="checkbox" wire:model='meses' value="Mayo">
+                                </label>            
+                            </td>        
+                            <td>
+                                <label>Junio  
+                                    <input type="checkbox" wire:model='meses' value="Junio">
+                                </label>            
+                            </td>        
+                            
+                            <td>
+                                <label>Julio  
+                                    <input type="checkbox" wire:model='meses' value="Julio">
+                                </label>
+                            </td>        
+                            <td>
+                                <label>Agosto  
+                                    <input type="checkbox" wire:model='meses' value="Agosto">
+                                </label>
+                            </td>        
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Septiembre 
+                                    <input type="checkbox" wire:model='meses' value="Septiembre">
+                                </label>
+                            </td>
+                            <td>
+                                <label>Octubre  
+                                    <input type="checkbox" wire:model='meses' value="Octubre">
+                                </label>
+                            </td>
+                            <td>
+                                <label>Noviembre
+                                    <input type="checkbox" wire:model='meses' value="Noviembre">
+                                </label>            
+                            </td>
+                            <td>
+                                <label>Diciembre
+                                    <input type="checkbox" wire:model='meses' value="Diciembre">
+                                </label>     
+                            </td>
+                        </tr>    
+                        </tbody>
+                    </table>
+                    <label class="mt-4">Año</label>
+                    <x-select wire:model='ahno' class="w-full">
+                        <option value="">Seleccione</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                    </x-select>
+                @endif
+
                 <x-label class='mt-4'>Forma de Pago</x-label>
-                <x-select wire:model="registrarForm.forma" name="forma" class='w-full form-control'>
+                <x-select wire:model.live="registrarForm.forma" name="forma" class='w-full form-control'>
                     <option value=""  >Seleccione</option>
-                        <option value='Efectivo'>Efectivo</option>
-                        <option value='Transferencia'>Transferencia</option>
-                        <option value='Divisa'>Divisa</option>
+                    <option value='Efectivo'>Efectivo</option>
+                    <option value='Transferencia'>Transferencia</option>
+                    <option value='Divisa'>Divisa</option>
                 </x-select>
                 <x-input-error for="registrarForm.forma"/>
-                
-                <x-label class='mt-4'>Codigo (Opcional)</x-label>
-                <x-input wire:model="registrarForm.codigo" type="number" step='0.1' min='0.1' max='1000' name="cantidad" placeholder='Cantidad en dolares' class='w-full' autocomplete="off" />
-                <x-input-error for="registrarForm.codigo"/>
+                    
+                @if( $mostrarCodigo )
+
+                    <div>
+                        <x-label class='mt-4'>Codigo (Opcional)</x-label>
+                        <x-input wire:model="registrarForm.codigo" type="text" minlength='4' maxlength='4' placeholder='Codigo de la transferencia' class='w-full' autocomplete="off" />
+                        <x-input-error for="registrarForm.codigo"/>
+                    </div>
+                    
+                @endif
 
                 <x-label class='mt-4'>Precio del dolar</x-label>
                 <x-input wire:model="registrarForm.dolar" type="number" step='0.1' min='0.1' max='1000000000' name="dolar" placeholder='cantidad de Bolivares' class='w-full' autocomplete="off" />
@@ -132,26 +216,6 @@
                 <x-label class='mt-4'>Fecha</x-label>
                 <x-input wire:model="registrarForm.fecha" type="date" name="fecha" placeholder='Fecha' class='w-full'/>
                 <x-input-error for="registrarForm.fecha"/> 
-
-                <x-label class='mt-4'>Año escolar</x-label>
-                
-                <x-select wire:model='registrarForm.aescolar_id' name="id" class="w-full" id='repre_id_reg' >
-                    
-                    <option value="">Seleccione</option>
-                    
-                    @forelse($aescolars as $key)
-                        
-                        <option value="{{$key->id}}">{{$key->inicio}} - {{$key->final}}</option>    
-                    
-                    @empty
-                        
-                        <option value="">Seleccione</option>    
-
-                    @endforelse
-
-                </x-select>
-                <x-input-error for="registrarForm.aescolar_id"/>
-
             </form>
         </x-slot>
         <x-slot name='footer'>

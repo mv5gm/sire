@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('forma',['Efectivo','Transferencia','Divisa']);
             $table->enum('tipo',['Aranceles','Uniformes','Mensualidad']);
             $table->string('codigo')->nullable();
+            $table->integer('porcentaje')->default(100);
 
             $table->foreignId('representante_id')->constrained()->onDelete('cascade');
             
