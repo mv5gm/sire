@@ -30,6 +30,7 @@
                 @foreach($items as $key)
                     <tr wire:key="item-{{$key->id}}" >
                         <td>{{$key->id}}</td>
+                        <td>{{$key->cantidad}}($) | {{$key->cantidad*$key->dolar}}(Bs)</td>
                         <td>{{$key->representante->nombre}} {{$key->representante->paterno}}</td>
                         <td>{{$key->fecha}}</td>
                         <td>{{$key->tipo}}</td>

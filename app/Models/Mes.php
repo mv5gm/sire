@@ -9,8 +9,8 @@ class Mes extends Model
 {
     use HasFactory;
 
-    public function mensualidad(){
+    public function pago(){
 
-    	return $this->belongsTo(Mensualidad::class);
+    	return $this->belongsTo(Pago::class);
     }
 }

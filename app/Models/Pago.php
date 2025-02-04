@@ -10,12 +10,15 @@ class Pago extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cantidad','dolar','fecha','forma','representante_id','estudiante_id','tipo','aescolar_id'];
+    protected $fillable = ['cantidad','dolar','fecha','forma','representante_id','tipo','codigo'];
 
     public function mensualidades(){
     	return $this->hasMany(Mensualidad::class);
     }
     public function representante(){
     	return $this->belongsTo(Representante::class);
+    }
+    public function mes(){
+    	return $this->hasmany(Mes::class);
     }
 }

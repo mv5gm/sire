@@ -27,6 +27,7 @@ class Crud extends Component
     public $estudiantes = [];
     public $meses = [];
     public $ahno;
+    public $mes;
     
     public $listaRepre;
     public $listaEstu;
@@ -40,8 +41,6 @@ class Crud extends Component
     public PagoRegistrar $registrarForm;
     public PagoEditar $editarForm;
     public imprimirPago $imprimirForm;
-
-    public $mes;
 
     public function updatingSearch()
     {
@@ -83,34 +82,34 @@ class Crud extends Component
 
     public function registrar(){
 
+        //dd($this->registrarForm->codigo);
+
         if(count($this->estudiantes) == 0){
             dd('no hay estudiantes');
         }   
             
-        //dd($this->ahno);
-
         $this->registrarForm->validate();
 
         $pago = $this->registrarForm->guardar();
             
         foreach ($this->estudiantes as $key) {
-                
+                    
             $mensualidad = new Mensualidad;
             $mensualidad->pago_id = $pago->id;
             $mensualidad->estudiante_id = $key;
-            $mensualidad->save();
 
             if($this->registrarForm->tipo == 'Mensualidad'){
-                
-                foreach ($this->meses as $key){  
-                    
-                    $mes = new Mes;
-                    $mes->mes = $key;
-                    $mes->ahno = $this->ahno;
-                    $mes->mensualidad_id = $mensualidad->id;
-                    $mes->save();
-                }    
-            }       
+                $meses = '';    
+                $coma = '';
+                foreach($this->meses as $key => $value){ 
+                    if ($key > 0) {
+                        $coma = ',';
+                    }       
+                    $meses = $meses.$coma.$value;
+                }                    
+                $mensualidad->meses = $meses;
+            }           
+            $mensualidad->save();
         }           
 
         $this->open = false;

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('mes',['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Septiembre','Octubre','Noviembre','Diciembre']);
             $table->integer('ahno');
-            $table->foreignId('mensualidad_id')->constrained()->onDelete('cascade');
+            $table->foreignId('pago_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mess');
+        Schema::dropIfExists('mes');
     }
 };

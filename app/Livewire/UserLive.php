@@ -18,6 +18,7 @@ class UserLive extends Component
     public $open = false;
     public $openEditar = false;
     public $openEliminar = false;
+    public $divMostrarPassword = false;
     
     public $roles = [];
     
@@ -36,7 +37,7 @@ class UserLive extends Component
     }
 
     public function updating(){
-
+        
     }
 
     public function mount(){
@@ -72,6 +73,7 @@ class UserLive extends Component
     public function editar($id){
         
     	//dd( User::find($id)->getRoleNames() );
+        $this->form->reset($id);
 
         $this->id = $id;
 
@@ -87,7 +89,7 @@ class UserLive extends Component
 
         $this->form->validate();
         
-        $user = $this->form->actualizar();
+        $user = $this->form->actualizar($this->divMostrarPassword);
 		
 		$user->syncRoles($this->roles);
         
@@ -107,5 +109,8 @@ class UserLive extends Component
         $item->delete();   
 
         $this->reset(['id','openEliminar']);
-    }
-}
+    }   
+    public function mostrarPassword (){
+        $this->divMostrarPassword = !$this->divMostrarPassword;
+    }   
+}       

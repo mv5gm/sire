@@ -107,10 +107,17 @@
                 <x-label class='mt-4'>Correo</x-label>
                 <x-input wire:model="form.email" type="text" name="nombre" placeholder='Correo' class='w-full'/>
                 <x-input-error for="form.email"/>
+                    
+                <x-label class='mt-4'>Cambiar Contraseña
+                    <x-input type="checkbox" wire:change.live="mostrarPassword" />
+                </x-label>
 
-                <x-label class='mt-4'>Cambiar Contraseña</x-label>
-                <x-input wire:model="form.password" type="password" name="segundo" placeholder='Contraseña' class='w-full'/>
-                <x-input-error for="form.password"/>
+                @if($divMostrarPassword)
+
+                    <x-input wire:model="form.password" type="password" name="segundo" placeholder='Contraseña' class='w-full'/>
+                    <x-input-error for="form.password"/>
+                        
+                @endif  
                 
                 <x-label class='mt-4'>Rol</x-label>
 

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('mensualidads', function (Blueprint $table) {
             $table->id();       
+            $table->string('meses');       
             $table->foreignId('pago_id')->constrained()->onDelete('cascade');
             $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
-                
             $table->timestamps();
         });
     }
