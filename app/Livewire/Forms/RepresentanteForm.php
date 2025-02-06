@@ -4,9 +4,10 @@ namespace App\Livewire\Forms;
 
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Illuminate\Validation\Rule;
 use App\Models\Representante;
 
-class RepresentanteEditarForm extends Form
+class RepresentanteForm extends Form
 {
     public $id;
     public $cedula;
@@ -16,6 +17,10 @@ class RepresentanteEditarForm extends Form
     public $materno;
     public $direccion;
 
+    public function guardar(){
+        
+        return Representante::create($this->all());
+    }
     public function editar($id){
 
     	$this->id = $id;
@@ -41,9 +46,9 @@ class RepresentanteEditarForm extends Form
     }
     public function rules(){
         return [
-            'cedula' =>'required|unique:estudiantes,cedula|integer|min:1000000|max:100000000',
+            'cedula' =>'required|unique:representantes,cedula|integer|min:1000000|max:100000000',
             'nombre' =>'required|min:3|max:255',
-            'segundo' =>'required|min:3|max:255',
+            'segundo' =>'min:3|max:255',
             'paterno' =>'required|min:3|max:255',
             'materno' =>'required|min:3|max:255',
             'direccion' =>'required|min:3|max:255'
@@ -55,5 +60,5 @@ class RepresentanteEditarForm extends Form
             'paterno' => 'primer apellido',
             'materno' => 'segundo apellido'
         ];
-    }	
-}		
+    }
+}

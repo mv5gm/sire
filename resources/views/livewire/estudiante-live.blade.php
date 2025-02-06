@@ -19,8 +19,8 @@
             <thead>
                 <tr>
                     <td>Cedula</td>
-                    <td>Nombres</td>
-                    <td>Apellidos</td>
+                    <td>Nombre Completo</td>
+                    <td>Seccion</td>
                     <td>Opciones</td>
                 </tr>
             </thead>
@@ -28,8 +28,12 @@
                 @foreach($estudiantes as $key)
                     <tr wire:key="estudiante-{{$key->id}}" >
                         <td>{{$key->cedula}}</td>
-                        <td>{{$key->nombre}} {{$key->segundo}}</td>
-                        <td>{{$key->paterno}} {{$key->materno}}</td>
+                        <td>{{$key->nombre}} {{$key->segundo}} {{$key->paterno}} {{$key->materno}}
+                        </td>
+                        <td>
+                            {{$key->inscripcions[0]->cursa->nivel->nombre}}
+                            
+                        </td>
                         <td>
                             <x-button wire:click="editar({{$key->id}})" >
                               <i class="fa-solid fa-pen-to-square"></i>
@@ -114,67 +118,67 @@
            
             <form class="form mt-2" id='form-registrar' wire:submit='registrar' >
                 <x-label>Cedula</x-label>
-                <x-input wire:model='estudianteRegistrar.cedula' type="text" name="cedula" placeholder='Cedula' class='w-full'/>
-                <x-input-error for="estudianteRegistrar.cedula"/>
+                <x-input wire:model='form.cedula' type="text" name="cedula" placeholder='Cedula' class='w-full'/>
+                <x-input-error for="form.cedula"/>
 
                 <x-label class='mt-4'>Primer Nombre</x-label>
-                <x-input wire:model="estudianteRegistrar.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full'/>
-                <x-input-error for="estudianteRegistrar.nombre"/>
+                <x-input wire:model="form.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full'/>
+                <x-input-error for="form.nombre"/>
 
                 <x-label class='mt-4'>Segundo Nombre</x-label>
-                <x-input wire:model="estudianteRegistrar.segundo" type="text" name="segundo" placeholder='Segundo Nombre' class='w-full'/>
-                <x-input-error for="estudianteRegistrar.segundo"/>
+                <x-input wire:model="form.segundo" type="text" name="segundo" placeholder='Segundo Nombre' class='w-full'/>
+                <x-input-error for="form.segundo"/>
 
                 <x-label class='mt-4'>Primer Apellido</x-label>
-                <x-input wire:model="estudianteRegistrar.paterno" type="text" name="paterno" placeholder='Primer Apellido' class='w-full'/>
-                <x-input-error for="estudianteRegistrar.paterno"/>
+                <x-input wire:model="form.paterno" type="text" name="paterno" placeholder='Primer Apellido' class='w-full'/>
+                <x-input-error for="form.paterno"/>
 
                 <x-label class='mt-4'>Segundo Apellido</x-label>
-                <x-input wire:model="estudianteRegistrar.materno" type="text" name="materno" placeholder='Segundo Apellido' class='w-full'/>
-                <x-input-error for="estudianteRegistrar.materno"/>
+                <x-input wire:model="form.materno" type="text" name="materno" placeholder='Segundo Apellido' class='w-full'/>
+                <x-input-error for="form.materno"/>
 
                 <x-label class='mt-4'>Fecha de nacimiento</x-label>
-                <x-input wire:model="estudianteRegistrar.fecha" type="date" name="fecha" placeholder='Fecha de nacimiento' class='w-full'/>
-                <x-input-error for="estudianteRegistrar.fecha"/>
+                <x-input wire:model="form.fecha" type="date" name="fecha" placeholder='Fecha de nacimiento' class='w-full'/>
+                <x-input-error for="form.fecha"/>
 
                 <x-label class='mt-4'>Lugar de nacimiento</x-label>
-                <x-input wire:model="estudianteRegistrar.lugar" type="text" name="lugar" placeholder='Lugar de nacimiento' class='w-full'/>
-                <x-input-error for="estudianteRegistrar.lugar"/>
+                <x-input wire:model="form.lugar" type="text" name="lugar" placeholder='Lugar de nacimiento' class='w-full'/>
+                <x-input-error for="form.lugar"/>
 
                 <x-label class='mt-4'>Sexo</x-label>
-                <x-select wire:model="estudianteRegistrar.sexo" name="sexo" class='w-full form-control'>
+                <x-select wire:model="form.sexo" name="sexo" class='w-full form-control'>
                     <option value="" disabled="">Seleccione</option>
                     <option value="m">Masculino</option>
                     <option value="f">Femenina</option>
                 </x-select>
-                <x-input-error for="estudianteRegistrar.sexo"/>
+                <x-input-error for="form.sexo"/>
 
                 <x-label class='mt-4'>Nivel Academico</x-label>
-                <x-select wire:model="estudianteRegistrar.nivel_id" name="nivel" class='w-full form-control'>
+                <x-select wire:model="form.nivel_id" name="nivel" class='w-full form-control'>
                     <option value=""  disabled="">Seleccione</option>
                     @foreach($nivels as $key)
                         <option value='{{$key->id}}'>{{$key->nombre}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteRegistrar.nivel_id"/>
+                <x-input-error for="form.nivel_id"/>
 
                 <x-label class='mt-4'>Seccion</x-label>
-                <x-select wire:model="estudianteRegistrar.seccion_id" name="seccion" class='w-full form-control'>
+                <x-select wire:model="form.seccion_id" name="seccion" class='w-full form-control'>
                     <option value="" disabled="">Seleccione</option>
                     @foreach($seccions as $key)
                         <option value="{{$key->id}}">{{$key->nombre}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteRegistrar.seccion_id"/>
+                <x-input-error for="form.seccion_id"/>
 
                 <x-label class='mt-4'>Año escolar</x-label>
-                <x-select wire:model="estudianteRegistrar.aescolar_id" name="aescolar_id" class='w-full form-control'>
+                <x-select wire:model="form.aescolar_id" name="aescolar_id" class='w-full form-control'>
                     <option value="" disabled="">Seleccione</option>
                     @foreach($aescolars as $key)
                         <option value="{{$key->id}}">{{$key->inicio}}-{{$key->final}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteRegistrar.aescolar_id"/>
+                <x-input-error for="form.aescolar_id"/>
             </form>
         </x-slot>
         <x-slot name='footer'>
@@ -198,67 +202,67 @@
         <x-slot name='content'>
             <form class='form' id='form-actualizar' wire:submit='actualizar' >
                 <x-label>Cedula</x-label>
-                <x-input wire:model='estudianteEditar.cedula' type="number" name="cedula" placeholder='Cedula' class='w-full'/>
-                <x-input-error for="estudianteEditar.cedula"/>
+                <x-input wire:model='form.cedula' type="number" name="cedula" placeholder='Cedula' class='w-full'/>
+                <x-input-error for="form.cedula"/>
 
                 <x-label class='mt-4'>Primer Nombre</x-label>
-                <x-input wire:model="estudianteEditar.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full'/>
-                <x-input-error for="estudiantEditar.nombre"/>
+                <x-input wire:model="form.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full'/>
+                <x-input-error for="form.nombre"/>
 
                 <x-label class='mt-4'>Segundo Nombre</x-label>
-                <x-input wire:model="estudianteEditar.segundo" type="text" name="segundo" placeholder='Segundo Nombre' class='w-full'/>
-                <x-input-error for="estudianteEditar.segundo"/>
+                <x-input wire:model="form.segundo" type="text" name="segundo" placeholder='Segundo Nombre' class='w-full'/>
+                <x-input-error for="form.segundo"/>
                 
                 <x-label class='mt-4'>Primer Apellido</x-label>
-                <x-input wire:model="estudianteEditar.paterno" type="text" name="paterno" placeholder='Primer Apellido' class='w-full'/>
-                <x-input-error for="estudianteEditar.paterno"/>
+                <x-input wire:model="form.paterno" type="text" name="paterno" placeholder='Primer Apellido' class='w-full'/>
+                <x-input-error for="form.paterno"/>
                 
                 <x-label class='mt-4'>Segundo Apellido</x-label>
-                <x-input wire:model="estudianteEditar.materno" type="text" name="materno" placeholder='Segundo Apellido' class='w-full'/>
-                <x-input-error for="estudianteEditar.materno"/>
+                <x-input wire:model="form.materno" type="text" name="materno" placeholder='Segundo Apellido' class='w-full'/>
+                <x-input-error for="form.materno"/>
                 
                 <x-label class='mt-4'>Fecha de nacimiento</x-label>
-                <x-input wire:model="estudianteEditar.fecha" type="date" name="fecha" placeholder='Fecha de nacimiento' class='w-full'/>
-                <x-input-error for="estudianteEditar.fecha"/>
+                <x-input wire:model="form.fecha" type="date" name="fecha" placeholder='Fecha de nacimiento' class='w-full'/>
+                <x-input-error for="form.fecha"/>
                 
                 <x-label class='mt-4'>Lugar de nacimiento</x-label>
-                <x-input wire:model="estudianteEditar.lugar" type="text" name="lugar" placeholder='Lugar de nacimiento' class='w-full'/>
-                <x-input-error for="estudianteEditar.lugar"/>
+                <x-input wire:model="form.lugar" type="text" name="lugar" placeholder='Lugar de nacimiento' class='w-full'/>
+                <x-input-error for="form.lugar"/>
                 
                 <x-label class='mt-4'>Sexo</x-label>
-                <x-select wire:model="estudianteEditar.sexo" name="sexo" class='w-full form-control'>
+                <x-select wire:model="form.sexo" name="sexo" class='w-full form-control'>
                     <option value="" disabled>Seleccione</option>
                     <option value="m">Masculino</option>
                     <option value="f">Femenina</option>
                 </x-select>
-                <x-input-error for="estudianteEditar.sexo"/>
+                <x-input-error for="form.sexo"/>
                 
                 <x-label class='mt-4'>Nivel Academico</x-label>
-                <x-select wire:model="estudianteEditar.nivel_id" name="nivel" class='w-full form-control'>
+                <x-select wire:model="form.nivel_id" name="nivel" class='w-full form-control'>
                     <option value="" disabled >Seleccione</option>
                     @foreach($nivels as $key)
                         <option value='{{$key->id}}'>{{$key->nombre}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteEditar.nivel_id"/>
+                <x-input-error for="form.nivel_id"/>
                 
                 <x-label class='mt-4'>Seccion</x-label>
-                <x-select wire:model="estudianteEditar.seccion_id" name="seccion" class='w-full form-control'>
+                <x-select wire:model="form.seccion_id" name="seccion" class='w-full form-control'>
                     <option value="" disabled>Seleccione</option>
                     @foreach($seccions as $key)
                         <option value="{{$key->id}}">{{$key->nombre}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteEditar.seccion_id"/>
+                <x-input-error for="form.seccion_id"/>
 
                 <x-label class='mt-4'>Año escolar</x-label>
-                <x-select wire:model="estudianteEditar.aescolar_id" name="aescolar" class='w-full form-control'>
+                <x-select wire:model="form.aescolar_id" name="aescolar" class='w-full form-control'>
                     <option value="" disabled>Seleccione</option>
                     @foreach($aescolars as $key)
                         <option value="{{$key->id}}">{{$key->inicio}}-{{$key->final}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteEditar.aescolar_id"/>    
+                <x-input-error for="form.aescolar_id"/>    
             </form> 
         </x-slot>   
         <x-slot name='footer'>

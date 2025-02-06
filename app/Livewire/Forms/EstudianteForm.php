@@ -1,19 +1,20 @@
-<?php
-
+<?php 	
+		
 namespace App\Livewire\Forms;
-
+		
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Illuminate\Validation\Rule;
 use App\Models\Nivel;
 use App\Models\Seccion;
 use App\Models\Aescolar;
 use App\Models\Cursa;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
-
-
-class EstudianteEditarForm extends Form
-{
+use RepresentanteRegistrarForm;
+		
+class EstudianteForm extends Form
+{		
     public $id;
     public $cedula;
     public $nombre;
@@ -30,6 +31,30 @@ class EstudianteEditarForm extends Form
     public $salon_id = 1;
     public $cursaId;
 
+    public $repre = true;
+
+    public function guardar(){
+        
+        //$this->cursa_id = Cursa::crear($this->nivel_id,$this->salon_id,$this->aescolar_id,$this->seccion_id);
+
+        $estudiante = Estudiante::create($this->all());
+        
+        //$estudiante = new Estudiante;
+
+        $cursa = Cursa::where('aescolar_id',$this->aescolar_id)->where('seccion_id',$this->seccion_id)->where('nivel_id',$this->nivel_id)->first();
+
+        //dd($cursa);
+
+        $ins = new Inscripcion;
+
+        $ins->cursa_id = $cursa->id; 
+        $ins->estudiante_id = $estudiante->id; 
+        $ins->tipo = 'Nuevo'; 
+        $ins->save();
+
+        return $estudiante;
+    }   
+    
     public function editar($estudianteId){
 
     	$this->id = $estudianteId;
@@ -74,9 +99,10 @@ class EstudianteEditarForm extends Form
         $this->reset();    
     }
 
-    public function rules(){
+    public function rules(){   
+        
         return [
-            'cedula' =>'integer|min:1000000|max:100000000',
+            'cedula' =>'unique:estudiantes,cedula',
             'nombre' =>'required|min:3|max:255',
             'segundo' =>'required|min:3|max:255',
             'paterno' =>'required|min:3|max:255',
@@ -99,5 +125,5 @@ class EstudianteEditarForm extends Form
             'nivel_id' => 'nivel academico',
             'seccion_id' => 'seccion'
         ];
-    }       
-}
+    }	
+}		

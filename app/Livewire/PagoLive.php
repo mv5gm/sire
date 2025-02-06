@@ -1,7 +1,7 @@
 <?php
-
-namespace App\Livewire\Pago;
-
+	
+namespace App\Livewire;
+	
 use Livewire\Component;
 use App\Models\Representante;
 use App\Models\Representado;
@@ -10,13 +10,14 @@ use App\Models\Pago;
 use App\Models\Aescolar;
 use App\Models\Mensualidad;
 use App\Models\Mes;
-use App\Livewire\Forms\PagoRegistrar;
-use App\Livewire\Forms\PagoEditar;
+use App\Livewire\Forms\PagoForm;
 use App\Livewire\Forms\imprimirPago;
 use Livewire\WithPagination;
+		
+class PagoLive extends Component
+{		
+    use WithPagination;
 
-class Crud extends Component
-{
     public $open = false;
     public $openEditar = false;
     public $openEliminar = false;
@@ -38,8 +39,8 @@ class Crud extends Component
 
     public $buscar = "";
 
-    public PagoRegistrar $registrarForm;
-    public PagoEditar $editarForm;
+    public PagoForm $registrarForm;
+    public PagoForm $editarForm;
     public imprimirPago $imprimirForm;
 
     public function updatingSearch()
@@ -66,20 +67,18 @@ class Crud extends Component
 
         if( $this->registrarForm->tipo == 'Mensualidad'  ){
             $this->mostrarMeses = true;
-        }
-    }       
-
+        }	
+    }		
     public function render()
-    {       
-        $items = Pago::select('pagos.*')
+    {		
+    	$items = Pago::select('pagos.*')
             ->join('representantes','representantes.id','=','pagos.representante_id')
             ->orWhere('representantes.nombre','like','%'.$this->buscar.'%')
             ->orderBy('pagos.fecha')
             ->paginate();
 
-        return view('livewire.pago.crud',compact('items'));
-    }   
-
+        return view('livewire.pago-live',compact('items'));
+    }		
     public function registrar(){
 
         //dd($this->registrarForm->codigo);
@@ -129,8 +128,6 @@ class Crud extends Component
         if ($consulta != null){
             $this->listaEstu = $consulta->representados;        
         }
-
-
     }       
     public function actualizar(){
 
@@ -162,7 +159,7 @@ class Crud extends Component
 
         $consulta = Representante::where('id',$representante_id)->with('representados.estudiante')->first();
 
-        if ($consulta != null){
+        if ($consulta != null){  
             $this->listaEstu = $consulta->representados;        
         }
 
@@ -178,5 +175,5 @@ class Crud extends Component
         $this->reset(['openReporte']);
 
         $this->dispatch('success',['mensaje' => 'Operacion exitosa!']);
-    }      
-}		
+    }
+}					

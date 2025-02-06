@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Livewire\Empleado;
+namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Empleado;
-use App\Livewire\Forms\EmpleadoRegistrar;
-use App\Livewire\Forms\EmpleadoEditar;
+use App\Livewire\Forms\EmpleadoForm;
 
-
-class Crud extends Component
+class EmpleadoLive extends Component
 {	
-	public $open = false;
+    public $open = false;
     public $openEditar = false;
     public $openEliminar = false;
     
@@ -18,15 +16,14 @@ class Crud extends Component
 
     public $buscar = "";
 
-    public EmpleadoRegistrar $registrarForm;
-    public EmpleadoEditar $editarForm;
+    public EmpleadoForm $registrarForm;
+    public EmpleadoForm $editarForm;
 
     public function render()
     {
-
         $items = Empleado::where('nombre','like','%'.$this->buscar.'%')->paginate(10);
 
-        return view('livewire.empleado.crud',compact('items'));
+        return view('livewire.empleado-live',compact('items'));
     }
     public function registrar(){
     	
@@ -40,7 +37,7 @@ class Crud extends Component
 
         $this->open = false;
 
-        $this->dispatch('success',['mensaje' => 'Operacion exitosa!']);
+        $this->dispatch('success');
     }
     public function editar($id){
         
@@ -57,7 +54,7 @@ class Crud extends Component
 
         $this->openEditar = false;
         
-        $this->dispatch('success',['mensaje' => 'Operacion exitosa!']);
+        $this->dispatch('success');
     }   
     public function borrar($id)
     {       
@@ -73,6 +70,6 @@ class Crud extends Component
 
         $this->reset(['idBorrar','openEliminar']);
 
-        $this->dispatch('success',['mensaje' => 'Operacion exitosa!']);
-    }
-}
+        $this->dispatch('success');
+    }	
+}		

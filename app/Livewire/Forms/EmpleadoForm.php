@@ -1,13 +1,14 @@
-<?php
-
+<?php 	
+		
 namespace App\Livewire\Forms;
-
+		
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 use App\Models\Empleado;
-
-class EmpleadoRegistrar extends Form
-{
+		
+class EmpleadoForm extends Form
+{	
+    public $id;
     public $cedula;
     public $nombre;
     public $segundo;
@@ -19,12 +20,38 @@ class EmpleadoRegistrar extends Form
     public $banco;
     public $cuenta;
     public $tipo_cuenta;
-
+    
     public function guardar(){
     	
     	return Empleado::create($this->all());
+    }		
+    public function editar($id){
+
+    	$this->id = $id;
+
+        $item = Empleado::find($id);
+        
+        $this->cedula = $item->cedula;
+	    $this->nombre = $item->nombre;
+	    $this->segundo = $item->segundo;
+	    $this->paterno = $item->paterno;
+	    $this->materno = $item->materno;
+	    $this->direccion = $item->direccion;
+	    $this->horas = $item->horas;
+	    $this->tipo = $item->tipo;
+	    $this->banco = $item->banco;
+	    $this->cuenta = $item->cuenta;
+	    $this->tipo_cuenta = $item->tipo_cuenta;
     }	
 
+    public function actualizar(){
+
+		$item = Empleado::find($this->id);
+
+        $item->update($this->all());	
+
+        $this->reset();       
+    }
     public function rules(){
     	
     	return [	
@@ -40,7 +67,7 @@ class EmpleadoRegistrar extends Form
     		'cuenta' => 'required|min:20|max:20',
     		'tipo_cuenta' => 'required|in:Ahorro,Corriente,Digital'
     	];	
-    }		
+    }			
 
     public function validationAttributes(){
     	return [
@@ -51,7 +78,6 @@ class EmpleadoRegistrar extends Form
     		'horas' => 'Cantidad de horas por mes',
     		'cuenta' => 'Numero de cuenta',
     		'tipo_cuenta' => 'Tipo de cuenta',
-    	];
-    }	
-
-}		
+    	];	
+    }		
+}			

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Estudiante;
+namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
@@ -12,18 +12,18 @@ use App\Models\Estudiante;
 use App\Models\Representante;
 use App\Models\Representado;
 use App\Models\Cursa;
-use App\Livewire\Forms\EstudianteRegistrarForm;
+use App\Livewire\Forms\EstudianteForm;
 use App\Livewire\Forms\RepresentanteRegistrarForm;
-use App\Livewire\Forms\EstudianteEditarForm;
+//use App\Livewire\Forms\EstudianteEditarForm;
 use App\Livewire\Forms\asignarRepresentanteEstudiante;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
-        
-class Registrar extends Component
-{       
-    use WithPagination;
 
-    public $open = false;
+class EstudianteLive extends Component
+{	
+	use WithPagination;
+
+	public $open = false;
     public $openEditar = false;
     public $openEliminar = false;
     public $openRepresentante = false;
@@ -40,9 +40,9 @@ class Registrar extends Component
     #[Url]
     public $buscar = "";
         
-    public EstudianteRegistrarForm $estudianteRegistrar;
+    public EstudianteForm $form;
     public RepresentanteRegistrarForm $representanteRegistrar;
-    public EstudianteEditarForm $estudianteEditar;
+    //public EstudianteEditarForm $estudianteEditar;
     public asignarRepresentanteEstudiante $representanteForm;
             
     public $nivels;
@@ -51,7 +51,7 @@ class Registrar extends Component
 
     public $idBorrar;
     public $idBorrarRep;
-    
+
     public function mount(){
 
         $cursas = Cursa::pluck('nivel_id','seccion_id');
@@ -66,22 +66,19 @@ class Registrar extends Component
     {
         $this->resetPage();
     }
-         
-    public function render()
-    {       
 
+    public function render()
+    {
         $this->representantes = Representante::select('id','cedula','nombre','paterno')->get();
 
-        $estudiantes = Estudiante::orWhere('nombre','like','%'.$this->buscar.'%')->orWhere('cedula','like','%'.$this->buscar.'%')->paginate(10);
-        
-        return view('livewire.estudiante.registrar',compact('estudiantes'));
-    }       
-
+        $estudiantes = Estudiante::orWhere('nombre','like','%'.$this->buscar.'%')->orWhere('cedula','like','%'.$this->buscar.'%')->with( [ 'inscripcions.cursa.nivel' => function($query) { return $query->orderBy('id');} ]  )->paginate();
+        return view('livewire.estudiante-live',compact('estudiantes'));
+    }
     public function registrar(){
         
-        $this->estudianteRegistrar->validate();
+        $this->form->validate();
 
-        $estudiante_id = $this->estudianteRegistrar->guardar()->id;
+        $estudiante_id = $this->form->guardar()->id;
         
         $representante_id = $this->representante_id;
 
@@ -97,7 +94,7 @@ class Registrar extends Component
         $re->estudiante_id = $estudiante_id;
         $re->save();
 
-        $this->estudianteRegistrar->reset();
+        $this->form->reset();
         //$this->representanteRegistrar->reset();
 
         $this->open = false;
@@ -112,12 +109,12 @@ class Registrar extends Component
 
         $this->openEditar = true;
         
-        $this->estudianteEditar->editar($estudianteId);
+        $this->form->editar($estudianteId);
     }       
     public function actualizar(){
 
-        $this->estudianteEditar->validate();
-        $this->estudianteEditar->actualizar();
+        $this->form->validate();
+        $this->form->actualizar();
 
         $this->openEditar = false;
         
@@ -175,5 +172,5 @@ class Registrar extends Component
         else{
             $this->mostrarRepresen = true;
         }
-    }   
-}       
+    }	
+}		
