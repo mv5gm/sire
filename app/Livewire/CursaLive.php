@@ -38,15 +38,15 @@ class CursaLive extends Component
         return view('livewire.cursa-live',compact('items'));
     }
     public function registrar(){
-
+        
     	$this->form->validate();
-
+        
         $this->form->guardar();
-
-        $this->form->reset();
-
+        
+        //$this->form->reset();
+        
         $this->open = false;
-
+        
         $this->dispatch('success',['mensaje' => 'Operacion exitosa!']);
     }
     public function editar($id){

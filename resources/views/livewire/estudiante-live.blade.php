@@ -21,7 +21,7 @@
                     <td>Cedula</td>
                     <td>Nombre Completo</td>
                     <td>Seccion</td>
-                    <td>Opciones</td>
+                    <td width='250' >Opciones</td>
                 </tr>
             </thead>
             <tbody>
@@ -31,10 +31,9 @@
                         <td>{{$key->nombre}} {{$key->segundo}} {{$key->paterno}} {{$key->materno}}
                         </td>
                         <td>
-                            {{$key->inscripcions[0]->cursa->nivel->nombre}}
-                            
+                            {{$key->inscripcions[0]->cursa->nivel->nombre}}  
                         </td>
-                        <td>
+                        <td width='250'>
                             <x-button wire:click="editar({{$key->id}})" >
                               <i class="fa-solid fa-pen-to-square"></i>
                             </x-button>
@@ -75,27 +74,31 @@
                 <div class="registrar-repre p-2 form">
                     <h5 class="text-center mb-2">Registrar representante</h5>
                     <x-label>Cedula del Representante</x-label>
-                    <x-input wire:model='representanteRegistrar.cedula' type="text" name="cedula" placeholder='Cedula del Representante' class='w-full'/>
+                    <x-input wire:model='representanteRegistrar.cedula' type="number" min='1000000' max='1000000000' placeholder='Cedula del Representante' class='w-full' />
                     <x-input-error for="representanteRegistrar.cedula"/>
 
                     <x-label class='mt-4'>Primer Nombre del Representante</x-label>
-                    <x-input wire:model="representanteRegistrar.nombre" type="text" name="nombre" placeholder='Primer Nombre del Representante' class='w-full'/>
+                    <x-input wire:model="representanteRegistrar.nombre" type="text"  placeholder='Primer Nombre del Representante' class='w-full' pattern="^[a-zA-Z\s]+$" title='Solo letras y el espacio'/>
                     <x-input-error for="representanteRegistrar.nombre"/>
 
                     <x-label class='mt-4'>Segundo Nombre del Representante</x-label>
-                    <x-input wire:model="representanteRegistrar.segundo" type="text" name="segundo" placeholder='Segundo Nombre del Representante' class='w-full'/>
+                    <x-input wire:model="representanteRegistrar.segundo" type="text" name="segundo" placeholder='Segundo Nombre del Representante' class='w-full' pattern="^[a-zA-Z\s]+$" title='Solo letras y el espacio' />
                     <x-input-error for="representanteRegistrar.segundo"/>
 
                     <x-label class='mt-4'>Primer Apellido del Representante</x-label>
-                    <x-input wire:model="representanteRegistrar.paterno" type="text" name="paterno" placeholder='Primer Apellido del Representante' class='w-full'/>
+                    <x-input wire:model="representanteRegistrar.paterno" type="text" name="paterno" placeholder='Primer Apellido del Representante' class='w-full' pattern="^[a-zA-Z\s]+$" title='Solo letras y el espacio' />
                     <x-input-error for="representanteRegistrar.paterno"/>
 
                     <x-label class='mt-4'>Segundo Apellido del Representante</x-label>
-                    <x-input wire:model="representanteRegistrar.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full'/>
+                    <x-input wire:model="representanteRegistrar.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full' pattern="^[a-zA-Z\s]+$" title='Solo letras y el espacio'/>
                     <x-input-error for="representanteRegistrar.materno"/>
 
                     <x-label class='mt-4'>Direccion</x-label>
-                    <x-input wire:model="representanteRegistrar.direccion" type="text" name="direccion" placeholder='Direccion del Representante' class='w-full mb-2'/>
+                    <x-input wire:model="representanteRegistrar.direccion" type="text" name="direccion" placeholder='Direccion del Representante' class='w-full mb-2' pattern="^[a-zA-Z0-9\s,.-]+$" title='Solo letras, numeros,signos: ,.-  y el espacio'/>
+                    <x-input-error for="representanteRegistrar.direccion"/>
+
+                    <x-label class='mt-4'>Telefono</x-label>
+                    <x-input wire:model="representanteRegistrar.direccion" type="text" name="direccion" placeholder='Direccion del Representante' class='w-full mb-2' pattern="^[a-zA-Z0-9\s,.-]+$" title='Solo letras, numeros,signos: ,.-  y el espacio'/>
                     <x-input-error for="representanteRegistrar.direccion"/>
                 </div>
                              

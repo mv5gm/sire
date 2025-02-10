@@ -8,9 +8,9 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     */
+     */     
     public function up(): void
-    {
+    {       
         Schema::create('representantes', function (Blueprint $table) {
             $table->id();
             $table->integer('cedula')->unique()->nullable();
@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('paterno');
             $table->string('materno');
             $table->string('direccion');
+            $table->string('telefono')->nullable();
             
             $table->timestamps();
         });

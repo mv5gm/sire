@@ -13,7 +13,7 @@ use App\Models\Representante;
 use App\Models\Representado;
 use App\Models\Cursa;
 use App\Livewire\Forms\EstudianteForm;
-use App\Livewire\Forms\RepresentanteRegistrarForm;
+use App\Livewire\Forms\RepresentanteForm;
 //use App\Livewire\Forms\EstudianteEditarForm;
 use App\Livewire\Forms\asignarRepresentanteEstudiante;
 use Livewire\WithPagination;
@@ -41,7 +41,7 @@ class EstudianteLive extends Component
     public $buscar = "";
         
     public EstudianteForm $form;
-    public RepresentanteRegistrarForm $representanteRegistrar;
+    public RepresentanteForm $representanteRegistrar;
     //public EstudianteEditarForm $estudianteEditar;
     public asignarRepresentanteEstudiante $representanteForm;
             
@@ -71,7 +71,17 @@ class EstudianteLive extends Component
     {
         $this->representantes = Representante::select('id','cedula','nombre','paterno')->get();
 
-        $estudiantes = Estudiante::orWhere('nombre','like','%'.$this->buscar.'%')->orWhere('cedula','like','%'.$this->buscar.'%')->with( [ 'inscripcions.cursa.nivel' => function($query) { return $query->orderBy('id');} ]  )->paginate();
+      $estudiantes = Estudiante::
+        where('estudiantes.nombre','like','%'.$this->buscar.'%')
+        ->orWhere('estudiantes.cedula','like','%'.$this->buscar.'%')
+        ->join('inscripcions', 'estudiantes.id', '=', 'inscripcions.estudiante_id')
+        ->join('cursas', 'inscripcions.cursa_id', '=', 'cursas.id')
+        ->join('nivels', 'cursas.nivel_id', '=', 'nivels.id')
+        ->join('seccions', 'cursas.seccion_id', '=', 'seccions.id')
+        ->select('estudiantes.*')
+        ->orderBy('nivels.id')
+        ->paginate();
+
         return view('livewire.estudiante-live',compact('estudiantes'));
     }
     public function registrar(){
@@ -99,7 +109,7 @@ class EstudianteLive extends Component
 
         $this->open = false;
 
-        $this->dispatch('success',['mensaje' => 'Estudiante Registrado!']);
+        $this->dispatch('success');
 
         $this->resetPage();
     }       
@@ -118,7 +128,7 @@ class EstudianteLive extends Component
 
         $this->openEditar = false;
         
-        $this->dispatch('success',['mensaje' => 'Estudiante Registrado!']);
+        $this->dispatch('success');
     }   
     public function borrar($estudianteId)
     {       

@@ -92,7 +92,6 @@ class EstudianteForm extends Form
 
             $ins->cursa_id = $cursa->id;
         }
-
         
         $ins->save();
 
@@ -102,7 +101,7 @@ class EstudianteForm extends Form
     public function rules(){   
         
         return [
-            'cedula' =>'unique:estudiantes,cedula',
+            'cedula' =>'unique:estudiantes,cedula,'.$this->id,
             'nombre' =>'required|min:3|max:255',
             'segundo' =>'required|min:3|max:255',
             'paterno' =>'required|min:3|max:255',
