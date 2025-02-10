@@ -20,7 +20,7 @@ class UserLive extends Component
     public $openEliminar = false;
     public $divMostrarPassword = false;
     
-    public $roles = [];
+    public $roles = ['control'];
     
     #[Url]
     public $buscar = "";
