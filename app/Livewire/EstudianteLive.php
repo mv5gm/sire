@@ -51,6 +51,7 @@ class EstudianteLive extends Component
 
     public $idBorrar;
     public $idBorrarRep;
+    public $relacion = 'Legal';
 
     public function mount(){
 
@@ -102,6 +103,7 @@ class EstudianteLive extends Component
         $re = new Representado;
         $re->representante_id = $representante_id;
         $re->estudiante_id = $estudiante_id;
+        $re->relacion = $this->relacion;
         $re->save();
 
         $this->form->reset();
@@ -151,15 +153,18 @@ class EstudianteLive extends Component
         $this->openRepresentante = true;
         $this->idEstudiante = $id;
 
-        $this->listaRepresentante = DB::select('SELECT * FROM representantes WHERE id IN ( select representante_id from representados where estudiante_id = ? )',[$id]);
-
+        $this->listaRepresentante = Representante::whereHas('representados',function($query) use ($id){$query->where('estudiante_id',$id);})
+        ->with(['representados'=>function($query) use ($id){
+            $query->where('estudiante_id',$id)->select('representante_id','relacion');
+        }])->get();
     }       
+
     public function representanteAsignar(){
             
         $this->representanteForm->validate();
         $this->representanteForm->guardar($this->idEstudiante);  
 
-        $this->dispatch('success',['mensaje' => 'Operacion exitosa!']);
+        $this->dispatch('success');
         $this->representante($this->idEstudiante);
     }       
     public function borrarRep($idRep){

@@ -9,7 +9,7 @@ class Estudiante extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cedula','nombre','segundo','paterno','materno','lugar','fecha','sexo','cursa_id'];
+    protected $fillable = ['cedula','nombre','segundo','paterno','materno','lugar','fecha','sexo','cursa_id','residencia','situacion'];
 
     public function representados(){
     	return $this->hasMany(Representado::class);
@@ -19,5 +19,11 @@ class Estudiante extends Model
     }
     public function mensualidades(){
     	return $this->hasMany(Mensualidad::class);
+    }
+    public function documentos(){
+        return $this->hasMany(Documento::class);
+    }
+    public function incidencias(){
+        return $this->hasMany(Incidencia::class);
     }
 }

@@ -98,8 +98,15 @@
                     <x-input-error for="representanteRegistrar.direccion"/>
 
                     <x-label class='mt-4'>Telefono</x-label>
-                    <x-input wire:model="representanteRegistrar.direccion" type="text" name="direccion" placeholder='Direccion del Representante' class='w-full mb-2' pattern="^[a-zA-Z0-9\s,.-]+$" title='Solo letras, numeros,signos: ,.-  y el espacio'/>
-                    <x-input-error for="representanteRegistrar.direccion"/>
+                    <x-input wire:model="representanteRegistrar.telefono" type="text" name="direccion" placeholder='Direccion del Representante' class='w-full mb-2' pattern="^[0-9]+$" title='Solo numeros' minlength='11' maxlength='11'/>
+                    <x-input-error for="representanteRegistrar.telefono"/>
+
+                    <x-label class='mt-4'>Relacion con el estudiante</x-label>
+                    <x-select wire:model="relacion" class='w-full'>
+                        <option value="Legal" selected>Tutor Legal</option>        
+                        <option value="Autorizado">Autorizado</option>        
+                    </x-select>
+                    
                 </div>
                              
                 @else
@@ -312,7 +319,7 @@
             <h1>Asignar Representante</h1>
         </x-slot>
         <x-slot name='content'>
-            <form id='form-representante form' wire:submit='representanteAsignar' class="flex" >        
+            <form id='form-representante form' wire:submit='representanteAsignar' class="flex" >
                         
                 <x-select name='representante' wire:model="representanteForm.idRep" class='w-full'>
                     <option value="" selected> Seleccione </option>
@@ -320,16 +327,33 @@
                         <option value="{{$key->id}}">{{$key->cedula.' '.$key->nombre.' '.$key->paterno}}</option>
                     @endforeach
                 </x-select>
+                    
+                <x-input-error for="representanteForm.idRep"/>    
+
+                <x-select wire:model='representanteForm.relacion'>
+                    <option value='Legal'>
+                        Tutor Legal
+                    </option>
+                    <option value='Autorizado'>
+                        Autorizado
+                    </option>
+                </x-select>
+
+                <x-input-error for="representanteForm.relacion"/>
 
                 <x-button>Asignar</x-button>
             </form>
-            
+                    
             <x-input-error for="representanteForm.idRep"/>    
 
             <div class="mt-4">
                 @foreach($listaRepresentante as $key)
                     <div class="alert alert-success" role="alert">
-                      <strong>{{$key->cedula}}</strong>{{$key->nombre}} {{$key->paterno}}
+                      
+                      <strong>{{$key->cedula}} </strong> {{$key->nombre}} {{$key->paterno}}
+
+                      (relacion: tutor {{$key->representados[0]->relacion}} )
+                      
                       <button wire:click='borrarRep({{$key->id}})' type="button" class="btn-close" aria-label="Close"></button>
                     </div>
                 @endforeach

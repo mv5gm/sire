@@ -18,7 +18,9 @@ Route::get('/', function () {
 });
 
 Route::get('/pruebas', function () {
-        
+
+    return Representado::where('estudiante_id','9')->where('relacion','Legal')->count(); 
+
     return User::find(3)->getAllPermissions();
     //return Cursa::pluck('nivel_id');
 

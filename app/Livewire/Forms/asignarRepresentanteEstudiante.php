@@ -12,26 +12,29 @@ class asignarRepresentanteEstudiante extends Form
     public $cedulaRep;
     public $idRep;
     public $estudiante_id;
+    public $relacion = 'Legal';
 
     public function guardar($idEstudiante){
 
     	$id = Representante::find($this->idRep)->id;
 
-    	$cont = Representado::where('estudiante_id',$idEstudiante)->where('representante_id',$id)->first();
+        $cont = Representado::where('estudiante_id',$idEstudiante)->where('relacion','Legal')->count();
 
-    	if( $cont == null ){
-    		
-    		Representado::create([   
-            	'estudiante_id' => $idEstudiante, 
-            	'representante_id' => $id 
-        	]);
-    	}
+        if ( $cont > 0 ) {
+            $this->relacion = 'Autorizado';
+        }
+
+		Representado::create([   
+        	'estudiante_id' => $idEstudiante, 
+            'representante_id' => $id,
+        	'relacion' => $this->relacion 
+    	]);
     }
 
     public function rules(){
         return [
-            'idRep' =>'exists:representantes,id',
-			
+            'idRep' =>'required|exists:representantes,id',
+            'relacion' =>'required|in:Legal,Autorizado',
         ];  
     }
     public function validationAttributes(){

@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('representados', function (Blueprint $table) {
-                
+        Schema::create('incidencias', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->enum('relacion',['Legal','Autorizado']);
+            $table->string('descripcion');
 
             $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
-            $table->foreignId('representante_id')->constrained()->onDelete('cascade');
+            
+            $table->timestamps();
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('representados');
+        Schema::dropIfExists('incidencias');
     }
 };

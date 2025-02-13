@@ -16,6 +16,7 @@ class RepresentanteForm extends Form
     public $paterno;
     public $materno;
     public $direccion;
+    public $telefono;
 
     public function guardar(){
         
@@ -33,6 +34,7 @@ class RepresentanteForm extends Form
         $this->paterno = $item->paterno;
         $this->materno = $item->materno;
         $this->direccion = $item->direccion;
+        $this->telefono = $item->telefono;
     }		
 
     public function actualizar(){
@@ -50,8 +52,9 @@ class RepresentanteForm extends Form
             'nombre' =>'required|min:3|max:255',
             'segundo' =>'min:3|max:255',
             'paterno' =>'required|min:3|max:255',
-            'materno' =>'required|min:3|max:255',
-            'direccion' =>'required|min:3|max:255'
+            'materno' =>'min:3|max:255',
+            'direccion' =>'required|min:3|max:255',
+            'telefono' =>'required|min:11|max:11'
         ];  
     }
     public function validationAttributes(){

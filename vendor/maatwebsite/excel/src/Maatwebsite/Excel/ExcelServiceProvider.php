@@ -154,6 +154,12 @@ class ExcelServiceProvider extends ServiceProvider {
 		$this->app['excel.identifier'] = $this->app->share(function($app) {
 			return new FormatIdentifier($app['files']);
 		});
+
+		/*
+		$this->app->singleton('excel.identifiter',function($app) {
+			return new FormatIdentifier($app['files']);
+		});
+		*/
 	}
 
 	/**

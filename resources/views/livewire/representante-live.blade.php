@@ -75,6 +75,10 @@
                 <x-label class='mt-4'>Direccion</x-label>
                 <x-input wire:model="registrarForm.direccion" type="text" name="direccion" placeholder='Direccion' class='w-full'/>
                 <x-input-error for="registrarForm.direccion"/>
+
+                <x-label class='mt-4'>Telefono</x-label>
+                <x-input wire:model="registrarForm.telefono" type="text" name="direccion" placeholder='Telefono' class='w-full'/>
+                <x-input-error for="registrarForm.direccion"/>
                 	
             </form>
         </x-slot>
@@ -122,6 +126,9 @@
                 <x-input wire:model="editarForm.direccion" type="text" name="direccion" placeholder='Direccion' class='w-full'/>
                 <x-input-error for="editarForm.direccion"/>
                 
+                <x-label class='mt-4'>Telefono</x-label>
+                <x-input wire:model="registrarForm.telefono" type="text" name="direccion" placeholder='Telefono' class='w-full'/>
+                <x-input-error for="registrarForm.direccion"/>
             </form>
         </x-slot>
         <x-slot name='footer'>

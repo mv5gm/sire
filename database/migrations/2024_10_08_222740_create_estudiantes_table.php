@@ -21,6 +21,8 @@ return new class extends Migration
             $table->date('fecha');
             $table->string('lugar');
             $table->enum('sexo',['m','f']);
+            $table->enum('residencia',['padres','familiar','padre','madre'])->default('padres');
+            $table->enum('situacion',['separados','juntos'])->dafault('juntos');
             $table->enum('graduado',[0,1])->default(0);
 
             $table->timestamps();

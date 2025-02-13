@@ -9,7 +9,7 @@ class Representado extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['representante_id','estudiante_id'];
+    protected $fillable = ['representante_id','estudiante_id','relacion'];
 
     public function representante(){
     	return $this->belongsTo(Representante::class);
