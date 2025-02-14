@@ -52,19 +52,19 @@ class EstudianteLive extends Component
     public $idBorrar;
     public $idBorrarRep;
     public $relacion = 'Legal';
-
-    public function mount(){
+        
+    public function mount(){    
 
         $cursas = Cursa::pluck('nivel_id','seccion_id');
 
         $this->seccions = Seccion::whereIn('id',Cursa::pluck('seccion_id'))->get();
 
         $this->nivels = Nivel::whereIn('id',Cursa::pluck('nivel_id'))->get();
-        
+            
         $this->aescolars = Aescolar::all();
-    }
+    }       
     public function updatingBuscar()
-    {
+    {       
         $this->resetPage();
     }
 

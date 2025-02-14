@@ -50,11 +50,11 @@ class RepresentanteForm extends Form
         return [
             'cedula' =>'required|unique:representantes,cedula|integer|min:1000000|max:100000000',
             'nombre' =>'required|min:3|max:255',
-            'segundo' =>'min:3|max:255',
+            'segundo' =>'max:255',
             'paterno' =>'required|min:3|max:255',
-            'materno' =>'min:3|max:255',
+            'materno' =>'max:255',
             'direccion' =>'required|min:3|max:255',
-            'telefono' =>'required|min:11|max:11'
+            'telefono' =>'min:11|max:11'
         ];  
     }
     public function validationAttributes(){

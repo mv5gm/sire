@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->integer('cedula')->unique()->nullable();
             $table->string('nombre');
-            $table->string('segundo');
+            $table->string('segundo')->nullable();
             $table->string('paterno');
-            $table->string('materno');
+            $table->string('materno')->nullable();
             $table->date('fecha');
             $table->string('lugar');
             $table->enum('sexo',['m','f']);
             $table->enum('residencia',['padres','familiar','padre','madre'])->default('padres');
-            $table->enum('situacion',['separados','juntos'])->dafault('juntos');
+            $table->enum('situacion',['separados','juntos'])->default('juntos');
             $table->enum('graduado',[0,1])->default(0);
 
             $table->timestamps();

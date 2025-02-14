@@ -18,7 +18,6 @@
         <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css">
 
         <link rel="stylesheet" type="text/css" href="/select2/select2.min.css">
-        
 
         <script type="text/javascript" src="/fontawesome/js/all.min.js"></script>
         <script type="text/javascript" src="/fontawesome/js/brands.min.js"></script>
@@ -98,9 +97,11 @@
         @livewireScripts
 
         <script type="text/javascript">
-         Livewire.on('registrar',estId => {
-                toastr.success('Operacion exitosa!');
-            })
+            
+            Livewire.on('success', () => {
+                toastr.success('Operación exitosa!');
+            }); 
+
         </script> 
 
         @yield('scripts')

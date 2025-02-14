@@ -19,8 +19,8 @@
             <thead>
                 <tr>
                     <td>Cedula</td>
-                    <td>Nombres</td>
-                    <td>Apellidos</td>
+                    <td>Nombre Completo</td>
+                    <td>Estudiantes</td>
                     <td>Opciones</td>
                 </tr>
             </thead>
@@ -28,11 +28,14 @@
                 @foreach($items as $key)
                     <tr wire:key="item-{{$key->id}}" >
                         <td>{{$key->cedula}}</td>
-                        <td>{{$key->nombre}} {{$key->segundo}}</td>
-                        <td>{{$key->paterno}} {{$key->materno}}</td>
+                        <td>{{$key->nombre}} {{$key->segundo}} {{$key->paterno}} {{$key->materno}}</td>
+                        <td>{{ count( $key->representados ) }}</td>
                         <td>
                             <x-button wire:click="editar({{$key->id}})" >
                               <i class="fa-solid fa-pen-to-square"></i>
+                            </x-button>
+                            <x-button wire:click="estudiante({{$key->id}})" >
+                              <i class="fa-solid fa-user-tie"></i>
                             </x-button>
                             <x-danger-button wire:click="borrar({{$key->id}})">
                                 <i class="fa-solid fa-trash"></i>
@@ -57,7 +60,7 @@
                 <x-input-error for="registrarForm.cedula"/>
 
                 <x-label class='mt-4'>Primer Nombre</x-label>
-                <x-input wire:model="registrarForm.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full'/>
+                <x-input wire:model="registrarForm.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full' />
                 <x-input-error for="registrarForm.nombre"/>
 
                 <x-label class='mt-4'>Segundo Nombre</x-label>
@@ -169,4 +172,82 @@
             </x-danger-button>
         </x-slot>
     </x-dialog-modal>
+
+    <x-dialog-modal wire:model='openEstudiante'>
+        <x-slot name='title'>
+            <h1>Asignar Estudiante</h1>
+        </x-slot>
+        <x-slot name='content'>
+            <form id='form-representante form' wire:submit='estudianteAsignar' class="flex" >
+                        
+                <x-select name='representante' wire:model="estudianteForm.idRep" class='w-full'>
+                    <option value="" selected> Seleccione </option>
+                    @foreach($representantes as $key)
+                        <option value="{{$key->id}}">{{$key->cedula.' '.$key->nombre.' '.$key->paterno}}</option>
+                    @endforeach
+                </x-select>
+                    
+                <x-input-error for="representanteForm.idRep"/>    
+
+                <x-select wire:model='representanteForm.relacion'>
+                    <option value='Legal'>
+                        Tutor Legal
+                    </option>
+                    <option value='Autorizado'>
+                        Autorizado
+                    </option>
+                </x-select>
+
+                <x-input-error for="representanteForm.relacion"/>
+
+                <x-button>Asignar</x-button>
+            </form>
+                    
+            <x-input-error for="representanteForm.idRep"/>    
+
+            <div class="mt-4">
+                @foreach($listaRepresentante as $key)
+                    <div class="alert alert-success" role="alert">
+                      
+                      <strong>{{$key->cedula}} </strong> {{$key->nombre}} {{$key->paterno}}
+
+                      (relacion: tutor {{$key->representados[0]->relacion}} )
+                      
+                      <button wire:click='borrarRep({{$key->id}})' type="button" class="btn-close" aria-label="Close"></button>
+                    </div>
+                @endforeach
+            </div>
+        </x-slot>
+        <x-slot name='footer'>
+            <x-secondary-button wire:click="$set('openRepresentante',false)" class='mr-2' wire:loading.remove wire:target='representanteAsignar' >
+                <i class="fa-solid fa-ban mr-2"></i> 
+                Cancelar
+            </x-secondary-button>
+        </x-slot>
+    </x-dialog-modal>
+
+    <x-dialog-modal wire:model='openEliminarRep'>
+        <x-slot name='title'>
+            <h1>Desvincular representante</h1>
+        </x-slot>
+        <x-slot name='content'>
+            <form id='form-eliminar-rep' wire:submit='eliminarRep' >
+                <h3>Seguro de desvincular ?</h3>
+            </form>
+        </x-slot>
+        <x-slot name='footer'>
+            <x-secondary-button wire:click="$set('openEliminarRep',false)" class='mr-2' wire:loading.remove wire:target='eliminarRep' >
+                <i class="fa-solid fa-ban mr-2"></i> 
+                Cancelar
+            </x-secondary-button>
+            <x-danger-button type='submit' form='form-eliminar-rep'>
+                <span wire:loading wire:target='eliminarRep'>Cargando...</span>
+                <span wire:loading.remove wire:target='eliminarRep'>
+                    <i class="fa-solid fa-trash mr-2"></i> 
+                    Desvincular
+                </span>
+            </x-danger-button>
+        </x-slot>
+    </x-dialog-modal>
+
 </div>

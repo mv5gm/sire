@@ -98,7 +98,7 @@
                     <x-input-error for="representanteRegistrar.direccion"/>
 
                     <x-label class='mt-4'>Telefono</x-label>
-                    <x-input wire:model="representanteRegistrar.telefono" type="text" name="direccion" placeholder='Direccion del Representante' class='w-full mb-2' pattern="^[0-9]+$" title='Solo numeros' minlength='11' maxlength='11'/>
+                    <x-input wire:model="representanteRegistrar.telefono" type="text" name="direccion" placeholder='Telefono del Representante' class='w-full mb-2' pattern="^[0-9]+$" title='Solo numeros' minlength='11' maxlength='11'/>
                     <x-input-error for="representanteRegistrar.telefono"/>
 
                     <x-label class='mt-4'>Relacion con el estudiante</x-label>
@@ -128,7 +128,7 @@
            
             <form class="form mt-2" id='form-registrar' wire:submit='registrar' >
                 <x-label>Cedula</x-label>
-                <x-input wire:model='form.cedula' type="text" name="cedula" placeholder='Cedula' class='w-full'/>
+                <x-input wire:model='form.cedula' type="text" name="cedula" placeholder='Cedula' class='w-full' pattern="^[0-9]+$" title='Solo numeros'/>
                 <x-input-error for="form.cedula"/>
 
                 <x-label class='mt-4'>Primer Nombre</x-label>
@@ -189,8 +189,29 @@
                     @endforeach
                 </x-select>
                 <x-input-error for="form.aescolar_id"/>
-            </form>
-        </x-slot>
+
+                <x-label class='mt-4'>Residencia</x-label>
+                <x-select wire:model="form.residencia" name="situacion" class='w-full form-control'>
+                    <option value="" disabled="">Seleccione</option>
+                        
+                    <option value="padres">Vive con ambos padres</option>
+                    <option value="madre">Vive con su madre</option>
+                    <option value="padre">Vive con su padre</option>
+                    <option value="familiar">Vive con un familiar</option>
+                        
+                </x-select>
+                <x-input-error for="form.residencia"/>
+                <x-label class='mt-4'>Situacion familiar</x-label>
+                <x-select wire:model="form.situacion" name="situacion" class='w-full form-control'>         
+                    <option value="" disabled="">Seleccione</option>
+                        
+                    <option value="juntos">Padres juntos</option>
+                    <option value="separados">Padres Separados</option>
+                        
+                </x-select>
+                <x-input-error for="form.situacion"/>
+            </form>     
+        </x-slot>       
         <x-slot name='footer'>
             <x-secondary-button wire:click="$set('open',false)" class='mr-2' >
                 <i class="fa-solid fa-ban mr-2"></i> 
@@ -273,6 +294,25 @@
                     @endforeach
                 </x-select>
                 <x-input-error for="form.aescolar_id"/>    
+                <x-label class='mt-4'>Residencia</x-label>
+                <x-select wire:model="form.residencia" name="situacion" class='w-full form-control'>
+                    <option value="" disabled="">Seleccione</option>
+                        
+                    <option value="padres">Vive con ambos padres</option>
+                    <option value="madre">Vive con su madre</option>
+                    <option value="padre">Vive con su padre</option>
+                    <option value="familiar">Vive con un familiar</option>
+                        
+                </x-select>
+                <x-input-error for="form.residencia"/>
+                <x-label class='mt-4'>Situacion familiar</x-label>
+                <x-select wire:model="form.situacion" name="situacion" class='w-full form-control'>         
+                    <option value="" disabled="">Seleccione</option>
+                        
+                    <option value="juntos">Padres juntos</option>
+                    <option value="separados">Padres Separados</option>
+                        
+                </x-select>
             </form> 
         </x-slot>   
         <x-slot name='footer'>

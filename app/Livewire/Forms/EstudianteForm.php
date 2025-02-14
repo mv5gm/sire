@@ -27,6 +27,8 @@ class EstudianteForm extends Form
     public $nivel_id = 1;
     public $seccion_id = 1;
     public $aescolar_id = 1;
+    public $residencia = 'padres';
+    public $situacion = 'juntos';
     
     public $salon_id = 1;
     public $cursaId;
@@ -71,6 +73,8 @@ class EstudianteForm extends Form
         $this->sexo = $ins->estudiante->sexo;
         $this->lugar = $ins->estudiante->lugar;
         $this->fecha = $ins->estudiante->fecha;  
+        $this->situacion = $ins->estudiante->situacion;  
+        $this->residencia = $ins->estudiante->residencia;  
 
         $this->seccion_id = $ins->cursa->seccion_id;
         $this->nivel_id = $ins->cursa->nivel_id;
@@ -99,21 +103,23 @@ class EstudianteForm extends Form
     }
 
     public function rules(){   
-        
+            
         return [
             'cedula' =>'unique:estudiantes,cedula,'.$this->id,
             'nombre' =>'required|min:3|max:255',
-            'segundo' =>'required|min:3|max:255',
+            'segundo' =>'max:255',
             'paterno' =>'required|min:3|max:255',
-            'materno' =>'required|min:3|max:255',
+            'materno' =>'max:255',
             'fecha' =>'required|date',
             'lugar' =>'required|min:3|max:255',
             'sexo' =>'required',
             'nivel_id' =>'required',
             'seccion_id' =>'required',
-            'aescolar_id' =>'required'
+            'aescolar_id' =>'required',
+            'residencia' =>'required|in:padres,familiar,padre,madre',
+            'situacion' =>'required|in:separados,juntos'
         ];  
-    }
+    }       
     public function validationAttributes(){
         return [
             'segundo' => 'segundo nombre',

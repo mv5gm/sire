@@ -28,6 +28,10 @@ class RepresentanteLive extends Component
 
     public $estudiantes;
 
+    public $listaEstudiante;
+    public $openEstudiante = true;
+    public $idRepresentante;
+
     public function mount(){
         $this->estudiantes = Estudiante::all();
     }   
@@ -37,7 +41,7 @@ class RepresentanteLive extends Component
     }
     public function render()
     {
-    	$items = Representante::orWhere('nombre','like','%'.$this->buscar.'%')->orWhere('cedula','like','%'.$this->buscar.'%')->paginate(10);
+    	$items = Representante::orWhere('nombre','like','%'.$this->buscar.'%')->orWhere('cedula','like','%'.$this->buscar.'%')->with('representados')->paginate(10);
         
         return view('livewire.representante-live',compact('items'));
     }
@@ -83,5 +87,19 @@ class RepresentanteLive extends Component
         $item->delete();  
 
         $this->reset(['idBorrar','openEliminar']);
+    }
+    public function estudiante($id){     
+        
+        $this->resetValidation();
+
+        $this->reset(['listaEstudiante']);
+        $this->openEstudiante = true;
+        $this->idRepresentante = $id;
+
+        $this->listaEstudiante = Estudiante::whereHas('representados',function($query) use ($id){$query->where('representante_id',$id);})
+        ->with(['representados'=>function($query) use ($id){
+            $query->where('representante_id',$id)->select('estudiante_id','relacion');
+        }])->get();
     }	
-}		
+}
+		
