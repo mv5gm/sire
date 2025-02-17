@@ -105,17 +105,17 @@ class EstudianteForm extends Form
     public function rules(){   
             
         return [
-            'cedula' =>'unique:estudiantes,cedula,'.$this->id,
-            'nombre' =>'required|min:3|max:255',
-            'segundo' =>'max:255',
-            'paterno' =>'required|min:3|max:255',
-            'materno' =>'max:255',
+            'cedula' =>"nullable|unique:cedula,id,".$this->id,
+            'nombre' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
+            'segundo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
+            'paterno' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
+            'materno' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
             'fecha' =>'required|date',
-            'lugar' =>'required|min:3|max:255',
-            'sexo' =>'required',
-            'nivel_id' =>'required',
-            'seccion_id' =>'required',
-            'aescolar_id' =>'required',
+            'lugar' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'sexo' =>'required|in:f,m',
+            'nivel_id' =>'required|exists:nivels,id',
+            'seccion_id' =>'required|exists:seccions,id',
+            'aescolar_id' =>'required|exists:aescolars,id',
             'residencia' =>'required|in:padres,familiar,padre,madre',
             'situacion' =>'required|in:separados,juntos'
         ];  

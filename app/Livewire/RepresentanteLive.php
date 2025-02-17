@@ -4,8 +4,10 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Representante;
+use App\Models\Representado;
 use App\Models\Estudiante;
 use App\Livewire\Forms\RepresentanteForm;
+use App\Livewire\Forms\AsignarEstudianteRepresentante;
 use Livewire\WithPagination;
 
 class RepresentanteLive extends Component
@@ -23,14 +25,18 @@ class RepresentanteLive extends Component
         
     public RepresentanteForm $registrarForm;
     public RepresentanteForm $editarForm;
+    public asignarEstudianteRepresentante $estudianteForm;
             
     public $idBorrar;
-
+    public $idBorrarEst;
+    public $estudiante_id;
     public $estudiantes;
 
-    public $listaEstudiante;
-    public $openEstudiante = true;
     public $idRepresentante;
+    public $listaEstudiante = [];
+
+    public $openEstudiante = false;
+    public $openEliminarEst = false;
 
     public function mount(){
         $this->estudiantes = Estudiante::all();
@@ -41,7 +47,9 @@ class RepresentanteLive extends Component
     }
     public function render()
     {
-    	$items = Representante::orWhere('nombre','like','%'.$this->buscar.'%')->orWhere('cedula','like','%'.$this->buscar.'%')->with('representados')->paginate(10);
+        $this->estudiantes = Estudiante::select('id','cedula','nombre','paterno')->get();
+    	
+        $items = Representante::orWhere('nombre','like','%'.$this->buscar.'%')->orWhere('cedula','like','%'.$this->buscar.'%')->with('representados')->paginate(10);
         
         return view('livewire.representante-live',compact('items'));
     }
@@ -101,5 +109,25 @@ class RepresentanteLive extends Component
             $query->where('representante_id',$id)->select('estudiante_id','relacion');
         }])->get();
     }	
+    public function estudianteAsignar(){
+         
+        $this->estudianteForm->validate();
+        $this->estudianteForm->guardar($this->idRepresentante);  
+
+        $this->dispatch('success');
+        $this->estudiante($this->idRepresentante);
+    }       
+    public function borrarEst($idEst){
+        $this->idBorrarEst = $idEst;
+        $this->openEliminarEst = true;
+    }   
+    public function eliminarEst(){
+        
+        Representado::where('estudiante_id',$this->idBorrarEst)->delete();
+        $this->dispatch('success');
+        $this->reset(['openEliminarEst']);
+        
+        $this->estudiante($this->idRepresentante);
+    }   	
 }
 		

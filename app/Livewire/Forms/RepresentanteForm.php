@@ -49,12 +49,12 @@ class RepresentanteForm extends Form
     public function rules(){
         return [
             'cedula' =>'required|unique:representantes,cedula|integer|min:1000000|max:100000000',
-            'nombre' =>'required|min:3|max:255',
-            'segundo' =>'max:255',
-            'paterno' =>'required|min:3|max:255',
-            'materno' =>'max:255',
-            'direccion' =>'required|min:3|max:255',
-            'telefono' =>'min:11|max:11'
+            'nombre' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
+            'segundo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
+            'paterno' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
+            'materno' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
+            'direccion' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'telefono' =>'nullable|regex:/^[0-9]+$/|min:11|max:11'
         ];  
     }
     public function validationAttributes(){

@@ -37,9 +37,4 @@ class asignarRepresentanteEstudiante extends Form
             'relacion' =>'required|in:Legal,Autorizado',
         ];  
     }
-    public function validationAttributes(){
-        return [
-            'cedulaRep' => 'cedula del representante'
-        ];
-    }
 }

@@ -97,7 +97,7 @@
         @livewireScripts
 
         <script type="text/javascript">
-            
+             
             Livewire.on('success', () => {
                 toastr.success('Operación exitosa!');
             }); 

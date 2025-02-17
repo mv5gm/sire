@@ -2,17 +2,20 @@
     {{-- The best athlete wants his opponent at his best. --}}
     <div class="flex ">
         <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
-        <a>
-            <x-button wire:click="$set('open',true)">
-                <i class="fa-solid fa-plus mr-2"></i>
-                Registrar
-            </x-button>
-        </a>    
-        <a href="{{route('export')}}">
-            <x-button>
-                <i class="fa-solid fa-file-excel mr-2" ></i>Excel
-            </x-button>
-        </a>
+        <div class='flex'>
+            <a>
+                <x-button wire:click="$set('open',true)">
+                    <i class="fa-solid fa-plus mr-2"></i>
+                    Registrar
+                </x-button>
+            </a>    
+            <a href="{{route('export')}}">
+                <x-button >
+                    <i class="fa-solid fa-file-excel mr-2" ></i>Excel
+                </x-button>
+            </a>
+        </div>
+        
     </div>
     <div>
         <table class="tabla w-full mt-4">
@@ -34,15 +37,21 @@
                             {{$key->inscripcions[0]->cursa->nivel->nombre}}  
                         </td>
                         <td width='250'>
-                            <x-button wire:click="editar({{$key->id}})" >
+                            @can('estudiantes.edit')
+                            <button class='btn btn-primary' wire:click="editar({{$key->id}})" >
                               <i class="fa-solid fa-pen-to-square"></i>
-                            </x-button>
-                            <x-button wire:click="representante({{$key->id}})" >
+                            </button>
+                            @endcan
+                            @can('estudiantes.edit')
+                            <button class='btn btn-primary' wire:click="representante({{$key->id}})" >
                               <i class="fa-solid fa-user-tie"></i>
-                            </x-button>
-                            <x-danger-button wire:click="borrar({{$key->id}})">
+                            </button>
+                            @endcan
+                            @can('estudiantes.destroy')
+                            <button class='btn btn-danger' wire:click="borrar({{$key->id}})">
                                 <i class="fa-solid fa-trash"></i>
-                            </x-danger-button>
+                            </button>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

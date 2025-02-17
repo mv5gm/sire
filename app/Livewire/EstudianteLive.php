@@ -106,7 +106,7 @@ class EstudianteLive extends Component
         $re->relacion = $this->relacion;
         $re->save();
 
-        $this->form->reset();
+        //$this->form->reset();
         //$this->representanteRegistrar->reset();
 
         $this->open = false;

@@ -13,17 +13,19 @@ return new class extends Migration
     {
         Schema::create('estudiantes', function (Blueprint $table) {
             $table->id();
-            $table->integer('cedula')->unique()->nullable();
+            $table->integer('cedula')->nullable();
             $table->string('nombre');
             $table->string('segundo')->nullable();
             $table->string('paterno');
             $table->string('materno')->nullable();
             $table->date('fecha');
-            $table->string('lugar');
+            $table->string('lugar')->nullable();
             $table->enum('sexo',['m','f']);
             $table->enum('residencia',['padres','familiar','padre','madre'])->default('padres');
             $table->enum('situacion',['separados','juntos'])->default('juntos');
             $table->enum('graduado',[0,1])->default(0);
+
+            $table->foreignId('parroquia_id')->constrained()->onDelete('cascade')->default(1);
 
             $table->timestamps();
         });

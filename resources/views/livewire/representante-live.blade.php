@@ -180,16 +180,16 @@
         <x-slot name='content'>
             <form id='form-representante form' wire:submit='estudianteAsignar' class="flex" >
                         
-                <x-select name='representante' wire:model="estudianteForm.idRep" class='w-full'>
+                <x-select name='representante' wire:model="estudianteForm.idEst" class='w-full'>
                     <option value="" selected> Seleccione </option>
-                    @foreach($representantes as $key)
+                    @foreach($estudiantes as $key)
                         <option value="{{$key->id}}">{{$key->cedula.' '.$key->nombre.' '.$key->paterno}}</option>
                     @endforeach
                 </x-select>
                     
-                <x-input-error for="representanteForm.idRep"/>    
+                <x-input-error for="estudianteForm.idEst"/>    
 
-                <x-select wire:model='representanteForm.relacion'>
+                <x-select wire:model='estudianteForm.relacion'>
                     <option value='Legal'>
                         Tutor Legal
                     </option>
@@ -198,51 +198,51 @@
                     </option>
                 </x-select>
 
-                <x-input-error for="representanteForm.relacion"/>
+                <x-input-error for="estudianteForm.relacion"/>
 
                 <x-button>Asignar</x-button>
             </form>
                     
-            <x-input-error for="representanteForm.idRep"/>    
+            <x-input-error for="estudianteForm.idRep"/>    
 
             <div class="mt-4">
-                @foreach($listaRepresentante as $key)
+                @foreach($listaEstudiante as $key)
                     <div class="alert alert-success" role="alert">
                       
                       <strong>{{$key->cedula}} </strong> {{$key->nombre}} {{$key->paterno}}
 
                       (relacion: tutor {{$key->representados[0]->relacion}} )
                       
-                      <button wire:click='borrarRep({{$key->id}})' type="button" class="btn-close" aria-label="Close"></button>
+                      <button wire:click='borrarEst({{$key->id}})' type="button" class="btn-close" aria-label="Close"></button>
                     </div>
                 @endforeach
             </div>
         </x-slot>
         <x-slot name='footer'>
-            <x-secondary-button wire:click="$set('openRepresentante',false)" class='mr-2' wire:loading.remove wire:target='representanteAsignar' >
+            <x-secondary-button wire:click="$set('openEstudiante',false)" class='mr-2' wire:loading.remove wire:target='representanteAsignar' >
                 <i class="fa-solid fa-ban mr-2"></i> 
                 Cancelar
             </x-secondary-button>
         </x-slot>
     </x-dialog-modal>
 
-    <x-dialog-modal wire:model='openEliminarRep'>
+    <x-dialog-modal wire:model='openEliminarEst'>
         <x-slot name='title'>
             <h1>Desvincular representante</h1>
         </x-slot>
         <x-slot name='content'>
-            <form id='form-eliminar-rep' wire:submit='eliminarRep' >
+            <form id='form-eliminar-rep' wire:submit='eliminarEst' >
                 <h3>Seguro de desvincular ?</h3>
             </form>
         </x-slot>
         <x-slot name='footer'>
-            <x-secondary-button wire:click="$set('openEliminarRep',false)" class='mr-2' wire:loading.remove wire:target='eliminarRep' >
+            <x-secondary-button wire:click="$set('openEliminarEst',false)" class='mr-2' wire:loading.remove wire:target='eliminarRep' >
                 <i class="fa-solid fa-ban mr-2"></i> 
                 Cancelar
             </x-secondary-button>
             <x-danger-button type='submit' form='form-eliminar-rep'>
-                <span wire:loading wire:target='eliminarRep'>Cargando...</span>
-                <span wire:loading.remove wire:target='eliminarRep'>
+                <span wire:loading wire:target='eliminarEst'>Cargando...</span>
+                <span wire:loading.remove wire:target='eliminarEst'>
                     <i class="fa-solid fa-trash mr-2"></i> 
                     Desvincular
                 </span>
