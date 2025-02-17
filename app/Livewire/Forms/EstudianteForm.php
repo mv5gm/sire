@@ -27,6 +27,7 @@ class EstudianteForm extends Form
     public $nivel_id = 1;
     public $seccion_id = 1;
     public $aescolar_id = 1;
+    public $parroquia_id = 1;
     public $residencia = 'padres';
     public $situacion = 'juntos';
     
@@ -37,15 +38,11 @@ class EstudianteForm extends Form
 
     public function guardar(){
         
-        //$this->cursa_id = Cursa::crear($this->nivel_id,$this->salon_id,$this->aescolar_id,$this->seccion_id);
-
         $estudiante = Estudiante::create($this->all());
         
-        //$estudiante = new Estudiante;
-
+        //dd($this->all());
+        
         $cursa = Cursa::where('aescolar_id',$this->aescolar_id)->where('seccion_id',$this->seccion_id)->where('nivel_id',$this->nivel_id)->first();
-
-        //dd($cursa);
 
         $ins = new Inscripcion;
 
@@ -75,6 +72,7 @@ class EstudianteForm extends Form
         $this->fecha = $ins->estudiante->fecha;  
         $this->situacion = $ins->estudiante->situacion;  
         $this->residencia = $ins->estudiante->residencia;  
+        $this->parroquia_id = $ins->estudiante->parroquia_id;  
 
         $this->seccion_id = $ins->cursa->seccion_id;
         $this->nivel_id = $ins->cursa->nivel_id;
@@ -105,17 +103,18 @@ class EstudianteForm extends Form
     public function rules(){   
             
         return [
-            'cedula' =>"nullable|unique:cedula,id,".$this->id,
+            'cedula' =>"nullable|unique:estudiantes,cedula,".$this->cedula,
             'nombre' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
             'segundo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
             'paterno' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
             'materno' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
             'fecha' =>'required|date',
-            'lugar' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'lugar' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
             'sexo' =>'required|in:f,m',
             'nivel_id' =>'required|exists:nivels,id',
             'seccion_id' =>'required|exists:seccions,id',
             'aescolar_id' =>'required|exists:aescolars,id',
+            'parroquia_id' =>'required|exists:parroquias,id',
             'residencia' =>'required|in:padres,familiar,padre,madre',
             'situacion' =>'required|in:separados,juntos'
         ];  
@@ -128,7 +127,8 @@ class EstudianteForm extends Form
             'lugar' => 'lugar de nacimiento',
             'fecha' => 'fecha de nacimiento',
             'nivel_id' => 'nivel academico',
-            'seccion_id' => 'seccion'
+            'seccion_id' => 'seccion',
+            'parroquia_id' => 'parroquia'
         ];
     }	
 }		

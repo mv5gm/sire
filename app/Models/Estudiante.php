@@ -9,7 +9,7 @@ class Estudiante extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cedula','nombre','segundo','paterno','materno','lugar','fecha','sexo','cursa_id','residencia','situacion'];
+    protected $fillable = ['cedula','nombre','segundo','paterno','materno','lugar','fecha','sexo','cursa_id','residencia','situacion','parroquia_id'];
 
     public function representados(){
     	return $this->hasMany(Representado::class);

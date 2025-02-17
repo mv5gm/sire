@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('situacion',['separados','juntos'])->default('juntos');
             $table->enum('graduado',[0,1])->default(0);
 
-            $table->foreignId('parroquia_id')->constrained()->onDelete('cascade')->default(1);
+            $table->foreignId('parroquia_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });

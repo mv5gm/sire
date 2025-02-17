@@ -38,19 +38,19 @@
                         </td>
                         <td width='250'>
                             @can('estudiantes.edit')
-                            <button class='btn btn-primary' wire:click="editar({{$key->id}})" >
+                            <x-button wire:click="editar({{$key->id}})" >
                               <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
+                            </x-button>
                             @endcan
                             @can('estudiantes.edit')
-                            <button class='btn btn-primary' wire:click="representante({{$key->id}})" >
+                            <x-button wire:click="representante({{$key->id}})" >
                               <i class="fa-solid fa-user-tie"></i>
-                            </button>
+                            </x-button>
                             @endcan
                             @can('estudiantes.destroy')
-                            <button class='btn btn-danger' wire:click="borrar({{$key->id}})">
+                            <x-danger-button wire:click="borrar({{$key->id}})">
                                 <i class="fa-solid fa-trash"></i>
-                            </button>
+                            </x-danger-button>
                             @endcan
                         </td>
                     </tr>
@@ -87,39 +87,40 @@
                     <x-input-error for="representanteRegistrar.cedula"/>
 
                     <x-label class='mt-4'>Primer Nombre del Representante</x-label>
-                    <x-input wire:model="representanteRegistrar.nombre" type="text"  placeholder='Primer Nombre del Representante' class='w-full' pattern="^[a-zA-Z\s]+$" title='Solo letras y el espacio'/>
+                    <x-input wire:model="representanteRegistrar.nombre" type="text"  placeholder='Primer Nombre del Representante' class='w-full' />
                     <x-input-error for="representanteRegistrar.nombre"/>
 
                     <x-label class='mt-4'>Segundo Nombre del Representante</x-label>
-                    <x-input wire:model="representanteRegistrar.segundo" type="text" name="segundo" placeholder='Segundo Nombre del Representante' class='w-full' pattern="^[a-zA-Z\s]+$" title='Solo letras y el espacio' />
+                    <x-input wire:model="representanteRegistrar.segundo" type="text" name="segundo" placeholder='Segundo Nombre del Representante' class='w-full' />
                     <x-input-error for="representanteRegistrar.segundo"/>
 
                     <x-label class='mt-4'>Primer Apellido del Representante</x-label>
-                    <x-input wire:model="representanteRegistrar.paterno" type="text" name="paterno" placeholder='Primer Apellido del Representante' class='w-full' pattern="^[a-zA-Z\s]+$" title='Solo letras y el espacio' />
+                    <x-input wire:model="representanteRegistrar.paterno" type="text" name="paterno" placeholder='Primer Apellido del Representante' class='w-full' />
                     <x-input-error for="representanteRegistrar.paterno"/>
 
                     <x-label class='mt-4'>Segundo Apellido del Representante</x-label>
-                    <x-input wire:model="representanteRegistrar.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full' pattern="^[a-zA-Z\s]+$" title='Solo letras y el espacio'/>
+                    <x-input wire:model="representanteRegistrar.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full'/>
                     <x-input-error for="representanteRegistrar.materno"/>
 
                     <x-label class='mt-4'>Direccion</x-label>
-                    <x-input wire:model="representanteRegistrar.direccion" type="text" name="direccion" placeholder='Direccion del Representante' class='w-full mb-2' pattern="^[a-zA-Z0-9\s,.-]+$" title='Solo letras, numeros,signos: ,.-  y el espacio'/>
+                    <x-input wire:model="representanteRegistrar.direccion" type="text" name="direccion" placeholder='Direccion del Representante' class='w-full mb-2'/>
                     <x-input-error for="representanteRegistrar.direccion"/>
 
                     <x-label class='mt-4'>Telefono</x-label>
-                    <x-input wire:model="representanteRegistrar.telefono" type="text" name="direccion" placeholder='Telefono del Representante' class='w-full mb-2' pattern="^[0-9]+$" title='Solo numeros' minlength='11' maxlength='11'/>
-                    <x-input-error for="representanteRegistrar.telefono"/>
+                    
+                    <x-input wire:model="representanteRegistrar.telefono" type="text" name="direccion" placeholder='Telefono del Representante' class='w-full mb-2' minlength='11' maxlength='11' />
+                    
+                    <x-input-error for="representanteRegistrar.telefono" />
 
                     <x-label class='mt-4'>Relacion con el estudiante</x-label>
                     <x-select wire:model="relacion" class='w-full'>
                         <option value="Legal" selected>Tutor Legal</option>        
                         <option value="Autorizado">Autorizado</option>        
                     </x-select>
-                    
                 </div>
                              
                 @else
-                
+                    
                 <div class="lista-repre p-2 form">
                     <h5 class="text-center mb-2">Seleccionar Representante</h5>
                     <x-select name='representante' wire:model="representante_id" class='w-full'>
@@ -129,12 +130,12 @@
                         @endforeach
                     </x-select>
                 </div>    
-                
-                @endif
-                
-                <hr>   
+                        
+                @endif  
+                        
+                <hr>    
             </div>  
-           
+                
             <form class="form mt-2" id='form-registrar' wire:submit='registrar' >
                 <x-label>Cedula</x-label>
                 <x-input wire:model='form.cedula' type="text" name="cedula" placeholder='Cedula' class='w-full' pattern="^[0-9]+$" title='Solo numeros'/>
@@ -161,9 +162,30 @@
                 <x-input-error for="form.fecha"/>
 
                 <x-label class='mt-4'>Lugar de nacimiento</x-label>
-                <x-input wire:model="form.lugar" type="text" name="lugar" placeholder='Lugar de nacimiento' class='w-full'/>
-                <x-input-error for="form.lugar"/>
-
+                <div class="p-1">    
+                    <div class="flex flex-column flex-md-row">    
+                        <x-select wire:model.live='estado_id' class="flex-grow-1 m-1">
+                            <option value="">Estado</option>
+                            @foreach($estados as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-select wire:model.live='municipio_id' class="flex-grow-1 m-1">
+                            <option value="">Municipio</option>
+                            @foreach($municipios as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-select wire:model.live='form.parroquia_id' class="flex-grow-1 m-1">
+                            <option value="">Parroquia</option>
+                            @foreach($parroquias as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                    </div>    
+                    <x-input wire:model="form.lugar" type="text" name="lugar" placeholder='Referencia' class='w-full'/>
+                    <x-input-error for="form.lugar"/>
+                </div>    
                 <x-label class='mt-4'>Sexo</x-label>
                 <x-select wire:model="form.sexo" name="sexo" class='w-full form-control'>
                     <option value="" disabled="">Seleccione</option>
@@ -266,8 +288,30 @@
                 <x-input-error for="form.fecha"/>
                 
                 <x-label class='mt-4'>Lugar de nacimiento</x-label>
-                <x-input wire:model="form.lugar" type="text" name="lugar" placeholder='Lugar de nacimiento' class='w-full'/>
-                <x-input-error for="form.lugar"/>
+                <div class="border p-1">    
+                    <div class="flex flex-column flex-md-row">    
+                        <x-select wire:model.live='estado_id' class="flex-grow-1 m-1">
+                            <option value="">Estado</option>
+                            @foreach($estados as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-select wire:model.live='municipio_id' class="flex-grow-1 m-1">
+                            <option value="">Municipio</option>
+                            @foreach($municipios as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-select wire:model.live='form.parroquia_id' class="flex-grow-1 m-1">
+                            <option value="">Parroquia</option>
+                            @foreach($parroquias as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                    </div>    
+                    <x-input wire:model="form.lugar" type="text" name="lugar" placeholder='Referencia' class='w-full'/>
+                    <x-input-error for="form.lugar"/>
+                </div>
                 
                 <x-label class='mt-4'>Sexo</x-label>
                 <x-select wire:model="form.sexo" name="sexo" class='w-full form-control'>

@@ -12,6 +12,9 @@ use App\Models\Estudiante;
 use App\Models\Representante;
 use App\Models\Representado;
 use App\Models\Cursa;
+use App\Models\Estado;
+use App\Models\Municipio;
+use App\Models\Parroquia;
 use App\Livewire\Forms\EstudianteForm;
 use App\Livewire\Forms\RepresentanteForm;
 //use App\Livewire\Forms\EstudianteEditarForm;
@@ -48,6 +51,12 @@ class EstudianteLive extends Component
     public $nivels;
     public $seccions;
     public $aescolars;
+    
+    public $estados = [];
+    public $estado_id;
+    public $municipios = [];
+    public $municipio_id;
+    public $parroquias = [];
 
     public $idBorrar;
     public $idBorrarRep;
@@ -62,11 +71,21 @@ class EstudianteLive extends Component
         $this->nivels = Nivel::whereIn('id',Cursa::pluck('nivel_id'))->get();
             
         $this->aescolars = Aescolar::all();
+        
+        $this->estados = Estado::all();
     }       
     public function updatingBuscar()
-    {       
+    {           
         $this->resetPage();
-    }
+    }   
+    public function updatedEstadoId(){
+
+        $this->municipios = Municipio::where('estado_id',$this->estado_id)->get();
+    }   
+    public function updatedMunicipioId(){
+        
+        $this->parroquias = Parroquia::where('municipio_id',$this->municipio_id)->get();    
+    }   
 
     public function render()
     {
@@ -86,7 +105,7 @@ class EstudianteLive extends Component
         return view('livewire.estudiante-live',compact('estudiantes'));
     }
     public function registrar(){
-        
+
         $this->form->validate();
 
         $estudiante_id = $this->form->guardar()->id;

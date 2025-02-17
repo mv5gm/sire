@@ -11,7 +11,7 @@ use App\Livewire\Forms\AsignarEstudianteRepresentante;
 use Livewire\WithPagination;
 
 class RepresentanteLive extends Component
-{
+{   
     use WithPagination;
 
     public $open = false;
@@ -46,13 +46,13 @@ class RepresentanteLive extends Component
         $this->resetPage();
     }
     public function render()
-    {
+    {   
         $this->estudiantes = Estudiante::select('id','cedula','nombre','paterno')->get();
     	
         $items = Representante::orWhere('nombre','like','%'.$this->buscar.'%')->orWhere('cedula','like','%'.$this->buscar.'%')->with('representados')->paginate(10);
         
         return view('livewire.representante-live',compact('items'));
-    }
+    }   
     public function registrar(){
         
         $this->registrarForm->validate();

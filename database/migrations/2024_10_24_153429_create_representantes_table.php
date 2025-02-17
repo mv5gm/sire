@@ -18,10 +18,8 @@ return new class extends Migration
             $table->string('segundo')->nullable();
             $table->string('paterno');
             $table->string('materno')->nullable();
-            $table->string('direccion')->nullable();;
+            $table->string('direccion');
             $table->string('telefono')->nullable();
-
-            $table->foreignId('parroquia_id')->constrained()->onDelete('cascade')->default(1);
             
             $table->timestamps();
         });

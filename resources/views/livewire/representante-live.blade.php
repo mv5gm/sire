@@ -21,7 +21,7 @@
                     <td>Cedula</td>
                     <td>Nombre Completo</td>
                     <td>Estudiantes</td>
-                    <td>Opciones</td>
+                    <td width="250">Opciones</td>
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +30,7 @@
                         <td>{{$key->cedula}}</td>
                         <td>{{$key->nombre}} {{$key->segundo}} {{$key->paterno}} {{$key->materno}}</td>
                         <td>{{ count( $key->representados ) }}</td>
-                        <td>
+                        <td width="250">
                             <x-button wire:click="editar({{$key->id}})" >
                               <i class="fa-solid fa-pen-to-square"></i>
                             </x-button>
