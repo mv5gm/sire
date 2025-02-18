@@ -32,7 +32,7 @@
         'nombre'=>'representantes.index' ],
 
         ['href'=>route('pagos.index'),
-        'texto'=>'Pagos',
+        'texto'=>'Ingresos',
         'icono'=>'fa-solid fa-money-bill mr-2',
         'permiso'=>'pagos.index',
         'nombre'=>'pagos.index' ],
@@ -73,7 +73,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <img src="/img/sire-mini.png" width="50">
+                        <img src="/img/sire-mini.png" width="50" />
                     </a>
                 </div>
 

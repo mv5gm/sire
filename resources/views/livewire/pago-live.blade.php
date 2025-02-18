@@ -19,8 +19,8 @@
             <thead>
                 <tr>
                     <td>ID</td>
-                    <td>Cantidad</td>
-                    <td>Representante</td>
+                    <td>Cantidad ($)</td>
+                    <td>Cantidad (Bs)</td>
                     <td>Fecha</td>
                     <td>Tipo</td>
                     <td>Opciones</td>
@@ -30,8 +30,8 @@
                 @foreach($items as $key)
                     <tr wire:key="item-{{$key->id}}" >
                         <td>{{$key->id}}</td>
-                        <td>{{$key->cantidad}}($) | {{$key->cantidad*$key->dolar}}(Bs)</td>
-                        <td>{{$key->representante->nombre}} {{$key->representante->paterno}}</td>
+                        <td>{{$key->cantidad}}</td>
+                        <td>{{$key->cantidad*$key->dolar}}</td>
                         <td>{{$key->fecha}}</td>
                         <td>{{$key->tipo}}</td>
                         <td>
@@ -52,11 +52,20 @@
     </div>
     <x-dialog-modal wire:model='open'>
         <x-slot name='title'>
-            <h1>Registrar Pago</h1>
+            <h1>Registrar Ingreso</h1>
         </x-slot>
         <x-slot name='content'>
             <form class="form" id='form-registrar' wire:submit='registrar'>
                 
+                <x-label class='mt-4'>Tipo de pago</x-label>
+                <x-select wire:model.live="registrarForm.tipo" name="forma" class='w-full form-control'>
+                    <option value="" >Seleccione</option>
+                    <option value='Aranceles'>Aranceles</option>
+                    <option value='Uniformes'>Uniformes</option>
+                    <option value='Mensualidad'>Mensualidad</option>
+                </x-select>
+                <x-input-error for="registrarForm.tipo"/>
+        
                 <x-label>Representante</x-label>
                 
                 <x-select wire:model.live='registrarForm.representante_id' name="id" class="w-full" id='repre_id_reg' >
@@ -96,15 +105,7 @@
                 <x-input wire:model="registrarForm.cantidad" type="number" step='0.1' min='0.1' max='1000' name="cantidad" placeholder='Cantidad en dolares' class='w-full' autocomplete="off" />
                 <x-input-error for="registrarForm.cantidad"/>
 
-                <x-label class='mt-4'>Tipo de pago</x-label>
-                <x-select wire:model.live="registrarForm.tipo" name="forma" class='w-full form-control'>
-                    <option value="" >Seleccione</option>
-                    <option value='Aranceles'>Aranceles</option>
-                    <option value='Uniformes'>Uniformes</option>
-                    <option value='Mensualidad'>Mensualidad</option>
-                </x-select>
-                <x-input-error for="registrarForm.tipo"/>
-        
+                
                 @if( $mostrarMeses )
                     <table class="w-full">
                         <tbody>

@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('abonos', function (Blueprint $table) {
+        Schema::create('pago_mes', function (Blueprint $table) {
             $table->id();
-            $table->decimal('cantidad',10,2);
-            $table->decimal('dolar',10,2);
-            $table->date('fecha');
-            $table->enum('forma',['Efectivo','Transferencia','Divisa']);
-
-            $table->foreignId('empleado_id')->constrained()->onDelete('cascade');
-            
+            $table->enum('mes',['1','2','3','4','5','6','7','8','9','10','11','12']);
+            $table->integer('anio');
+            $table->foreignId('pago_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('abonos');
+        Schema::dropIfExists('pago_mes');
     }
 };

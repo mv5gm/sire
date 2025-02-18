@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tpago;
-use App\Http\Requests\StoreTpagoRequest;
-use App\Http\Requests\UpdateTpagoRequest;
+use App\Models\PagoMes;
+use App\Http\Requests\StorePagoMesRequest;
+use App\Http\Requests\UpdatePagoMesRequest;
 
-class TpagoController extends Controller
+class PagoMesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class TpagoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTpagoRequest $request)
+    public function store(StorePagoMesRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class TpagoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tpago $tpago)
+    public function show(PagoMes $pagoMes)
     {
         //
     }
@@ -43,7 +43,7 @@ class TpagoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tpago $tpago)
+    public function edit(PagoMes $pagoMes)
     {
         //
     }
@@ -51,7 +51,7 @@ class TpagoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTpagoRequest $request, Tpago $tpago)
+    public function update(UpdatePagoMesRequest $request, PagoMes $pagoMes)
     {
         //
     }
@@ -59,7 +59,7 @@ class TpagoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tpago $tpago)
+    public function destroy(PagoMes $pagoMes)
     {
         //
     }

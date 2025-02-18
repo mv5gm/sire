@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mensualidad;
-use App\Http\Requests\StoreMensualidadRequest;
-use App\Http\Requests\UpdateMensualidadRequest;
+use App\Models\Ingresos;
+use App\Http\Requests\StoreIngresosRequest;
+use App\Http\Requests\UpdateIngresosRequest;
 
-class MensualidadController extends Controller
+class IngresosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class MensualidadController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMensualidadRequest $request)
+    public function store(StoreIngresosRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class MensualidadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Mensualidad $mensualidad)
+    public function show(Ingresos $ingresos)
     {
         //
     }
@@ -43,7 +43,7 @@ class MensualidadController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Mensualidad $mensualidad)
+    public function edit(Ingresos $ingresos)
     {
         //
     }
@@ -51,7 +51,7 @@ class MensualidadController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMensualidadRequest $request, Mensualidad $mensualidad)
+    public function update(UpdateIngresosRequest $request, Ingresos $ingresos)
     {
         //
     }
@@ -59,7 +59,7 @@ class MensualidadController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Mensualidad $mensualidad)
+    public function destroy(Ingresos $ingresos)
     {
         //
     }

@@ -13,23 +13,19 @@ return new class extends Migration
     {
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
-            $table->decimal('cantidad',10,2);
-            $table->decimal('dolar',10,2);
-            $table->date('fecha');
-            $table->enum('forma',['Efectivo','Transferencia','Divisa']);
             $table->enum('tipo',['Aranceles','Uniformes','Mensualidad']);
-            $table->string('codigo')->nullable();
-            $table->integer('porcentaje')->default(100);
-
-            $table->foreignId('representante_id')->constrained()->onDelete('cascade');
             
+            $table->foreignId('representante_id')->constrained()->onDelete('cascade');
+            $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
+            $table->foreignId('ingreso_id')->constrained()->onDelete('cascade');
+                
             $table->timestamps();
-        });
-    }
+        });     
+    }           
 
-    /**
+    /**     
      * Reverse the migrations.
-     */
+     */     
     public function down(): void
     {
         Schema::dropIfExists('pagos');

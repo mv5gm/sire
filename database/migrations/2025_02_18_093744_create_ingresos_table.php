@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mensualidads', function (Blueprint $table) {
-            $table->id();       
-            $table->string('meses');       
-            $table->foreignId('pago_id')->constrained()->onDelete('cascade');
-            $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
+        Schema::create('ingresos', function (Blueprint $table) {
+            $table->id();
+            $table->decimal('cantidad',10,2);
+            $table->decimal('dolar',10,2);
+            $table->date('fecha');
+            $table->enum('forma',['Efectivo','Transferencia','Divisa']);
+            $table->string('codigo')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mensualidads');
+        Schema::dropIfExists('ingresos');
     }
 };
