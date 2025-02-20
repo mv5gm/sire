@@ -102,7 +102,15 @@
                 toastr.success('Operación exitosa!');
             }); 
 
-        </script> 
+        </script>
+
+        <!-- Mensaje de éxito -->
+        @if (session()->has('message'))
+            <script type="text/javascript">
+                toastr.success( {{ session('message') }} );
+            </script>
+            
+        @endif 
 
         @yield('scripts')
 

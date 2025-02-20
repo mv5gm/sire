@@ -44,12 +44,12 @@ class RoleSeeder extends Seeder
         $roleAdmin = Role::create(['name' => 'admin']);
         $roleControl = Role::create(['name' => 'control']);
         $roleGerente = Role::create(['name' => 'gerente']);
-
         
         permisos('users',Permission::class,[$roleAdmin],'usuarios');
         permisos('roles',Permission::class,[$roleAdmin]);		
         permisos('estudiantes',Permission::class,[$roleAdmin,$roleControl]);
         permisos('representantes',Permission::class,[$roleAdmin,$roleControl]);
+        permisos('ingresos',Permission::class,[$roleAdmin,$roleGerente]);
         permisos('pagos',Permission::class,[$roleAdmin,$roleGerente]);
         permisos('empleados',Permission::class,[$roleAdmin,$roleGerente]);
         permisos('plan',Permission::class,[$roleAdmin,$roleControl],'secciones');
