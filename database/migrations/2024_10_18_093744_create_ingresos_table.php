@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('fecha');
             $table->enum('forma',['Efectivo','Transferencia','Divisa']);
             $table->string('codigo')->nullable();
+            $table->string('descripcion')->nullable();
             $table->timestamps();
         });
     }
