@@ -17,11 +17,14 @@ class IngresoForm extends Form
     public $estudiante_id;
     public $representante_id;
     public $tipoPago;
-    public $meses = [];
+    public $mesesSeleccionados = [];
 
     public $tiposPago = ['Mensualidad','Uniformes','Aranceles'];
 
     // Opciones para los meses
-    public $meses = ['Enero'=>1, 'Febrero'=>2, 'Marzo'=>3, 'Abril'=>4, 'Mayo'=>5, 'Junio'=>6,
-        'Julio'=>7, 'Agosto'=>8, 'Septiembre'=>9, 'Octubre'=>10, 'Noviembre'=>11, 'Diciembre'=>12];
+    public $meses = ['Enero'=>1, 'Febrero'=>2, 'Marzo'=>3, 'Abril'=>4, 'Mayo'=>5, 'Junio'=>6,'Julio'=>7, 'Agosto'=>8, 'Septiembre'=>9, 'Octubre'=>10, 'Noviembre'=>11, 'Diciembre'=>12];
+    
+    public function rules(){
+        
+    }
 }

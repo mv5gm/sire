@@ -9,4 +9,6 @@ class Ingresos extends Model
 {
     /** @use HasFactory<\Database\Factories\IngresosFactory> */
     use HasFactory;
+    
+    protected $fillable = [ 'cantidad','tipo','dolar','forma','fecha','codigo' ];
 }
