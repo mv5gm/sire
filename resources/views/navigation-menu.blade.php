@@ -31,11 +31,11 @@
         'permiso'=>'representantes.index',
         'nombre'=>'representantes.index' ],
 
-        ['href'=>route('pagos.index'),
+        ['href'=>route('ingresos.index'),
         'texto'=>'Ingresos',
         'icono'=>'fa-solid fa-money-bill mr-2',
-        'permiso'=>'pagos.index',
-        'nombre'=>'pagos.index' ],
+        'permiso'=>'ingresos.index',
+        'nombre'=>'ingresos.index' ],
 
         ['href'=>route('empleados.index'),
         'texto'=>'Empleados',

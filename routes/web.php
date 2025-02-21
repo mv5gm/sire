@@ -11,6 +11,7 @@ use App\Models\Pago;
 use App\Models\Inscripcion;
 use App\Models\Empleado;
 use App\Models\User;
+use App\Models\Ingreso;
 use App\Livewire\CursaLive;
 
 Route::get('/', function () {
@@ -42,16 +43,16 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/dashboard', function () {
-        $total_e = Estudiante::count();
-		$total_re = Representante::count();
-		$sql = 'SELECT sum(cantidad) dolares,sum(cantidad)*dolar bolivares,forma,tipo FROM pagos  group BY forma,tipo';
-		$total_pa_for = DB::select($sql);
-		
-		$sql = 'SELECT sum(cantidad) dolares,sum(cantidad)*dolar bolivares,forma,tipo FROM pagos  group BY tipo,forma';
-		$total_pa_tip = DB::select($sql);
-		$total_pa = Pago::sum('cantidad');
+        
+        $ingresosPorMes = Ingreso::PorMes();
 
-        return view('dashboard',compact('total_e','total_re','total_pa','total_pa_for','total_pa_tip'));
+        $meses = $ingresosPorMes['meses'];
+        $cantidades = $ingresosPorMes['cantidades'];
+
+        $meses = ['Enero','Febrero'];
+        $cantidades = [2500,2400];
+
+        return view('dashboard',compact('meses'))->with('cantidades',$cantidades);
     })->name('dashboard');
 });
 
@@ -61,6 +62,8 @@ Route::resource('estudiantes',App\Http\Controllers\EstudianteController::class)-
 Route::resource('representantes',App\Http\Controllers\RepresentanteController::class)->middleware(['auth', 'can:representantes.index']);
         
 Route::resource('pagos',App\Http\Controllers\PagoController::class)->middleware(['auth','can:pagos.index']);
+
+Route::resource('ingresos',App\Http\Controllers\IngresoController::class)->middleware(['auth','can:ingresos.index']);
         
 Route::resource('empleados',App\Http\Controllers\EmpleadoController::class)->middleware(['auth','can:empleados.index']);
         

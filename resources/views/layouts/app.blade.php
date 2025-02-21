@@ -22,7 +22,10 @@
         <script type="text/javascript" src="/fontawesome/js/all.min.js"></script>
         <script type="text/javascript" src="/fontawesome/js/brands.min.js"></script>
         <script type="text/javascript" src="/fontawesome/js/fontawesome.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
         <!-- Scripts -->
+
         
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 

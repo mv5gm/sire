@@ -56,11 +56,11 @@
     </div>
     <x-dialog-modal wire:model='open'>
         <x-slot name='title'>
-            <h1 class="center">Registrar Ingreso</h1>
+            <h1 class="center">{{ $id ? 'Actualizar' : 'Registrar' }} Ingreso</h1>
         </x-slot>
         <x-slot name='content'>
            		
-            <form class="form mt-2" id='form-registrar' wire:submit='registrar' >
+            <form class="form mt-2" id='form-registrar' wire:submit='guardar' >
                 
                 <x-label>Cantidad</x-label>
                 <x-input wire:model='cantidad' type="number" placeholder='Cantidad' class='w-full'/>
@@ -81,7 +81,7 @@
                 	<x-label>Codigo</x-label>
                 	<x-input wire:model='codigo' type="number" placeholder='Codigo' class='w-full'/>
                 	<x-input-error for="codigo"/>
-                @endif
+                @endif 
                  <!-- Checkbox para indicar si es un pago -->
 		        <div>		
 		            <label>		
@@ -112,6 +112,29 @@
 		                </select>
                 		<x-input-error for="estudiante_id"/>
 		            </div>
+
+		            <!-- Selector de tipo de pago -->
+		            <div>
+		                <label for="tipoPago">Tipo de pago:</label>
+		                <select id="tipoPago" wire:model="tipoPago" required>
+		                    <option value="">Seleccione un tipo de pago</option>
+		                    @foreach ($tiposPago as $key)
+		                        <option value="{{ $key }}">{{ $key }}</option>
+		                    @endforeach
+		                </select>
+		            </div>	
+
+		            <!-- Selector de meses (solo si el tipo de pago es mensualidad) -->
+		            @if ($tipoPago === 'Mensualidad')
+		                <div>
+		                    <label>Meses a pagar:</label>
+		                    @foreach ($meses as $mes)
+		                        <label>
+		                            <input type="checkbox" wire:model="mesesSeleccionados" value="{{ $mes }}"> {{ $mes }}
+		                        </label>
+		                    @endforeach
+		                </div>
+		            @endif
                 @endif
             </form>
         </x-slot>
@@ -124,35 +147,7 @@
                 <span wire:loading wire:target='registrar'>Cargando...</span>
                 <span wire:loading.remove wire:target='registrar'>
                     <i class="fa-solid fa-plus mr-2"></i> 
-                Registrar</span>
-            </x-button>
-        </x-slot>
-    </x-dialog-modal>
-
-    <x-dialog-modal wire:model='openEditar'>
-        <x-slot name='title'>
-            <h1>Editar Usuario</h1>
-        </x-slot>
-        <x-slot name='content'>
-            <form class='form' id='form-actualizar' wire:submit='actualizar' >
-                <x-label>Nombre</x-label>
-                <x-input wire:model='name' type="text" name="cedula" placeholder='Nombre' class='w-full'/>
-                <x-input-error for="name"/>
-
-                </div>	    
-            </form> 
-        </x-slot>   
-        <x-slot name='footer'>
-            <x-secondary-button wire:click="$set('openEditar',false)" class='mr-2' >
-                <i class="fa-solid fa-ban mr-2"></i> 
-            Cancelar
-            </x-secondary-button>
-            <x-button type='submit' form='form-actualizar' >
-                <span wire:loading wire:target='actualizar'>Cargando...</span>
-                <span wire:loading.remove wire:target="actualizar">
-                    <i class="fa-regular fa-floppy-disk mr-2"></i> 
-                    Guardar
-                </span>
+                {{ $id ? 'Actualizar' : 'Registrar' }}</span>
             </x-button>
         </x-slot>
     </x-dialog-modal>

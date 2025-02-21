@@ -9,65 +9,44 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">  
-                    <div class="flex">
-                        <p>Total estudiantes: {{$total_e}}</p>        
+                    <div style="width: 75%; margin: auto;">
+                        <canvas id="myChart"></canvas>
                     </div>
-                    <div class="flex">
-                        <p>Total representantes: {{$total_re}}</p>        
-                    </div>
-                    <div class="flex">
-                        <p>Total de dinero en pagos ($): {{$total_pa}}</p>        
-                    </div>
-                    <div class="flex">
-                        <p>Total dinero en pagos por forma de pago y tipo de pago</p>  
-                    </div>  
-                    <div class="flex">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Cantidad en Dolares</th>
-                                    <th>Cantidad en Bolivares</th>
-                                    <th>Forma de Pago</th>
-                                    <th>Tipo de pago</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($total_pa_for as $key)
-                                    <tr>
-                                        <td>{{$key->dolares}}</td>
-                                        <td>{{ round($key->bolivares,2)}}</td>
-                                        <td>{{$key->forma}}</td>
-                                        <td>{{$key->tipo}}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>    
-                    </div>
-                    <div class="flex">
-                        <p>Total dinero en pagos por tipo de pago y forma de pago</p>  
-                    </div>  
-                    <div class="flex">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Cantidad en Dolares</th>
-                                    <th>Cantidad en Bolivares</th>
-                                    <th>Tipo de Pago</th>
-                                    <th>Forma de pago</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($total_pa_tip as $key)
-                                    <tr>
-                                        <td>{{$key->dolares}}</td>
-                                        <td>{{ round($key->bolivares,2) }}</td>
-                                        <td>{{$key->tipo}}</td>
-                                        <td>{{$key->forma}}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>    
-                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const ctx = document.getElementById('myChart').getContext('2d');
+                            const myChart = new Chart(ctx, {
+                                type: 'bar', // Tipo de gráfica (bar, line, pie, etc.)
+                                data: {
+                                    labels: @json($meses), // Pasar las etiquetas desde PHP
+                                    datasets: [{
+                                        label: 'Cantidad de ingresos por mes',
+                                        data: @json($cantidades), // Pasar los datos desde PHP
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                        borderColor: 'rgba(75, 192, 192, 1)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    },
+                                     plugins: {
+                                        datalabels: {
+                                            color: '#000', // Color del texto
+                                            anchor: 'end', // Posición del texto (end = arriba de la barra)
+                                            align: 'top', // Alineación del texto
+                                            formatter: (value) => {
+                                                return value; // Muestra el valor tal cual
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }); 
+                    </script>
                 </div>
             </div>
             

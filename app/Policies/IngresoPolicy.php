@@ -6,7 +6,7 @@ use App\Models\Ingresos;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class IngresosPolicy
+class IngresoPolicy
 {
     /**
      * Determine whether the user can view any models.

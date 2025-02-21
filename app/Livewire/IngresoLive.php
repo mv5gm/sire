@@ -52,19 +52,20 @@ class IngresoLive extends Component
     	$this->form->validate();
     	$this->form->guardar($this->id);
     	session()->flash('message', 'Operacion exitosa!!.');	
-    }				
+    }					
     public function editar($id){
+    	$this->open = true;
     	$this->id = $id;
     	$this->form->cargarEditar($id);
-    }
+    }	
     public function borrar($id){
     	$this->id = $id;
     	$this->openEliminar = true;
-    }
+    }	
     public function eliminar(){
     	Ingreso::find($this->id)->delete();
     	session()->flash('message', 'Operacion exitosa!!.');
-    }
+    }	
 
     public function render()
     {	

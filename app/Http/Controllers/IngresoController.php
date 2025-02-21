@@ -6,14 +6,14 @@ use App\Models\Ingresos;
 use App\Http\Requests\StoreIngresosRequest;
 use App\Http\Requests\UpdateIngresosRequest;
 
-class IngresosController extends Controller
+class IngresoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('ingresos');
     }
 
     /**
