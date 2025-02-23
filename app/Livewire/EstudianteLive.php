@@ -131,6 +131,7 @@ class EstudianteLive extends Component
         $this->open = false;
 
         $this->dispatch('success');
+    	//session()->flash('message', 'Operacion exitosa!!.');
 
         $this->resetPage();
     }       

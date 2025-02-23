@@ -15,48 +15,49 @@ use Illuminate\Support\Facades\DB;
 class IngresoLive extends Component
 {			
     use WithPagination;
-    use IngresoForm;
+    public IngresoForm $form;
 
-    public $open = false;
+    public $open = true;
     public $openEditar = false;
     public $openEliminar = false;
+    public $estudiantes;	
+    public $representantes;
 
     #[Url]
     public $buscar = "";
     
     public $id = null;
-    public $items = [];
     
     public $esTransferencia = false;
 
 	public function mount(){
     	$this->estudiantes = Estudiante::all();	
     	$this->representantes = Representante::all();
-    	$this->cargar();
     }				
     public function updatingBuscar()
     {	
         $this->resetPage();
     }	
-   	public function updatingFormForma(){
-   		$this->esTransferencia = true;
+   	public function updatedFormForma(){
+
+        $this->esTransferencia = ($this->form->forma == 'Transferencia') ? true : false;
+        //dd($this->esTransferencia);
    	}	
-    public function cargar()
-    {	
-        $this->items = Ingreso::
-        where('cantidad', 'like', '%' . $this->buscar . '%')->
-        orWhere('fecha', 'like', '%' . $this->buscar . '%')->
-        orWhere('forma', 'like', '%' . $this->buscar . '%')->paginate();
-    }	
+    public function updatedFormRepresentanteId(){
+        $this->estudiantes = Estudiante::with('representados.representante')
+            ->whereHas('representados.representante', function ($query) {
+            $query->where('id', $this->form->representante_id);
+            })->get();
+    }
     public function guardar(){
     	$this->form->validate();
-    	$this->form->guardar($this->id);
+    	$this->form->save($this->id);
     	session()->flash('message', 'Operacion exitosa!!.');	
     }					
     public function editar($id){
     	$this->open = true;
     	$this->id = $id;
-    	$this->form->cargarEditar($id);
+    	$this->form->load($id);
     }	
     public function borrar($id){
     	$this->id = $id;
@@ -69,6 +70,11 @@ class IngresoLive extends Component
 
     public function render()
     {	
-        return view('livewire.ingreso-live');
+        $items = Ingreso::
+        where('cantidad', 'like', '%' . $this->buscar . '%')->
+        orWhere('fecha', 'like', '%' . $this->buscar . '%')->
+        orWhere('forma', 'like', '%' . $this->buscar . '%')->paginate();
+
+        return view('livewire.ingreso-live',compact('items'));
     }	
 }		

@@ -13,6 +13,9 @@ class IngresoForm extends Form
 	public $cantidad;
 	public $dolar;
 	public $forma;
+	public $formas = ['Efectivo','Transferencia','Divisa'];
+	public $codigo;
+	public $descripcion;
     public $esPago = false;
     public $estudiante_id;
     public $representante_id;
@@ -22,16 +25,16 @@ class IngresoForm extends Form
     public $tiposPago = ['Mensualidad','Uniformes','Aranceles'];
 
     // Opciones para los meses
-    public $meses = ['Enero'=>1, 'Febrero'=>2, 'Marzo'=>3, 'Abril'=>4, 'Mayo'=>5, 'Junio'=>6,'Julio'=>7, 'Agosto'=>8, 'Septiembre'=>9, 'Octubre'=>10, 'Noviembre'=>11, 'Diciembre'=>12];
+    public $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     		
     public function rules(){
     		
     	return [
 	    	'cantidad' => 'required|numeric|min:1',
 	    	'dolar' => 'required|numeric|min:1',
-	    	'forma' => 'required|in:Efectivo,transferencia,Divisa',
-	    	'codigo' => 'numeric|max:255',
-	    	'descripcion' => 'max:255',
+	    	'forma' => 'required|in:Efectivo,Transferencia,Divisa',
+	    	'codigo' => 'required_if:forma,Transferencia|nullable|max:255',
+	    	'descripcion' => 'nullable|max:255',
 	    	'esPago' => 'boolean',
 	    	'estudiante_id' => 'required_if:esPago,true',
 	    	'representante_id' => 'required_if:esPago,true',
@@ -41,7 +44,8 @@ class IngresoForm extends Form
     }		
 
     public function save($id = null){
-    	$this->validate();
+
+        $this->validate();
     	
     	$itemData = [
     		'cantidad' => $this->cantidad,
@@ -60,12 +64,21 @@ class IngresoForm extends Form
     	}			
     	// Si es un pago, crear o actualizar el pago
         if ($this->esPago) {
+            
+            dd([
+                'estudiante_id' => $this->estudiante_id,
+                'representante_id' => $this->representante_id,
+                'tipoPago' => $this->tipoPago,
+            ]);
+
             $pagoData = [
                 'ingreso_id' => $item->id,
                 'estudiante_id' => $this->estudiante_id,
                 'representante_id' => $this->representante_id,
                 'tipo' => $this->tipoPago,
             ];	
+
+            //dd($this->estudiante_id);
 
             if ($id) {
                 $pago = Pago::where('ingreso_id', $item->id)->first();

@@ -28,6 +28,7 @@
             <tbody>
                 @foreach($items as $key)
                     <tr wire:key="users-{{$key->id}}" >
+                        <td>{{$key->id}}</td>
                         <td>{{$key->cantidad}}</td>
                         <td>{{$key->forma}} </td>
                         <td>{{$key->fecha}} </td>
@@ -63,74 +64,79 @@
             <form class="form mt-2" id='form-registrar' wire:submit='guardar' >
                 
                 <x-label>Cantidad</x-label>
-                <x-input wire:model='cantidad' type="number" placeholder='Cantidad' class='w-full'/>
-                <x-input-error for="cantidad"/>
+                <x-input wire:model='form.cantidad' type="number" placeholder='Cantidad' class='w-full'/>
+                <x-input-error for="form.cantidad"/>
                 
                 <x-label>Dolar</x-label>
-                <x-input wire:model='dolar' type="number" placeholder='Dolar' class='w-full'/>
-                <x-input-error for="dolar"/>
+                <x-input wire:model='form.dolar' type="number" placeholder='Dolar' class='w-full'/>
+                <x-input-error for="form.dolar"/>
                 
                 <x-label>Forma de pago</x-label>
-                <x-select wire:model.live='forma' class='w-full'>
-                	<option value="efectivo">Efectivo</option>	
-                	<option value="transferencia">Transferencia</option>	
-                	<option value="divisa">Divisa</option>	
+                <x-select wire:model.live='form.forma' class='w-full'>
+                	<option value="">Seleccione</option>	
+                	@foreach($form->formas as $key)
+                        <option value="{{ $key }}">{{ $key }}</option>	
+                    @endforeach	
                 </x-select>
-                <x-input-error for="forma"/>
+                <x-input-error for="form.forma"/>
                 @if($esTransferencia)
                 	<x-label>Codigo</x-label>
-                	<x-input wire:model='codigo' type="number" placeholder='Codigo' class='w-full'/>
-                	<x-input-error for="codigo"/>
+                	<x-input wire:model='form.codigo' type="text" placeholder='Codigo' class='w-full'/>
+                	<x-input-error for="form.codigo"/>
                 @endif 
+                <x-label>Descripcion <small>(opcional)</small></x-label>
+                <x-input wire:model='form.descripcion' type="text" placeholder='Descripcion' class='w-full'/>
+                <x-input-error for="form.descripcion"/>
                  <!-- Checkbox para indicar si es un pago -->
 		        <div>		
 		            <label>		
-		                <input type="checkbox" wire:model="esPago"> ¿Es un pago de Representante?
+		                <input type="checkbox" wire:model.live="form.esPago"> ¿Es un pago de Representante?
 		            </label>
 		        </div>
 
-                @if($esPago)
+                @if($form->esPago)
 					<!-- Selector de representante -->
                 	<div>
-		                <label for="representante_id">Representante:</label>
-		                <select id="representante_id" wire:model="representante_id" required>
+		                <label for="representante_id" class='w-full'>Representante:</label>
+		                <x-select id="representante_id" wire:model.live="form.representante_id" class='w-full' required>
 		                    <option value="">Seleccione un representante</option>
 		                    @foreach ($representantes as $key)
 		                        <option value="{{ $key->id }}">{{ $key->nombre }}</option>
 		                    @endforeach
-		                </select>
-                		<x-input-error for="representante_id"/>
+		                </x-select>
+                		<x-input-error for="form.representante_id"/>
 		            </div>
 		            <!-- Selector de estudiante -->
 		            <div>
-		                <label for="estudiante_id">Estudiante:</label>
-		                <select id="estudiante_id" wire:model="estudiante_id" required>
+		                <label for="estudiante_id" class='w-full'>Estudiante:</label>
+		                <x-select id="estudiante_id" wire:model="form.estudiante_id" class='w-full' required>
 		                    <option value="">Seleccione un estudiante</option>
-		                    @foreach ($estudiantes as $estudiante)
-		                        <option value="{{ $estudiante->id }}">{{ $estudiante->nombre }}</option>
+		                    @foreach ($estudiantes as $key)
+		                        <option value="{{ $key->id }}">{{ $key->cedula.' '.$key->nombre.' '.$key->paterno }}</option>
 		                    @endforeach
-		                </select>
-                		<x-input-error for="estudiante_id"/>
+		                </x-select>
+                		<x-input-error for="form.estudiante_id"/>
 		            </div>
 
 		            <!-- Selector de tipo de pago -->
 		            <div>
-		                <label for="tipoPago">Tipo de pago:</label>
-		                <select id="tipoPago" wire:model="tipoPago" required>
+		                <label for="tipoPago" class='w-full'>Tipo de pago:</label>
+		                <x-select id="tipoPago" wire:model.live="form.tipoPago" class='w-full' required>
 		                    <option value="">Seleccione un tipo de pago</option>
-		                    @foreach ($tiposPago as $key)
+		                    @foreach ($form->tiposPago as $key)
 		                        <option value="{{ $key }}">{{ $key }}</option>
 		                    @endforeach
-		                </select>
+		                </x-select>
+                		<x-input-error for="form.tipoPago"/>
 		            </div>	
 
 		            <!-- Selector de meses (solo si el tipo de pago es mensualidad) -->
-		            @if ($tipoPago === 'Mensualidad')
+		            @if ($form->tipoPago == 'Mensualidad')
 		                <div>
-		                    <label>Meses a pagar:</label>
-		                    @foreach ($meses as $mes)
-		                        <label>
-		                            <input type="checkbox" wire:model="mesesSeleccionados" value="{{ $mes }}"> {{ $mes }}
+		                    <label class='w-full'>Meses a pagar:</label>
+		                    @foreach ($form->meses as $key => $mes)
+		                        <label class='p-2'>
+		                            <input type="checkbox" wire:model="form.mesesSeleccionados" value="{{ $key+1 }}"> {{ $mes }}
 		                        </label>
 		                    @endforeach
 		                </div>
@@ -144,8 +150,8 @@
             Cancelar
             </x-secondary-button>
             <x-button type='submit' form='form-registrar' >
-                <span wire:loading wire:target='registrar'>Cargando...</span>
-                <span wire:loading.remove wire:target='registrar'>
+                <span wire:loading wire:target='guardar'>Cargando...</span>
+                <span wire:loading.remove wire:target='guardar'>
                     <i class="fa-solid fa-plus mr-2"></i> 
                 {{ $id ? 'Actualizar' : 'Registrar' }}</span>
             </x-button>
