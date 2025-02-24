@@ -12,6 +12,10 @@ class Ingreso extends Model
     use HasFactory;
     		
     protected $fillable = [ 'cantidad','dolar','forma','fecha','codigo','descripcion' ];
+    
+    public function pagos(){
+        return $this->hasMany(Pago::class);
+    }
 
     public function scopePorMes($query)
     {		

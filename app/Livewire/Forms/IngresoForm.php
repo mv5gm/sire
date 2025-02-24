@@ -64,12 +64,6 @@ class IngresoForm extends Form
     	}			
     	// Si es un pago, crear o actualizar el pago
         if ($this->esPago) {
-            
-            dd([
-                'estudiante_id' => $this->estudiante_id,
-                'representante_id' => $this->representante_id,
-                'tipoPago' => $this->tipoPago,
-            ]);
 
             $pagoData = [
                 'ingreso_id' => $item->id,
@@ -105,7 +99,10 @@ class IngresoForm extends Form
     public function load($id)
     {			
         $item = Ingreso::find($id);
-        $this->cantidad = $ingreso->cantidad;
+
+        $item->load('pagos.pagosMeses');
+        
+        $this->cantidad = $item->cantidad;
         $this->dolar = $item->dolar;
         $this->fecha = $item->fecha;
         $this->forma = $item->forma;
@@ -118,7 +115,7 @@ class IngresoForm extends Form
             $this->estudiante_id = $pago->estudiante_id;
             $this->representante_id = $pago->representante_id;
             $this->tipoPago = $pago->tipo;
-            $this->mesesSeleccionados = $pago->pagoMeses->pluck('mes')->toArray();
+            $this->mesesSeleccionados = $pago->pagosMeses->pluck('mes')->toArray();
         }		
     }						
 }				

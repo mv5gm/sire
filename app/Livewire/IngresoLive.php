@@ -10,6 +10,7 @@ use App\Models\Representante;
 use App\Models\Estudiante;
 use App\Livewire\Forms\IngresoForm;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 	
 class IngresoLive extends Component
@@ -29,7 +30,11 @@ class IngresoLive extends Component
     public $id = null;
     
     public $esTransferencia = false;
-
+    
+    public function abrirModal(){
+        $this->id = null;
+        $this->open = true;
+    }
 	public function mount(){
     	$this->estudiantes = Estudiante::all();	
     	$this->representantes = Representante::all();
@@ -52,10 +57,13 @@ class IngresoLive extends Component
     public function guardar(){
     	$this->form->validate();
     	$this->form->save($this->id);
-    	session()->flash('message', 'Operacion exitosa!!.');	
+        $this->dispatch('success', ['message' => 'Guardado con éxito']);
+
+        $this->id = null;	
+        $this->open = false;	
     }					
     public function editar($id){
-    	$this->open = true;
+        $this->open = true;
     	$this->id = $id;
     	$this->form->load($id);
     }	
@@ -65,7 +73,9 @@ class IngresoLive extends Component
     }	
     public function eliminar(){
     	Ingreso::find($this->id)->delete();
-    	session()->flash('message', 'Operacion exitosa!!.');
+        $this->dispatch('success', ['message' => 'Eliminado con éxito']);
+        $this->id = null;
+        $this->openEliminar = false;
     }	
 
     public function render()

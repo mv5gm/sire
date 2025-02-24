@@ -85,14 +85,16 @@
                 }
             });
 
-            window.addEventListener('success' , event => {
-                toastr.success("Operacion exitosa!");
+            window.addEventListener('success', event => {
+                toastr.success('Operacion exitosa!');
             });
-            window.addEventListener('warning' , event => {
-                toastr.warning('advertencia');
+
+            window.addEventListener('warning', event => {
+                toastr.warning(event.detail.message);
             });
-            window.addEventListener('error' , event => {
-                toastr.error('error');
+
+            window.addEventListener('error', event => {
+                toastr.error(event.detail.message);
             });
 
         </script>
@@ -102,7 +104,7 @@
         <script type="text/javascript">
              
             Livewire.on('success', () => {
-                toastr.success('Operación exitosa!');
+                //toastr.success('Operación exitosa!');
             }); 
 
         </script>

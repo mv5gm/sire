@@ -3,7 +3,7 @@
     <div class="flex ">
         <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
         <a>
-            <x-button wire:click="$set('open',true)">
+            <x-button wire:click="abrirModal">
                 <i class="fa-solid fa-plus mr-2"></i>
                 Registrar
             </x-button>
@@ -64,15 +64,15 @@
             <form class="form mt-2" id='form-registrar' wire:submit='guardar' >
                 
                 <x-label>Cantidad</x-label>
-                <x-input wire:model='form.cantidad' type="number" placeholder='Cantidad' class='w-full'/>
+                <x-input wire:model='form.cantidad' type="number" placeholder='Cantidad' class='w-full mb-2'/>
                 <x-input-error for="form.cantidad"/>
                 
                 <x-label>Dolar</x-label>
-                <x-input wire:model='form.dolar' type="number" placeholder='Dolar' class='w-full'/>
+                <x-input wire:model='form.dolar' type="number" placeholder='Dolar' class='w-full mb-2'/>
                 <x-input-error for="form.dolar"/>
                 
                 <x-label>Forma de pago</x-label>
-                <x-select wire:model.live='form.forma' class='w-full'>
+                <x-select wire:model.live='form.forma' class='w-full mb-2'>
                 	<option value="">Seleccione</option>	
                 	@foreach($form->formas as $key)
                         <option value="{{ $key }}">{{ $key }}</option>	
@@ -81,11 +81,11 @@
                 <x-input-error for="form.forma"/>
                 @if($esTransferencia)
                 	<x-label>Codigo</x-label>
-                	<x-input wire:model='form.codigo' type="text" placeholder='Codigo' class='w-full'/>
+                	<x-input wire:model='form.codigo' type="text" placeholder='Codigo' class='w-full mb-2'/>
                 	<x-input-error for="form.codigo"/>
-                @endif 
+                @endif  
                 <x-label>Descripcion <small>(opcional)</small></x-label>
-                <x-input wire:model='form.descripcion' type="text" placeholder='Descripcion' class='w-full'/>
+                <x-input wire:model='form.descripcion' type="text" placeholder='Descripcion' class='w-full mb-2'/>
                 <x-input-error for="form.descripcion"/>
                  <!-- Checkbox para indicar si es un pago -->
 		        <div>		
