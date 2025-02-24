@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->enum('relacion',['Legal','Autorizado']);
+            $table->enum('parentesco',['Madre','Padre','Abuelo(a)','Primo(a)','Tio(a)','Otro(a)']);
 
             $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
             $table->foreignId('representante_id')->constrained()->onDelete('cascade');

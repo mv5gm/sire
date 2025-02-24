@@ -24,6 +24,10 @@ return new class extends Migration
             $table->enum('residencia',['padres','familiar','padre','madre'])->default('padres');
             $table->enum('situacion',['separados','juntos'])->default('juntos');
             $table->enum('graduado',[0,1])->default(0);
+            $table->string('institucion_procedencia')->nullable();
+            $table->enum('lentes',['si','no']);
+            $table->string('tratamiento')->nullable();
+
 
             $table->foreignId('parroquia_id')->constrained()->onDelete('cascade');
 
