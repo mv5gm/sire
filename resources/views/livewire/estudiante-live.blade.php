@@ -3,8 +3,8 @@
     <div class="flex ">
         <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
         <div class='flex'>
-            <a>
-                <x-button wire:click="$set('open',true)">
+            <a href="{{route('estudiantes.create')}}">
+                <x-button>
                     <i class="fa-solid fa-plus mr-2"></i>
                     Registrar
                 </x-button>

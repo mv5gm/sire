@@ -2,33 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Estudiante;
-use App\Http\Requests\StoreEstudianteRequest;
-use App\Http\Requests\UpdateEstudianteRequest;
+use App\Models\Hogar;
+use App\Http\Requests\StoreHogarRequest;
+use App\Http\Requests\UpdateHogarRequest;
 
-class EstudianteController extends Controller
+class HogarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-   
     public function index()
-    {       
-        return view('estudiantes.index');
-    }       
+    {
+        //
+    }
 
-    /**     
+    /**
      * Show the form for creating a new resource.
-     */     
+     */
     public function create()
-    {       
-        return view('estudiantes.crear');
-    }       
+    {
+        //
+    }
 
-    /**     
+    /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEstudianteRequest $request)
+    public function store(StoreHogarRequest $request)
     {
         //
     }
@@ -36,7 +35,7 @@ class EstudianteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Estudiante $estudiante)
+    public function show(Hogar $hogar)
     {
         //
     }
@@ -44,7 +43,7 @@ class EstudianteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Estudiante $estudiante)
+    public function edit(Hogar $hogar)
     {
         //
     }
@@ -52,7 +51,7 @@ class EstudianteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEstudianteRequest $request, Estudiante $estudiante)
+    public function update(UpdateHogarRequest $request, Hogar $hogar)
     {
         //
     }
@@ -60,7 +59,7 @@ class EstudianteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Estudiante $estudiante)
+    public function destroy(Hogar $hogar)
     {
         //
     }

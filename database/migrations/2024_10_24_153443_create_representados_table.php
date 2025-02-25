@@ -20,6 +20,7 @@ return new class extends Migration
 
             $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
             $table->foreignId('representante_id')->constrained()->onDelete('cascade');
+            $table->foreignId('hogar_id')->constrained()->onDelete('cascade');
         });
     }
 

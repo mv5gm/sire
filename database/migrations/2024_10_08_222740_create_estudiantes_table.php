@@ -21,13 +21,14 @@ return new class extends Migration
             $table->date('fecha');
             $table->string('lugar')->nullable();
             $table->enum('sexo',['m','f']);
-            $table->enum('residencia',['padres','familiar','padre','madre'])->default('padres');
-            $table->enum('situacion',['separados','juntos'])->default('juntos');
-            $table->enum('graduado',[0,1])->default(0);
             $table->string('institucion_procedencia')->nullable();
             $table->enum('lentes',['si','no']);
             $table->string('tratamiento')->nullable();
+            $table->string('vive_con')->default('Madre');
+            $table->enum('parto',['natural','cesarea']);
 
+            $table->enum('graduado',[0,1])->default(0);
+            
 
             $table->foreignId('parroquia_id')->constrained()->onDelete('cascade');
 
