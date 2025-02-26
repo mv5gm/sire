@@ -17,6 +17,9 @@ use App\Models\Municipio;
 use App\Models\Parroquia;
 use App\Livewire\Forms\EstudianteForm;
 use App\Livewire\Forms\RepresentanteForm;
+use App\Livewire\Forms\RepresentadoForm;
+use App\Livewire\Forms\CursaForm;
+use App\Livewire\Forms\InscripcionForm;
 use App\Livewire\Forms\asignarRepresentanteEstudiante;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
@@ -63,6 +66,8 @@ class EstudianteCrearLive extends Component
         $this->parroquias = Parroquia::where('municipio_id',$this->municipio_id)->get();    
     }	
     public function registrar(){
+        $this->form->validate();
+        $this->representanteRegistrar->validate();
 
         
     }

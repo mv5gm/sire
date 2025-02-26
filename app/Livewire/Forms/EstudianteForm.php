@@ -24,12 +24,13 @@ class EstudianteForm extends Form
     public $fecha;
     public $lugar;
     public $sexo = 'f';
-    public $nivel_id = 1;
-    public $seccion_id = 1;
-    public $aescolar_id = 1;
+    public $institucion_procedencia;
+    public $lentes;
+    public $tratamiento;
+    public $vive_con;
+    public $parto;
+    
     public $parroquia_id = 1;
-    public $residencia = 'padres';
-    public $situacion = 'juntos';
     
     public $salon_id = 1;
     public $cursaId;

@@ -16,7 +16,7 @@ class CursaForm extends Form
     	
     public function guardar()
     {	
-    	Cursa::create($this->all());	
+    	return Cursa::create($this->all());	
     }	
     public function editar($id){
 
@@ -43,8 +43,8 @@ class CursaForm extends Form
 
     public function validationAttributes(){
     	return [
-    		'aescolar' => 'Año escolar',
-    		'nivel' => 'Nivel Academico'
+    		'aescolar_id' => 'Año escolar',
+    		'nivel_id' => 'Nivel Academico'
     	];
     }	
 }		
