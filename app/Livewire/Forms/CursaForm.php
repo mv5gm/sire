@@ -16,7 +16,9 @@ class CursaForm extends Form
     	
     public function guardar()
     {	
-    	return Cursa::create($this->all());	
+    	$this->validate();
+
+        return Cursa::createOrUpdate($this->all());	            
     }	
     public function editar($id){
 
@@ -27,11 +29,8 @@ class CursaForm extends Form
         $this->aescolar_id = $item->aescolar_id;
 	    $this->nivel_id = $item->nivel_id;
 	    $this->seccion_id = $item->seccion_id;
-    }	
-    public function actualizar(){
-    	$item = Cursa::find($this->id);
-    	$item->update($this->all());
-    }	
+    }	    
+
     public function rules(){
     	
     	return [	

@@ -15,12 +15,20 @@ class RepresentanteForm extends Form
     public $segundo;
     public $paterno;
     public $materno;
-    public $direccion;
+    public $estado_civil;
+    public $condicion_laboral;
+    public $oficio;
+    public $direccion_habitacion;
+    public $direccion_trabajo;
+    public $lugar_nacimiento;
+    public $fecha;
     public $telefono;
 
     public function guardar(){
         
-        return Representante::create($this->all());
+        $this->vaidate();
+        
+        return Representante::createOrUpdate($this->all());
     }
     public function editar($id){
 

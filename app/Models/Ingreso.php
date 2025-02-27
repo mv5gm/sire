@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-			
+use App\Traits\HasCreateOrUpdate;
+
 class Ingreso extends Model
 {			
     /** @use HasFactory<\Database\Factories\IngresosFactory> */
+    use HasCreateOrUpdate;
     use HasFactory;
     		
     protected $fillable = [ 'cantidad','dolar','forma','fecha','codigo','descripcion' ];

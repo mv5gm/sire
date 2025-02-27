@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasCreateOrUpdate;
 
 class Estudiante extends Model
 {
+    use HasCreateOrUpdate;
     use HasFactory;
 
     protected $fillable = ['cedula','nombre','segundo','paterno','materno','lugar','fecha','sexo','cursa_id','residencia','situacion','parroquia_id'];

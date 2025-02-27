@@ -164,7 +164,7 @@
                 <x-input-error for="representante.telefono" />
 
                 <x-label class='mt-4'>Relacion con el estudiante</x-label>
-                <x-select wire:model="relacion" class='w-full'>
+                <x-select wire:model="representanteForm.relacion" class='w-full'>
                     <option value="Legal" selected>Tutor Legal</option>        
                     <option value="Autorizado">Autorizado</option>        
                 </x-select>

@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasCreateOrUpdate;
 
 class Representado extends Model
 {		
+    use HasCreateOrUpdate;
     use HasFactory;
     	
     protected $fillable = ['representante_id','estudiante_id','relacion','parentesco','hogar_id'];

@@ -28,9 +28,12 @@ class EstudianteCrearLive extends Component
 {		
     public $selectedVive = [];
     public $opcionesVive = ['Padre','Madre','Abuelo(a)','Otro Familiar'];
-    public EstudianteForm $form;
-    public RepresentanteForm $representanteRegistrar;
-    public asignarRepresentanteEstudiante $representanteForm;
+    public EstudianteForm $estudianteForm;
+    public RepresentanteForm $representanteForm;
+    public RepresentadoForm $representadoForm;
+    public CursaForm $cursaForm;
+    public InscripcionForm $inscripcionForm;
+    public asignarRepresentanteEstudiante $asignarRepresentanteEstudiante;
     
     public $nivels;
     public $seccions;
@@ -45,8 +48,6 @@ class EstudianteCrearLive extends Component
     public $relacion = 'Legal';
 
     public function mount(){    
-
-        $cursas = Cursa::pluck('nivel_id','seccion_id');
 
         $this->seccions = Seccion::whereIn('id',Cursa::pluck('seccion_id'))->get();
 
@@ -66,10 +67,26 @@ class EstudianteCrearLive extends Component
         $this->parroquias = Parroquia::where('municipio_id',$this->municipio_id)->get();    
     }	
     public function registrar(){
-        $this->form->validate();
-        $this->representanteRegistrar->validate();
-
+                
+        $estudiante = $estudianteForm->guardar();
         
+        $representante = $representanteForm->guardar();
+        
+        $representadoForm->estudiante_id = $estudiente->id;
+        $representadoForm->representante_id = $representante->id;
+        $representadoForm->guardar();
+        
+        $cursa = Cursa::Buscar($this->estudianteForm->aescolar_id,
+                                $this->estudianteForm->nivel_id,
+                                $this->estudianteForm->seccion_id,
+                                $this->estudianteForm->salon_id,)->first();
+        
+        $inscripcionForm->estudinte_id = $estudiante->id;
+        $inscripcionForm->cursa_id = $cursa->id;
+        $inscripcionForm->tipo = 'Nuevo';
+        $inscripcionForm->guardar();
+
+        return $estudiante;
     }
     public function render()
     {	

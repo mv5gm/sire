@@ -29,30 +29,15 @@ class EstudianteForm extends Form
     public $tratamiento;
     public $vive_con;
     public $parto;
-    
-    public $parroquia_id = 1;
-    
-    public $salon_id = 1;
-    public $cursaId;
 
-    public $repre = true;
+    public $parroquia_id = 1;
 
     public function guardar(){
         
-        $estudiante = Estudiante::create($this->all());
-        
-        //dd($this->all());
-        
-        $cursa = Cursa::where('aescolar_id',$this->aescolar_id)->where('seccion_id',$this->seccion_id)->where('nivel_id',$this->nivel_id)->first();
+        $this->validate();
 
-        $ins = new Inscripcion;
+        return Estudiante::createOrUpdate($this->all());
 
-        $ins->cursa_id = $cursa->id; 
-        $ins->estudiante_id = $estudiante->id; 
-        $ins->tipo = 'Nuevo'; 
-        $ins->save();
-
-        return $estudiante;
     }   
     
     public function editar($estudianteId){
@@ -61,8 +46,8 @@ class EstudianteForm extends Form
 
         $ins =  Inscripcion::where('estudiante_id',$estudianteId)->with('cursa')->with('estudiante')->first();
 
-        //$cursa = Cursa::find($estudiante->cursa_id);
-
+        $this->fillFromModel($ins->estudiante, $this->all());
+        /*
         $this->cedula = $ins->estudiante->cedula;
         $this->nombre = $ins->estudiante->nombre;
         $this->segundo = $ins->estudiante->segundo;
@@ -79,6 +64,9 @@ class EstudianteForm extends Form
         $this->nivel_id = $ins->cursa->nivel_id;
         $this->aescolar_id = $ins->cursa->aescolar_id;
         $this->cursaId = $ins->cursa->id;
+
+        [$this->vive_con,$this->parto] = explode('-',$ins->estudiante->vive_con);
+        */
     }   
 
     public function actualizar(){

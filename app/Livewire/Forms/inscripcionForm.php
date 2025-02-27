@@ -14,12 +14,16 @@ class inscripcionForm extends Form
 
     public function guardar(){
         
-        if($this->id){
-            $ins = Inscripcion::find($this->id)->update($this->all());
-        }       
-        else{   
-            $ins = Inscripcion::create($this->all());
-        }
-        return $ins;
+        $this->validate();
+
+        return Inscripcion::createOrUpdate($this->all());
+    }
+    public function rules()
+    {
+        return [
+            'estudiante_id' => 'required|integer|exists:estudiantes,id',
+            'cursa_id' => 'required|integer|exists:cursos,id',
+            'tipo' => 'required|string|max:255',
+        ];
     }
 }

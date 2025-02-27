@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Cursa;
+use App\Traits\HasCreateOrUpdate;
 
 class Cursa extends Model
 {
+    use HasCreateOrUpdate;
     use HasFactory;
 
     protected $fillable = ['nivel_id','salon_id','aescolar_id','seccion_id'];
@@ -43,5 +45,12 @@ class Cursa extends Model
             return $res->id;
         }
         return $result->id;
+    }
+    public function scopeBuscar($query, $aescolarId, $nivelId, $seccionId, $salonId)
+    {
+        return $query->where('aescolar_id', $aescolarId)
+                     ->where('seccion_id', $seccionId)
+                     ->where('nivel_id', $nivelId)
+                     ->where('salon_id', $salonId);
     } 
 }
