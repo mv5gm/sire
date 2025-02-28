@@ -26,7 +26,7 @@ class RepresentanteForm extends Form
 
     public function guardar(){
         
-        $this->vaidate();
+        $this->validate();
         
         return Representante::createOrUpdate($this->all());
     }
@@ -61,7 +61,14 @@ class RepresentanteForm extends Form
             'segundo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
             'paterno' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
             'materno' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
-            'direccion' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'estado_civil' =>'required|in:Soltero(a),Casado(a),Divorciado(a),Viudo(a),Concubinato',
+            'condicion_laboral' =>'required|in:Empleado(a),Desempleado(a)',
+            'oficio' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'direccion_habitacion' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'direccion_trabajo' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'lugar_nacimiento' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'fecha' =>'required|date',
+            
             'telefono' =>'nullable|regex:/^[0-9]+$/|min:11|max:11'
         ];  
     }

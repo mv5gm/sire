@@ -20,19 +20,19 @@ use App\Livewire\Forms\RepresentanteForm;
 use App\Livewire\Forms\RepresentadoForm;
 use App\Livewire\Forms\CursaForm;
 use App\Livewire\Forms\InscripcionForm;
+use App\Livewire\Forms\HogarForm;
 use App\Livewire\Forms\asignarRepresentanteEstudiante;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 		
 class EstudianteCrearLive extends Component
 {		
-    public $selectedVive = [];
-    public $opcionesVive = ['Padre','Madre','Abuelo(a)','Otro Familiar'];
     public EstudianteForm $estudianteForm;
     public RepresentanteForm $representanteForm;
     public RepresentadoForm $representadoForm;
     public CursaForm $cursaForm;
     public InscripcionForm $inscripcionForm;
+    public HogarForm $hogarForm;
     public asignarRepresentanteEstudiante $asignarRepresentanteEstudiante;
     
     public $nivels;
@@ -67,26 +67,36 @@ class EstudianteCrearLive extends Component
         $this->parroquias = Parroquia::where('municipio_id',$this->municipio_id)->get();    
     }	
     public function registrar(){
-                
-        $estudiante = $estudianteForm->guardar();
         
-        $representante = $representanteForm->guardar();
-        
-        $representadoForm->estudiante_id = $estudiente->id;
-        $representadoForm->representante_id = $representante->id;
-        $representadoForm->guardar();
-        
-        $cursa = Cursa::Buscar($this->estudianteForm->aescolar_id,
-                                $this->estudianteForm->nivel_id,
-                                $this->estudianteForm->seccion_id,
-                                $this->estudianteForm->salon_id,)->first();
-        
-        $inscripcionForm->estudinte_id = $estudiante->id;
-        $inscripcionForm->cursa_id = $cursa->id;
-        $inscripcionForm->tipo = 'Nuevo';
-        $inscripcionForm->guardar();
+        $error = '';
+        try {
+            $estudiante = $this->estudianteForm->guardar();
 
-        return $estudiante;
+            $representante = $this->representanteForm->guardar();
+            
+            $hogar = $hogarForm->guardar();
+
+            $this->representadoForm->estudiante_id = $estudiente->id;
+            $this->representadoForm->representante_id = $representante->id;
+            $this->representadoForm->hogar_id = $hogar->id;
+            $this->representadoForm->guardar();
+            
+            $cursa = Cursa::Buscar($this->estudianteForm->aescolar_id,
+                                    $this->estudianteForm->nivel_id,
+                                    $this->estudianteForm->seccion_id,
+                                    $this->estudianteForm->salon_id,)->first();
+
+            $this->inscripcionForm->estudinte_id = $estudiante->id;
+            $this->inscripcionForm->cursa_id = $cursa->id;
+            $this->inscripcionForm->tipo = 'Nuevo';
+            $this->inscripcionForm->guardar();
+
+        } catch (\Throwable $th) {
+            $error = $th;
+        }
+        
+        
+        dd($error);
     }
     public function render()
     {	

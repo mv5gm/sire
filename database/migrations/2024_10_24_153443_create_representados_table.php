@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('representados', function (Blueprint $table) {
             $table->id();
             $table->enum('relacion',['Legal','Autorizado']);
-            $table->enum('parentesco',['Madre','Padre','Abuelo(a)','Primo(a)','Tio(a)','Otro(a)']);
-
+            $table->enum('parentesco',['Madre','Padre','Abuelo(a)','Primo(a)','Tio(a)','Hermano(a)','Otro(a)']);
             $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
             $table->foreignId('representante_id')->constrained()->onDelete('cascade');
             $table->foreignId('hogar_id')->constrained()->onDelete('cascade');

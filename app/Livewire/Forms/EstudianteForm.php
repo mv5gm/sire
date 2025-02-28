@@ -31,9 +31,18 @@ class EstudianteForm extends Form
     public $parto;
 
     public $parroquia_id = 1;
-
+    
+    public $selectedVive = [];
+    public $opcionesVive = ['Padre','Madre','Abuelo(a)','Otro Familiar'];
+   
     public function guardar(){
         
+        $this->vive_con = null;
+        foreach ($this->selectedVive as $vive) {
+            $this->vive_con .= $vive.' ';
+        }
+        $this->vive_con = substr($this->vive_con,0,-1);
+
         $this->validate();
 
         return Estudiante::createOrUpdate($this->all());
@@ -93,19 +102,20 @@ class EstudianteForm extends Form
             
         return [
             'cedula' =>"nullable|unique:estudiantes,cedula,".$this->cedula,
-            'nombre' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
-            'segundo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
-            'paterno' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:50',
-            'materno' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:50',
+            'nombre' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:70',
+            'segundo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:70',
+            'paterno' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|min:3|max:70',
+            'materno' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ]+$/|max:70',
             'fecha' =>'required|date',
             'lugar' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
             'sexo' =>'required|in:f,m',
-            'nivel_id' =>'required|exists:nivels,id',
-            'seccion_id' =>'required|exists:seccions,id',
-            'aescolar_id' =>'required|exists:aescolars,id',
+            'institucion_procedencia' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
+            'lentes' =>'required|in:si,no',
+            'tratamiento' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
+            'vive_con' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
+            'parto' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
             'parroquia_id' =>'required|exists:parroquias,id',
-            'residencia' =>'required|in:padres,familiar,padre,madre',
-            'situacion' =>'required|in:separados,juntos'
+            
         ];  
     }       
     public function validationAttributes(){
@@ -115,9 +125,8 @@ class EstudianteForm extends Form
             'materno' => 'segundo apellido',
             'lugar' => 'lugar de nacimiento',
             'fecha' => 'fecha de nacimiento',
-            'nivel_id' => 'nivel academico',
-            'seccion_id' => 'seccion',
-            'parroquia_id' => 'parroquia'
+            'institucion_procedencia' => 'institucion de peocedencia',
+            'vive_con' => 'vive con:',
         ];
     }	
 }		

@@ -28,6 +28,7 @@ class RepresentadoForm extends Form
             'representante_id' => 'required|integer|exists:representantes,id',
             'parentesco' => 'required|string|max:255',
             'relacion' => 'required|string|max:255',
+            'hogar_id' => 'required|exists:hogars,id',
         ];  
     }       
 }           
