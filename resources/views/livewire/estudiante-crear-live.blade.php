@@ -1,6 +1,9 @@
 <div>
-    <h1>Registrar Inscripcion</h1>
-    		
+    @if($mostrarFormulario)
+    <div class='flex'>
+        <h1 class='flex-1'>Registrar Inscripcion</h1>
+        <button wire:click='cerrarFormulario'><i class='fa-solid fa-xmark'></i></button>
+    </div>		
     <form wire:submit='registrar'>
 	    <div class="flex flex-col md:flex-row gap-4 p-2">
 	        
@@ -8,7 +11,7 @@
 	        
 	        <div class="flex-1 p-2 rounded-lg shadow-md">
 	            <h1 class='center'>Datos Estudiante</h1>
-	            <x-label>Cedula</x-label>
+	            <x-label>Cedula <small>(Opcional)</small></x-label>
                 <x-input wire:model='estudianteForm.cedula' type="text" name="cedula" placeholder='Cedula' class='w-full' pattern="^[0-9]+$" title='Solo numeros'/>
                 <x-input-error for="estudianteForm.cedula"/>
 
@@ -16,7 +19,7 @@
                 <x-input wire:model="estudianteForm.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full'/>
                 <x-input-error for="estudianteForm.nombre"/>
 
-                <x-label class='mt-4'>Segundo Nombre</x-label>
+                <x-label class='mt-4'>Segundo Nombre <small>(Opcional)</small></x-label>
                 <x-input wire:model="estudianteForm.segundo" type="text" name="segundo" placeholder='Segundo Nombre' class='w-full'/>
                 <x-input-error for="estudianteForm.segundo"/>
 
@@ -24,7 +27,7 @@
                 <x-input wire:model="estudianteForm.paterno" type="text" name="paterno" placeholder='Primer Apellido' class='w-full'/>
                 <x-input-error for="estudianteForm.paterno"/>
 
-                <x-label class='mt-4'>Segundo Apellido</x-label>
+                <x-label class='mt-4'>Segundo Apellido <small>(Opcional)</small></x-label>
                 <x-input wire:model="estudianteForm.materno" type="text" name="materno" placeholder='Segundo Apellido' class='w-full'/>
                 <x-input-error for="estudianteForm.materno"/>
 
@@ -33,8 +36,8 @@
                 <x-input-error for="estudianteForm.fecha"/>
 
                 <x-label class='mt-4'>Lugar de nacimiento</x-label>
-                <div class="p-1">    
-                    <div class="flex flex-column flex-md-row">    
+                <div class="p-2">    
+                    <div class="flex flex-column">    
                         <x-select wire:model.live='estado_id' class="flex-grow-1 m-1">
                             <option value="">Estado</option>
                             @foreach($estados as $key)
@@ -54,7 +57,7 @@
                             @endforeach
                         </x-select>
                     </div>    
-                    <x-input wire:model="estudianteForm.lugar" type="text" name="lugar" placeholder='Referencia' class='w-full'/>
+                    <x-input wire:model="estudianteForm.lugar" type="text" name="lugar" placeholder='Referencia (opcional)' class='w-full'/>
                     <x-input-error for="estudianteForm.lugar"/>
                 </div>    
                 <x-label class='mt-4'>Sexo</x-label>
@@ -103,34 +106,34 @@
                 <hr>		
 
                 <x-label class='mt-4'>Nivel Academico</x-label>
-                <x-select wire:model="estudianteForm.nivel_id" name="nivel" class='w-full form-control'>
+                <x-select wire:model="cursaForm.nivel_id" name="nivel" class='w-full form-control'>
                     <option value=""  disabled="">Seleccione</option>
                     @foreach($nivels as $key)
                         <option value='{{$key->id}}'>{{$key->nombre}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteForm.nivel_id"/>
+                <x-input-error for="cursaForm.nivel_id"/>
 
                 <x-label class='mt-4'>Seccion</x-label>
-                <x-select wire:model="estudianteForm.seccion_id" name="seccion" class='w-full form-control'>
+                <x-select wire:model="cursaForm.seccion_id" name="seccion" class='w-full form-control'>
                     <option value="" disabled="">Seleccione</option>
                     @foreach($seccions as $key)
                         <option value="{{$key->id}}">{{$key->nombre}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteForm.seccion_id"/>
+                <x-input-error for="cursaForm.seccion_id"/>
 
                 <x-label class='mt-4'>Año escolar</x-label>
-                <x-select wire:model="estudianteForm.aescolar_id" name="aescolar_id" class='w-full form-control'>
+                <x-select wire:model="cursaForm.aescolar_id" name="aescolar_id" class='w-full form-control'>
                     <option value="" disabled="">Seleccione</option>
                     @foreach($aescolars as $key)
                         <option value="{{$key->id}}">{{$key->inicio}}-{{$key->final}}</option>
                     @endforeach
                 </x-select>
-                <x-input-error for="estudianteForm.aescolar_id"/>	
+                <x-input-error for="cursaForm.aescolar_id"/>	
 	        </div>
 	
-	<!-- Datos Representates -->
+	    <!-- Datos Representates -->
 	        
 	        <div class="flex-1 p-2 rounded-lg shadow-md">
 	            <h1>Datos Representantes</h1>
@@ -143,7 +146,7 @@
                 <x-input wire:model="representanteForm.nombre" type="text"  placeholder='Primer Nombre del Representante' class='w-full' />
                 <x-input-error for="representanteForm.nombre"/>
 
-                <x-label class='mt-4'>Segundo Nombre</x-label>
+                <x-label class='mt-4'>Segundo Nombre <small>(Opcional)</small></x-label>
                 <x-input wire:model="representanteForm.segundo" type="text" name="segundo" placeholder='Segundo Nombre del Representante' class='w-full' />
                 <x-input-error for="representanteForm.segundo"/>
 
@@ -151,12 +154,12 @@
                 <x-input wire:model="representanteForm.paterno" type="text" name="paterno" placeholder='Primer Apellido del Representante' class='w-full' />
                 <x-input-error for="representanteForm.paterno"/>
 
-                <x-label class='mt-4'>Segundo Apellido</x-label>
+                <x-label class='mt-4'>Segundo Apellido <small>(Opcional)</small></x-label>
                 <x-input wire:model="representanteForm.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full'/>
                 <x-input-error for="representanteForm.materno"/>
 
                 <x-label class='mt-4'>Estado Civil</x-label>
-                <x-select wire:model='estado_civil' >
+                <x-select wire:model='representanteForm.estado_civil' class='w-full'> >
                     <option value="">Seleccione</option>
                     <option value="Soltero(a)">Soltero(a)</option>
                     <option value="Casado(a)">Casado(a)</option>
@@ -166,8 +169,8 @@
                 </x-select>
                 <x-input-error for="representanteForm.estado_civil"/>
 
-                <x-label class='mt-4'>Estado Civil</x-label>
-                <x-select wire:model='condicion_laboral' >
+                <x-label class='mt-4'>Condicion Laboral</x-label>
+                <x-select wire:model='representanteForm.condicion_laboral' class='w-full'> >
                     <option value="">Seleccione</option>
                     <option value="Empleado(a)">Empleado(a)</option>
                     <option value="Desempleado(a)">Desempleado(a)</option>
@@ -179,11 +182,11 @@
                 <x-input-error for="representanteForm.oficio"/>
 
                 <x-label class='mt-4'>Direccion de Habitacion</x-label>
-                <x-input wire:model="representanteForm.direccion_habitacion" type="text" name="materno" placeholder='Direccion de Habitacion' class='w-full'/>
+                <x-input wire:model="representanteForm.direccion_habitacion" type="text" placeholder='Direccion de Habitacion' class='w-full'/>
                 <x-input-error for="representanteForm.direccion_habitacion"/>
 
-                <x-label class='mt-4'>Direccion de Trabajo</x-label>
-                <x-input wire:model="representanteForm.direccion_trabajo" type="text" name="materno" placeholder='Direccion de Trabajo' class='w-full'/>
+                <x-label class='mt-4'>Direccion de Trabajo <small>(Opcional)</small></x-label>
+                <x-input wire:model="representanteForm.direccion_trabajo" type="text" placeholder='Direccion de Trabajo' class='w-full'/>
                 <x-input-error for="representanteForm.direccion_trabajo"/>
 
                 <x-label class='mt-4'>Lugar de nacimiento</x-label>
@@ -203,12 +206,14 @@
 
                 <x-label class='mt-4'>Relacion con el estudiante</x-label>
                 <x-select wire:model="representadoForm.relacion" class='w-full'>
-                    <option value="Legal" selected>Tutor Legal</option>        
+                    <option value="" selected>Seleccione</option>        
+                    <option value="Legal">Tutor Legal</option>        
                     <option value="Autorizado">Autorizado</option>        
                 </x-select>
                 <x-label class='mt-4'>Parentesco con el estudiante</x-label>
                 <x-select wire:model="representadoForm.parentesco" class='w-full'>
-                    <option value="Madre" selected>Madre</option>        
+                    <option value="" selected>Seleccione</option>        
+                    <option value="Madre" >Madre</option>        
                     <option value="Padre">Padre</option>        
                     <option value="Abuelo(a)">Abuelo(a)</option>        
                     <option value="Tio(a)">Tio(a)</option>        
@@ -241,6 +246,7 @@
 
                 <x-label class='mt-4'>Representante Economico</x-label>
                 <x-select wire:model="hogarForm.representante_economico" class='w-full' >
+                	<option value="" selected >Seleccione</option>
                 	<option value="Padre" >Padre</option>
                 	<option value="Madre" >Madre</option>
                 	<option value="Ambos" >Ambos</option>
@@ -250,11 +256,12 @@
 
                 <x-label class='mt-4'>Gastos separados</x-label>
                 <x-select wire:model="hogarForm.gastos_separados" class='w-full' >
+                	<option value="" selected >Seleccione</option>
                 	<option value="si" >sí</option>
                 	<option value="no" >no</option>
                 </x-select> 
                 <x-input-error for="hogarForm.gastos_separados"/>
-
+                    
                 <x-label class='mt-4'>Numero de dormitorios</x-label>
                 <x-input wire:model="hogarForm.numero_dormitorios" type="text" placeholder='Numero de Dormitorios' class='w-full mb-2'/>
                 <x-input-error for="hogarForm.numero_dormitorios"/>
@@ -264,5 +271,8 @@
 	    <x-button>      
 	    	Registrar   
 	    </x-button>	    
-    </form>			    
+    </form>	
+    
+    @endif
+
 </div>				    

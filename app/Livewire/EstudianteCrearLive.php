@@ -27,6 +27,10 @@ use Illuminate\Support\Facades\DB;
 		
 class EstudianteCrearLive extends Component
 {		
+    public $mostrarFormulario = false;
+
+    protected $listeners = ['mostrarFormularioCrearEstudiante' => 'mostrarFormulario'];
+
     public EstudianteForm $estudianteForm;
     public RepresentanteForm $representanteForm;
     public RepresentadoForm $representadoForm;
@@ -56,6 +60,19 @@ class EstudianteCrearLive extends Component
         $this->aescolars = Aescolar::all();
         	
         $this->estados = Estado::all();
+
+        $this->estudianteForm->parto = 'natural';
+        $this->estudianteForm->sexo = 'f';
+        $this->estudianteForm->lentes = 'no';
+        $this->representanteForm->estado_civil = 'Soltero(a)';
+        $this->representanteForm->condicion_laboral = 'Empleado(a)';
+        $this->representadoForm->relacion = 'Legal';
+        $this->representadoForm->parentesco = 'Madre';
+        $this->hogarForm->representante_economico = 'Padre';
+        $this->hogarForm->gastos_separados = 'no';
+        $this->cursaForm->aescolar_id = 1;
+        $this->cursaForm->nivel_id = 1;
+        $this->cursaForm->seccion_id = 1;
     }	
 
     public function updatedEstadoId(){
@@ -69,35 +86,51 @@ class EstudianteCrearLive extends Component
     public function registrar(){
         
         $error = '';
-        try {
+
+        try {   
+
+            DB::beginTransaction();
+
             $estudiante = $this->estudianteForm->guardar();
 
             $representante = $this->representanteForm->guardar();
             
-            $hogar = $hogarForm->guardar();
+            $hogar = $this->hogarForm->guardar();
 
-            $this->representadoForm->estudiante_id = $estudiente->id;
+            $this->representadoForm->estudiante_id = $estudiante->id;
             $this->representadoForm->representante_id = $representante->id;
             $this->representadoForm->hogar_id = $hogar->id;
             $this->representadoForm->guardar();
-            
-            $cursa = Cursa::Buscar($this->estudianteForm->aescolar_id,
-                                    $this->estudianteForm->nivel_id,
-                                    $this->estudianteForm->seccion_id,
-                                    $this->estudianteForm->salon_id,)->first();
 
-            $this->inscripcionForm->estudinte_id = $estudiante->id;
+            $cursa = Cursa::Buscar($this->cursaForm->aescolar_id,
+                                    $this->cursaForm->nivel_id,
+                                    $this->cursaForm->seccion_id,
+                                    $this->cursaForm->salon_id)->first();
+
+            
+            $this->inscripcionForm->estudiante_id = $estudiante->id;
             $this->inscripcionForm->cursa_id = $cursa->id;
             $this->inscripcionForm->tipo = 'Nuevo';
             $this->inscripcionForm->guardar();
 
+            DB::commit();
         } catch (\Throwable $th) {
+            DB::rollBack();
             $error = $th;
-        }
-        
-        
+        }   
+
         dd($error);
-    }
+    }   
+    public function mostrarFormulario()
+    {
+        $this->mostrarFormulario = true;
+    }   
+
+    public function cerrarFormulario()
+    {   
+        $this->mostrarFormulario = false;
+    }   
+
     public function render()
     {	
         return view('livewire.estudiante-crear-live');

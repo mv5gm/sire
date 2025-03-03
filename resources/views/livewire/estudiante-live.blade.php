@@ -3,12 +3,12 @@
     <div class="flex ">
         <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
         <div class='flex'>
-            <a href="{{route('estudiantes.create')}}">
-                <x-button>
-                    <i class="fa-solid fa-plus mr-2"></i>
-                    Registrar
-                </x-button>
-            </a>    
+            
+            <x-button wire:click='mostrarFormulario'>
+                <i class="fa-solid fa-plus mr-2"></i>
+                Registrar
+            </x-button>
+            
             <a href="{{route('export')}}">
                 <x-button >
                     <i class="fa-solid fa-file-excel mr-2" ></i>Excel

@@ -20,6 +20,10 @@ Route::get('/', function () {
 
 Route::get('/pruebas', function () {
 
+    $cursa = Cursa::Buscar('1','1','1','1')->first();
+
+    return $cursa;
+
     return Representado::where('estudiante_id','9')->where('relacion','Legal')->count(); 
 
     return User::find(3)->getAllPermissions();

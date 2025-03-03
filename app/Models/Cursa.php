@@ -13,7 +13,8 @@ class Cursa extends Model
     use HasFactory;
 
     protected $fillable = ['nivel_id','salon_id','aescolar_id','seccion_id'];
-    
+    protected $table = 'cursas';
+
    public function inscripcions(){
         return $this->hasMany(Inscripcion::class);
     }
@@ -29,7 +30,6 @@ class Cursa extends Model
     public function salon(){
         return $this->belongsTo(Salon::class);
     }
-    
     public static function crear($nivel_id,$salon_id,$aescolar_id,$seccion_id){
 
         $result = Cursa::where('nivel_id',$nivel_id)->where('salon_id',$salon_id)->where('aescolar_id',$aescolar_id)->where('seccion_id',$seccion_id)->first();
@@ -46,7 +46,7 @@ class Cursa extends Model
         }
         return $result->id;
     }
-    public function scopeBuscar($query, $aescolarId, $nivelId, $seccionId, $salonId)
+    public static function scopeBuscar($query, $aescolarId, $nivelId, $seccionId, $salonId)
     {
         return $query->where('aescolar_id', $aescolarId)
                      ->where('seccion_id', $seccionId)

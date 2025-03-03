@@ -65,7 +65,7 @@ class RepresentanteForm extends Form
             'condicion_laboral' =>'required|in:Empleado(a),Desempleado(a)',
             'oficio' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
             'direccion_habitacion' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
-            'direccion_trabajo' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
+            'direccion_trabajo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
             'lugar_nacimiento' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
             'fecha' =>'required|date',
             

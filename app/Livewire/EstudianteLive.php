@@ -208,4 +208,9 @@ class EstudianteLive extends Component
             $this->mostrarRepresen = true;
         }
     }	
+    public function mostrarFormulario()
+    {
+        $this->dispatch('mostrarFormularioCrearEstudiante');
+    }
+
 }		

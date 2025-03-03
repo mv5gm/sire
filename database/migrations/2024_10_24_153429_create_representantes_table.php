@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('condicion_laboral',['Empleado(a)','Desempleado(a)']);
             $table->string('oficio');
             $table->string('direccion_habitacion');
-            $table->string('direccion_trabajo');
+            $table->string('direccion_trabajo')->nullable();
             $table->string('lugar_nacimiento');
             $table->date('fecha');
             $table->string('telefono')->nullable();
