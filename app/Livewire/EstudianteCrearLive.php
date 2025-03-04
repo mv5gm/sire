@@ -33,6 +33,7 @@ class EstudianteCrearLive extends Component
 
     public EstudianteForm $estudianteForm;
     public RepresentanteForm $representanteForm;
+    public RepresentanteForm $representanteFormAutorizado;
     public RepresentadoForm $representadoForm;
     public CursaForm $cursaForm;
     public InscripcionForm $inscripcionForm;
@@ -94,6 +95,7 @@ class EstudianteCrearLive extends Component
             $estudiante = $this->estudianteForm->guardar();
 
             $representante = $this->representanteForm->guardar();
+            $representante = $this->representanteFormAutorizado->guardar();
             
             $hogar = $this->hogarForm->guardar();
 
@@ -119,7 +121,12 @@ class EstudianteCrearLive extends Component
             $error = $th;
         }   
 
-        dd($error);
+        dd($this->estudianteForm->vive_con);
+
+        $estado = ($error == '') ? 'success' : 'error';
+        $mensaje = ($error == '') ? 'Guardado con éxito' : 'Error al guardar';
+        $this->dispatch($estado, ['message' => $mensaje]);
+
     }   
     public function mostrarFormulario()
     {

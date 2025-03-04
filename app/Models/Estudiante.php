@@ -11,7 +11,7 @@ class Estudiante extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
-    protected $fillable = ['cedula','nombre','segundo','paterno','materno','lugar','fecha','sexo','cursa_id','residencia','situacion','parroquia_id'];
+    protected $fillable = ['cedula','nombre','segundo','paterno','materno','lugar','fecha','sexo','cursa_id','residencia','situacion','parroquia_id','inst_procedencia','lentes','tratamiento','vive_con','parto'];
 
     public function representados(){
     	return $this->hasMany(Representado::class);

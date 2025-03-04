@@ -86,7 +86,7 @@
             });
 
             window.addEventListener('success', event => {
-                toastr.success('Operacion exitosa!');
+                toastr.success(event.message);
             });
 
             window.addEventListener('warning', event => {
@@ -94,7 +94,7 @@
             });
 
             window.addEventListener('error', event => {
-                toastr.error(event.detail.message);
+                toastr.error(event.message);
             });
 
         </script>
@@ -103,8 +103,11 @@
 
         <script type="text/javascript">
              
-            Livewire.on('success', () => {
-                //toastr.success('Operación exitosa!');
+            Livewire.on('success', (event) => {
+                toastr.success(event.message);
+            }); 
+            Livewire.on('error', (event) => {
+                toastr.success(event.message);
             }); 
 
         </script>
