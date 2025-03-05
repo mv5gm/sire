@@ -73,6 +73,7 @@ class EstudianteCrearLive extends Component
         $this->representanteForm->estado_civil = 'Soltero(a)';
         $this->representanteForm->condicion_laboral = 'Empleado(a)';
         $this->representadoForm->relacion = 'Legal';
+        $this->representadoFormAutorizado->relacion = 'Autorizado';
         $this->representadoForm->parentesco = 'Madre';
         $this->hogarForm->representante_economico = 'Padre';
         $this->hogarForm->gastos_separados = 'no';
@@ -156,13 +157,15 @@ class EstudianteCrearLive extends Component
         }   
 
         $estado = ($error == '') ? 'success' : 'error';
-        $mensaje = ($error == '') ? 'Guardado con éxito' : 'Error al guardar';
+        $mensaje = ($error == '') ? 'Guardado con éxito' : $error->getMessage().'-'.$this->estudianteForm->vive_con;
         $this->dispatch($estado, ['message' => $mensaje]);
 
     }   
     public function mostrarFormulario()
-    {
+    {	
         $this->mostrarFormulario = true;
+
+        $this->dispatch('fillFormRegistrarEstudiante');
     }   
 
     public function cerrarFormulario()

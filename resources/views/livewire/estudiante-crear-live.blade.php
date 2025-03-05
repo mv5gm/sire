@@ -12,11 +12,11 @@
 	        <div class="flex-1 p-2 rounded-lg shadow-md">
 	            <h1 class='center'>Datos Estudiante</h1>
 	            <x-label>Cedula <small>(Opcional)</small></x-label>
-                <x-input wire:model='estudianteForm.cedula' type="text" name="cedula" placeholder='Cedula' class='w-full' pattern="^[0-9]+$" title='Solo numeros'/>
+                <x-input wire:model='estudianteForm.cedula' type="text" name="cedula" placeholder='Cedula' class='w-full fill-number' pattern="^[0-9]+$" title='Solo numeros'/>
                 <x-input-error for="estudianteForm.cedula"/>
 
                 <x-label class='mt-4'>Primer Nombre</x-label>
-                <x-input wire:model="estudianteForm.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full'/>
+                <x-input wire:model="estudianteForm.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full fill-string'/>
                 <x-input-error for="estudianteForm.nombre"/>
 
                 <x-label class='mt-4'>Segundo Nombre <small>(Opcional)</small></x-label>
@@ -24,7 +24,7 @@
                 <x-input-error for="estudianteForm.segundo"/>
 
                 <x-label class='mt-4'>Primer Apellido</x-label>
-                <x-input wire:model="estudianteForm.paterno" type="text" name="paterno" placeholder='Primer Apellido' class='w-full'/>
+                <x-input wire:model="estudianteForm.paterno" type="text" name="paterno" placeholder='Primer Apellido' class='w-full fill-string' />
                 <x-input-error for="estudianteForm.paterno"/>
 
                 <x-label class='mt-4'>Segundo Apellido <small>(Opcional)</small></x-label>
@@ -32,7 +32,7 @@
                 <x-input-error for="estudianteForm.materno"/>
 
                 <x-label class='mt-4'>Fecha de nacimiento</x-label>
-                <x-input wire:model="estudianteForm.fecha" type="date" name="fecha" placeholder='Fecha de nacimiento' class='w-full'/>
+                <x-input wire:model="estudianteForm.fecha" type="date" name="fecha" placeholder='Fecha de nacimiento' class='w-full fill-date'/>
                 <x-input-error for="estudianteForm.fecha"/>
 
                 <x-label class='mt-4'>Lugar de nacimiento</x-label>
@@ -301,27 +301,27 @@
                 <h1>Datos Segundo Autorizado</h1>
                 
                 <x-label>Cedula</x-label>
-                <x-input wire:model='representanteFormAutorizado.cedula' type="number" min='1000000' max='1000000000' placeholder='Cedula del Representante' class='w-full' />
-                <x-input-error for="representanteFormAutorizado.cedula"/>
+                <x-input wire:model='representanteFormAutorizado2.cedula' type="number" min='1000000' max='1000000000' placeholder='Cedula del Representante' class='w-full' />
+                <x-input-error for="representanteFormAutorizado2.cedula"/>
 
                 <x-label class='mt-4'>Primer Nombre</x-label>
-                <x-input wire:model="representanteFormAutorizado.nombre" type="text"  placeholder='Primer Nombre del Representante' class='w-full' />
-                <x-input-error for="representanteFormAutorizado.nombre"/>
+                <x-input wire:model="representanteFormAutorizado2.nombre" type="text"  placeholder='Primer Nombre del Representante' class='w-full' />
+                <x-input-error for="representanteFormAutorizado2.nombre"/>
 
                 <x-label class='mt-4'>Segundo Nombre <small>(Opcional)</small></x-label>
-                <x-input wire:model="representanteFormAutorizado.segundo" type="text" name="segundo" placeholder='Segundo Nombre del Representante' class='w-full' />
-                <x-input-error for="representanteFormAutorizado.segundo"/>
+                <x-input wire:model="representanteFormAutorizado2.segundo" type="text" name="segundo" placeholder='Segundo Nombre del Representante' class='w-full' />
+                <x-input-error for="representanteFormAutorizado2.segundo"/>
 
                 <x-label class='mt-4'>Primer Apellido</x-label>
-                <x-input wire:model="representanteFormAutorizado.paterno" type="text" name="paterno" placeholder='Primer Apellido del Representante' class='w-full' />
-                <x-input-error for="representanteFormAutorizado.paterno"/>
+                <x-input wire:model="representanteFormAutorizado2.paterno" type="text" name="paterno" placeholder='Primer Apellido del Representante' class='w-full' />
+                <x-input-error for="representanteFormAutorizado2.paterno"/>
 
                 <x-label class='mt-4'>Segundo Apellido <small>(Opcional)</small></x-label>
-                <x-input wire:model="representanteFormAutorizado.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full'/>
-                <x-input-error for="representanteFormAutorizado.materno"/>
+                <x-input wire:model="representanteFormAutorizado2.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full'/>
+                <x-input-error for="representanteFormAutorizado2.materno"/>
 
                 <x-label class='mt-4'>Estado Civil</x-label>
-                <x-select wire:model='representanteFormAutorizado.estado_civil' class='w-full'> >
+                <x-select wire:model='representanteFormAutorizado2.estado_civil' class='w-full'> >
                     <option value="">Seleccione</option>
                     <option value="Soltero(a)">Soltero(a)</option>
                     <option value="Casado(a)">Casado(a)</option>
@@ -329,45 +329,45 @@
                     <option value="Viudo(a)">Viudo(a)</option>
                     <option value="Concubinato">Concubinato</option>
                 </x-select>
-                <x-input-error for="representanteFormAutorizado.estado_civil"/>
+                <x-input-error for="representanteFormAutorizado2.estado_civil"/>
 
                 <x-label class='mt-4'>Condicion Laboral</x-label>
-                <x-select wire:model='representanteFormAutorizado.condicion_laboral' class='w-full'> >
+                <x-select wire:model='representanteFormAutorizado2.condicion_laboral' class='w-full'> >
                     <option value="">Seleccione</option>
                     <option value="Empleado(a)">Empleado(a)</option>
                     <option value="Desempleado(a)">Desempleado(a)</option>
                 </x-select>
-                <x-input-error for="representanteFormAutorizado.condicion_laboral"/>
+                <x-input-error for="representanteFormAutorizado2.condicion_laboral"/>
 
                 <x-label class='mt-4'>Oficio</x-label>
-                <x-input wire:model="representanteFormAutorizado.oficio" type="text" name="materno" placeholder='oficio del Representante' class='w-full'/>
-                <x-input-error for="representanteFormAutorizado.oficio"/>
+                <x-input wire:model="representanteFormAutorizado2.oficio" type="text" name="materno" placeholder='oficio del Representante' class='w-full'/>
+                <x-input-error for="representanteFormAutorizado2.oficio"/>
 
                 <x-label class='mt-4'>Direccion de Habitacion</x-label>
-                <x-input wire:model="representanteFormAutorizado.direccion_habitacion" type="text" placeholder='Direccion de Habitacion' class='w-full'/>
-                <x-input-error for="representanteFormAutorizado.direccion_habitacion"/>
+                <x-input wire:model="representanteFormAutorizado2.direccion_habitacion" type="text" placeholder='Direccion de Habitacion' class='w-full'/>
+                <x-input-error for="representanteFormAutorizado2.direccion_habitacion"/>
 
                 <x-label class='mt-4'>Direccion de Trabajo <small>(Opcional)</small></x-label>
-                <x-input wire:model="representanteFormAutorizado.direccion_trabajo" type="text" placeholder='Direccion de Trabajo' class='w-full'/>
-                <x-input-error for="representanteFormAutorizado.direccion_trabajo"/>
+                <x-input wire:model="representanteFormAutorizado2.direccion_trabajo" type="text" placeholder='Direccion de Trabajo' class='w-full'/>
+                <x-input-error for="representanteFormAutorizado2.direccion_trabajo"/>
 
                 <x-label class='mt-4'>Lugar de nacimiento</x-label>
-                <x-input wire:model="representanteFormAutorizado.lugar_nacimiento" type="text" placeholder='Lugar de Nacimiento' class='w-full'/>
-                <x-input-error for="representanteFormAutorizado.lugar_nacimiento"/>
+                <x-input wire:model="representanteFormAutorizado2.lugar_nacimiento" type="text" placeholder='Lugar de Nacimiento' class='w-full'/>
+                <x-input-error for="representanteFormAutorizado2.lugar_nacimiento"/>
 
                 <x-label class='mt-4'>Fecha de Nacimiento</x-label>
-                <x-input wire:model="representanteFormAutorizado.fecha" type="date" class='w-full'/>
-                <x-input-error for="representanteFormAutorizado.fecha"/>
+                <x-input wire:model="representanteFormAutorizado2.fecha" type="date" class='w-full'/>
+                <x-input-error for="representanteFormAutorizado2.fecha"/>
 
 
                 <x-label class='mt-4'>Telefono</x-label>
                 
-                <x-input wire:model="representanteFormAutorizado.telefono" type="text" name="direccion" placeholder='Telefono del Representante' class='w-full mb-2' minlength='11' maxlength='11' />
+                <x-input wire:model="representanteFormAutorizado2.telefono" type="text" name="direccion" placeholder='Telefono del Representante' class='w-full mb-2' minlength='11' maxlength='11' />
                 
-                <x-input-error for="representanteFormAutorizado.telefono" />
+                <x-input-error for="representanteFormAutorizado2.telefono" />
 
                 <x-label class='mt-4'>Parentesco con el estudiante</x-label>
-                <x-select wire:model="representadoFormAutorizado.parentesco" class='w-full'>
+                <x-select wire:model="representadoFormAutorizado2.parentesco" class='w-full'>
                     <option value="" selected>Seleccione</option>        
                     <option value="Madre" >Madre</option>        
                     <option value="Padre">Padre</option>        
@@ -435,3 +435,53 @@
     @endif
 
 </div>				    
+
+<script type="text/javascript">
+		
+	function fillFormFields() {
+
+    // Rellena los campos de texto con letras aleatorias
+    const stringFields = document.querySelectorAll('.fill-string');
+    	
+    stringFields.forEach(field => {
+        field.value = generateRandomString(10); // Genera una cadena de 10 caracteres
+    });	
+
+    // Rellena los campos numéricos con números aleatorios
+    const numberFields = document.querySelectorAll('.fill-number');
+    numberFields.forEach(field => {
+        field.value = Math.floor(Math.random() * 1000); // Número entre 0 y 999
+    });
+
+    // Rellena los campos de fecha con una fecha aleatoria
+    const dateFields = document.querySelectorAll('.fill-date');
+    dateFields.forEach(field => {
+        field.value = generateRandomDate(); // Fecha en formato 'YYYY-MM-DD'
+    });		
+}			
+			
+// Genera una cadena aleatoria de letras
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+// Genera una fecha aleatoria en formato 'YYYY-MM-DD'
+function generateRandomDate() {
+    const start = new Date(2000, 0, 1); // Fecha inicial (1 de enero de 2000)
+    const end = new Date(); // Fecha actual
+    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    return randomDate.toISOString().split('T')[0];
+}			
+			
+// Llamar a la función para rellenar los campos
+
+window.addEventListener('fillFormRegistrarEstudiante', event => {
+    fillFormFields();
+});
+
+</script>	

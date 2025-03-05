@@ -85,17 +85,20 @@
                 }
             });
 
+
+            /*
             window.addEventListener('success', event => {
-                toastr.success(event.message);
+                toastr.success(event[0].message);
             });
 
             window.addEventListener('warning', event => {
-                toastr.warning(event.detail.message);
+                toastr.warning(event[0].message);
             });
 
             window.addEventListener('error', event => {
-                toastr.error(event.detail.message);
+                toastr.error(event[0].message);
             });
+            */
 
         </script>
 

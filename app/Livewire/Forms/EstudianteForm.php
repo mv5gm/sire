@@ -33,7 +33,7 @@ class EstudianteForm extends Form
     public $parroquia_id = 1;
     
     public $selectedVive = [];
-    public $opcionesVive = ['Padre','Madre','Abuelo','Abuela','Otro Familiar'];
+    public $opcionesVive = ['Padre','Madre','Abuelo(a)','Otro Familiar'];
    
     public function guardar(){
         
@@ -116,7 +116,7 @@ class EstudianteForm extends Form
             'institucion_procedencia' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
             'lentes' =>'required|in:si,no',
             'tratamiento' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
-            'vive_con' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ()]+$/|max:100',
+            'vive_con' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ()\s]+$/|max:100',
             'parto' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
             'parroquia_id' =>'required|exists:parroquias,id',
             
