@@ -38,9 +38,11 @@ class EstudianteForm extends Form
     public function guardar(){
         
         $this->vive_con = null;
+        
         foreach ($this->selectedVive as $vive) {
             $this->vive_con .= $vive.' ';
         }
+        
         $this->vive_con = substr($this->vive_con,0,-1);
 
         //dd($this->vive_con);

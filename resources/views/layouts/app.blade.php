@@ -94,7 +94,7 @@
             });
 
             window.addEventListener('error', event => {
-                toastr.error(event.message);
+                toastr.error(event.detail.message);
             });
 
         </script>
@@ -104,10 +104,10 @@
         <script type="text/javascript">
              
             Livewire.on('success', (event) => {
-                toastr.success(event.message);
+                toastr.success(event[0].message);
             }); 
             Livewire.on('error', (event) => {
-                toastr.success(event.message);
+                toastr.error(event[0].message);
             }); 
 
         </script>

@@ -34,7 +34,10 @@ class EstudianteCrearLive extends Component
     public EstudianteForm $estudianteForm;
     public RepresentanteForm $representanteForm;
     public RepresentanteForm $representanteFormAutorizado;
+    public RepresentanteForm $representanteFormAutorizado2;
     public RepresentadoForm $representadoForm;
+    public RepresentadoForm $representadoFormAutorizado;
+    public RepresentadoForm $representadoFormAutorizado2;
     public CursaForm $cursaForm;
     public InscripcionForm $inscripcionForm;
     public HogarForm $hogarForm;
@@ -51,6 +54,8 @@ class EstudianteCrearLive extends Component
     public $parroquias = [];
     
     public $relacion = 'Legal';
+
+    public $mostrarSegundoAutorizado = false;
 
     public function mount(){    
 
@@ -84,6 +89,17 @@ class EstudianteCrearLive extends Component
         
         $this->parroquias = Parroquia::where('municipio_id',$this->municipio_id)->get();    
     }	
+    public function updatedRepresentadoFormParentesco(){
+        
+        $this->logicaRepresentante();    
+    }           
+    public function updatedRepresentadoFormAutorizadoParentesco(){
+
+    }       
+    public function updatedRepresentadoFormAutorizado2Parentesco(){
+        
+    }       
+
     public function registrar(){
         
         $error = '';
@@ -95,21 +111,39 @@ class EstudianteCrearLive extends Component
             $estudiante = $this->estudianteForm->guardar();
 
             $representante = $this->representanteForm->guardar();
-            $representante = $this->representanteFormAutorizado->guardar();
+            $representante2 = $this->representanteFormAutorizado->guardar();
             
+            if($this->mostrarSegundoAutorizado){
+                $representante3 = $this->representanteFormAutorizado2->guardar();
+            }
+
             $hogar = $this->hogarForm->guardar();
 
             $this->representadoForm->estudiante_id = $estudiante->id;
             $this->representadoForm->representante_id = $representante->id;
             $this->representadoForm->hogar_id = $hogar->id;
+            $this->representadoForm->relacion = 'Legal';
             $this->representadoForm->guardar();
+
+            $this->representadoFormAutorizado->estudiante_id = $estudiante->id;
+            $this->representadoFormAutorizado->representante_id = $representante2->id;
+            $this->representadoFormAutorizado->hogar_id = $hogar->id;
+            $this->representadoForm->relacion = 'Autorizado';
+            $this->representadoFormAutorizado->guardar();
+            
+            if($this->mostrarSegundoAutorizado){
+                $this->representadoFormAutorizado2->estudiante_id = $estudiante->id;
+                $this->representadoFormAutorizado2->representante_id = $representante3->id;
+                $this->representadoFormAutorizado2->hogar_id = $hogar->id;
+                $this->representadoFormAutorizado2->relacion = 'Autorizado';
+                $this->representadoFormAutorizado2->guardar();
+            }
 
             $cursa = Cursa::Buscar($this->cursaForm->aescolar_id,
                                     $this->cursaForm->nivel_id,
                                     $this->cursaForm->seccion_id,
                                     $this->cursaForm->salon_id)->first();
 
-            
             $this->inscripcionForm->estudiante_id = $estudiante->id;
             $this->inscripcionForm->cursa_id = $cursa->id;
             $this->inscripcionForm->tipo = 'Nuevo';
@@ -120,8 +154,6 @@ class EstudianteCrearLive extends Component
             DB::rollBack();
             $error = $th;
         }   
-
-        dd($this->estudianteForm->vive_con);
 
         $estado = ($error == '') ? 'success' : 'error';
         $mensaje = ($error == '') ? 'Guardado con éxito' : 'Error al guardar';
@@ -137,7 +169,14 @@ class EstudianteCrearLive extends Component
     {   
         $this->mostrarFormulario = false;
     }   
-
+    public function logicaRepresentante(){ 
+        //si el primer representante tiene que ser el tutor legal obligatoriamente
+        if($this->representadoForm->parentesco != 'Padre' && $this->representadoForm->parentesco != 'Madre'){
+            $this->mostrarSegundoAutorizado = true;
+        }else{
+            $this->mostrarSegundoAutorizado = false;
+        }
+    }   
     public function render()
     {	
         return view('livewire.estudiante-crear-live');
