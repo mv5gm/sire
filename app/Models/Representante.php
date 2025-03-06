@@ -11,7 +11,7 @@ class Representante extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
-    protected $fillable = ['cedula','nombre','segundo','paterno','materno','direccion','telefono'];
+    protected $fillable = ['cedula','nombre','segundo','paterno','materno','telefono','estado_civil','condicion_laboral','oficio','direccion_trabajo','direccion_habitacion','lugar_nacimiento','fecha'];
 
     public function representados(){
     	return $this->hasMany(Representado::class);

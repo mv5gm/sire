@@ -157,7 +157,7 @@ class EstudianteCrearLive extends Component
         }   
 
         $estado = ($error == '') ? 'success' : 'error';
-        $mensaje = ($error == '') ? 'Guardado con éxito' : $error->getMessage().'-'.$this->estudianteForm->vive_con;
+        $mensaje = ($error == '') ? 'Guardado con éxito' : $error->getMessage().'-'.$error->getLine();
         $this->dispatch($estado, ['message' => $mensaje]);
 
     }   

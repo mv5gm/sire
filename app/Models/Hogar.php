@@ -12,7 +12,7 @@ class Hogar extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
-    protected $fillable = [ 'numero_mayores','numero_memores','numero_familias','numero_ambitos','representante_economico','gastos_separados','numero_dormitorios'];
+    protected $fillable = [ 'numero_mayores','numero_menores','numero_familias','numero_ambitos','representante_economico','gastos_separados','numero_dormitorios'];
 
     public function representados(){
     	return $this->hasMany(Representado::class);

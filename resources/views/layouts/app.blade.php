@@ -103,7 +103,7 @@
         </script>
 
         @livewireScripts
-
+            
         <script type="text/javascript">
              
             Livewire.on('success', (event) => {
