@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\DB;
 		
 class EstudianteCrearLive extends Component
 {		
-    public $mostrarFormulario = false;
+    public $mostrarFormulario = true;
 
     protected $listeners = ['mostrarFormularioCrearEstudiante' => 'mostrarFormulario'];
 
@@ -52,10 +52,20 @@ class EstudianteCrearLive extends Component
     public $municipios = [];
     public $municipio_id;
     public $parroquias = [];
-    
+    	
     public $relacion = 'Legal';
 
     public $mostrarSegundoAutorizado = false;
+
+    public $representanteRegistrado = false;
+    public $autorizadoRegistrado = false;
+    public $autorizado2Registrado = false;
+
+    public $representante_id;
+    public $autorizado_id;
+    public $autorizado2_id;
+
+    public $representantes = [];
 
     public function mount(){    
 
@@ -66,6 +76,8 @@ class EstudianteCrearLive extends Component
         $this->aescolars = Aescolar::all();
         	
         $this->estados = Estado::all();
+
+        $this->representantes = Representante::all();
 
         $this->estudianteForm->parto = 'natural';
         $this->estudianteForm->sexo = 'f';
@@ -80,18 +92,18 @@ class EstudianteCrearLive extends Component
         $this->cursaForm->aescolar_id = 1;
         $this->cursaForm->nivel_id = 1;
         $this->cursaForm->seccion_id = 1;
-    }	
+    }		
 
     public function updatedEstadoId(){
-
+    		
         $this->municipios = Municipio::where('estado_id',$this->estado_id)->get();
     }   
     public function updatedMunicipioId(){
-        
+        	
         $this->parroquias = Parroquia::where('municipio_id',$this->municipio_id)->get();    
     }	
     public function updatedRepresentadoFormParentesco(){
-        
+        	
         $this->logicaRepresentante();    
     }           
     public function updatedRepresentadoFormAutorizadoParentesco(){
@@ -169,17 +181,26 @@ class EstudianteCrearLive extends Component
     }   
 
     public function cerrarFormulario()
-    {   
+    {   	
         $this->mostrarFormulario = false;
-    }   
+    }   	
     public function logicaRepresentante(){ 
         //si el primer representante tiene que ser el tutor legal obligatoriamente
         if($this->representadoForm->parentesco != 'Padre' && $this->representadoForm->parentesco != 'Madre'){
             $this->mostrarSegundoAutorizado = true;
         }else{
             $this->mostrarSegundoAutorizado = false;
-        }
-    }   
+        }	
+    }		
+    public function mostrarRepresentanteRegistrado($var){
+    	$this->representanteRegistrado = $var;
+    }
+    public function mostrarAutorizadoRegistrado($var){
+    	$this->autorizadoRegistrado = $var;
+    }
+    public function mostrarAutorizado2Registrado($var){
+    	$this->autorizado2Registrado = $var;
+    }   	
     public function render()
     {	
         return view('livewire.estudiante-crear-live');
