@@ -29,6 +29,7 @@ class EstudianteForm extends Form
     public $tratamiento;
     public $vive_con;
     public $parto;
+    public $alergias;
 
     public $parroquia_id = 1;
     
@@ -45,12 +46,9 @@ class EstudianteForm extends Form
         
         $this->vive_con = substr($this->vive_con,0,-1);
 
-        //dd($this->vive_con);
-
         $this->validate();
 
         return Estudiante::createOrUpdate($this->all());
-
     }   
     
     public function editar($estudianteId){
@@ -113,11 +111,12 @@ class EstudianteForm extends Form
             'fecha' =>'required|date',
             'lugar' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|min:3|max:100',
             'sexo' =>'required|in:f,m',
-            'institucion_procedencia' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
+            'institucion_procedencia' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
             'lentes' =>'required|in:si,no',
             'tratamiento' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
             'vive_con' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ()\s]+$/|max:100',
             'parto' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
+            'alergias' =>'required|in:asma,respiratorias,rinitis,ninguna',
             'parroquia_id' =>'required|exists:parroquias,id',
             
         ];  

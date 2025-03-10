@@ -82,13 +82,13 @@ class CursaSeeder extends Seeder
             ],
             [
                 'aescolar_id' => 1,
-                'seccion_id' => 1,
-                'nivel_id' => 12,
+                'seccion_id' => 2,
+                'nivel_id' => 11,
                 'salon_id' => 1
             ],
             [
                 'aescolar_id' => 1,
-                'seccion_id' => 2,
+                'seccion_id' => 1,
                 'nivel_id' => 12,
                 'salon_id' => 1
             ],

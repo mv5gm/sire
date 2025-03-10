@@ -53,9 +53,6 @@ Route::middleware([
         $meses = $ingresosPorMes['meses'];
         $cantidades = $ingresosPorMes['cantidades'];
 
-        $meses = ['Enero','Febrero'];
-        $cantidades = [2500,2400];
-
         return view('dashboard',compact('meses'))->with('cantidades',$cantidades);
     })->name('dashboard');
 });

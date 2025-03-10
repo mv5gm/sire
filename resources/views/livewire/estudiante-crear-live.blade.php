@@ -70,7 +70,7 @@
                 </x-select>
                 <x-input-error for="estudianteForm.sexo"/>
 
-                <x-label class='mt-4'>Institucion de Procedencia</x-label>
+                <x-label class='mt-4'>Institucion de Procedencia <small>(Opcional)</small> </x-label>
                 <x-input wire:model="estudianteForm.institucion_procedencia" type="text" placeholder='Institucion de Procedencia' class='w-full'/>
                 <x-input-error for="estudianteForm.institucion_procedencia"/>
 
@@ -102,6 +102,23 @@
                 	<option value="cesarea" >Cesarea</option>
                 </x-select> 
                 <x-input-error for="estudianteForm.parto"/>
+				
+				<x-label class='mt-4'>Talla</x-label>
+                <x-input wire:model="medicionForm.talla" type="text" placeholder='Talla' class='w-full'/>
+                <x-input-error for="medicionForm.talla"/>		
+
+				<x-label class='mt-4'>Peso</x-label>
+                <x-input wire:model="medicionForm.peso" type="text" placeholder='Peso' class='w-full'/>
+                <x-input-error for="medicionForm.peso"/>		
+
+				<x-label class='mt-4'>Alergias</x-label>
+                <x-select wire:model="estudianteForm.alergias" class='w-full' >
+					<option value="ninguna">Ninguna</option>
+					<option value="asma">Asma</option>
+					<option value="respiratorias">Respiratorias</option>
+					<option value="rinitis">Rinitis</option>
+				</x-select>
+				<x-input-error for="estudianteForm.alergias"/>		
 
                 <!-- datos de la inscripcion -->
                 <h1 class='text-center mb-2'>Datos de inscripcion</h1>	
@@ -231,8 +248,8 @@
 
                 @else 	
                 	<x-label > Seleccione Representante </x-label>
-                	<x-select wire:model='representandoForm.estudiante_id' class='w-full mb-2'>
-                		
+                	<x-select wire:model='representante_id' class='w-full mb-2'>
+						<option value="">Seleccione</option>
                 		@foreach($representantes as $key)
                 			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno }}</option>
                 		@endforeach
@@ -347,7 +364,7 @@
 	            @else
 	            	<x-label > Seleccione Representante </x-label>
                 	<x-select wire:model='autorizado_id' class='w-full mb-2'>
-                		
+						<option value="">Seleccione</option>
                 		@foreach($representantes as $key)
                 			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno }}</option>
                 		@endforeach
@@ -355,7 +372,7 @@
                 	</x-select>
 
                 	<x-label class='mt-4'>Parentesco con el estudiante</x-label>
-	                <x-select wire:model.live="representadoForm.parentesco" class='w-full mb-2'>
+	                <x-select wire:model.live="representadoFormAutorizado.parentesco" class='w-full mb-2'>
 	                    <option value="" selected>Seleccione</option>        
 	                    <option value="Madre" >Madre</option>        
 	                    <option value="Padre">Padre</option>        
@@ -464,7 +481,7 @@
 		            	
 		            	<x-label > Seleccione Representante </x-label>
 	                	<x-select wire:model='autorizado2_id' class='w-full mb-2'>
-	                		
+							<option value="">Seleccione</option>
 	                		@foreach($representantes as $key)
 	                			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno }}</option>
 	                		@endforeach

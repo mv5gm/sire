@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('tratamiento')->nullable();
             $table->string('vive_con')->default('Madre');
             $table->enum('parto',['natural','cesarea']);
+            $table->enum('alergias',['asma','respiratorias','rinitis','ninguna'])->nullable();
 
             $table->enum('graduado',[0,1])->default(0);
             

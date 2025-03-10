@@ -21,13 +21,14 @@ use App\Livewire\Forms\RepresentadoForm;
 use App\Livewire\Forms\CursaForm;
 use App\Livewire\Forms\InscripcionForm;
 use App\Livewire\Forms\HogarForm;
+use App\Livewire\Forms\MedicionForm;
 use App\Livewire\Forms\asignarRepresentanteEstudiante;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 		
 class EstudianteCrearLive extends Component
 {		
-    public $mostrarFormulario = true;
+    public $mostrarFormulario = false;
 
     protected $listeners = ['mostrarFormularioCrearEstudiante' => 'mostrarFormulario'];
 
@@ -41,6 +42,7 @@ class EstudianteCrearLive extends Component
     public CursaForm $cursaForm;
     public InscripcionForm $inscripcionForm;
     public HogarForm $hogarForm;
+    public MedicionForm $medicionForm;
     public asignarRepresentanteEstudiante $asignarRepresentanteEstudiante;
     
     public $nivels;
@@ -82,6 +84,7 @@ class EstudianteCrearLive extends Component
         $this->estudianteForm->parto = 'natural';
         $this->estudianteForm->sexo = 'f';
         $this->estudianteForm->lentes = 'no';
+        $this->estudianteForm->alergias = 'ninguna';
         $this->representanteForm->estado_civil = 'Soltero(a)';
         $this->representanteForm->condicion_laboral = 'Empleado(a)';
         $this->representadoForm->relacion = 'Legal';
@@ -122,12 +125,33 @@ class EstudianteCrearLive extends Component
             DB::beginTransaction();
 
             $estudiante = $this->estudianteForm->guardar();
-
-            $representante = $this->representanteForm->guardar();
-            $representante2 = $this->representanteFormAutorizado->guardar();
+        
+            $this->medicionForm->estudiante_id = $estudiante->id;
             
+            $medicion = $this->medicionForm->guardar();
+
+            if($this->representanteRegistrado){
+                $representante = Representante::find($this->representante_id);
+            }
+            else{
+                $representante = $this->representanteForm->guardar();
+            }
+
+            if($this->autorizadoRegistrado){
+                $representante2 = Representante::find($this->autorizado_id);
+            }       
+            else{   
+                $representante2 = $this->representanteFormAutorizado->guardar();
+            }       
+
             if($this->mostrarSegundoAutorizado){
-                $representante3 = $this->representanteFormAutorizado2->guardar();
+
+                if($this->autorizado2Registrado){
+                    $representante3 = Representante::find($this->autorizado2_id);
+                }       
+                else{   
+                    $representante3 = $this->representanteFormAutorizado2->guardar();
+                }
             }
 
             $hogar = $this->hogarForm->guardar();

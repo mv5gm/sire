@@ -118,7 +118,7 @@
         <!-- Mensaje de éxito -->
         @if (session()->has('message'))
             <script type="text/javascript">
-                toastr.success( {{ session('message') }} );
+               // toastr.success( {{ session('message') }} );
             </script>
             
         @endif 
