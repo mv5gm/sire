@@ -12,6 +12,7 @@ class inscripcionForm extends Form
     public $estudiante_id;
     public $cursa_id;
     public $tipo;
+    public $fecha;
 
     public function guardar(){
         
@@ -25,6 +26,7 @@ class inscripcionForm extends Form
             'estudiante_id' => 'required|integer|exists:estudiantes,id',
             'cursa_id' => 'required|integer|exists:cursas,id',
             'tipo' => 'required|string|max:255',
+            'fecha' => 'required|date',
         ];
     }
 }

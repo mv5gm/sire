@@ -1153,6 +1153,7 @@ class ParroquiaSeeder extends Seeder
 			["nombre"=>"Santa Rosalía","municipio_id"=>"335"],
 			["nombre"=>"Santa Teresa","municipio_id"=>"335"],
 			["nombre"=>"Sucre (Catia)","municipio_id"=>"335"]
+			["nombre"=>"No encontrado","municipio_id"=>"336"]
         ];	
 
         foreach ($filas as $fila){

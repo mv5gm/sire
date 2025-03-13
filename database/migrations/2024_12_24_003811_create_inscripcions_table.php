@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('inscripcions', function (Blueprint $table) {
             $table->id();
             $table->enum('tipo',['Nuevo','Regular','Repitiente']);
+            $table->date('fecha');
             $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
             $table->foreignId('cursa_id')->constrained()->onDelete('cascade');
             $table->timestamps();

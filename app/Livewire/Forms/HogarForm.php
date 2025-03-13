@@ -15,13 +15,14 @@ class HogarForm extends Form
     public $representante_economico;
     public $gastos_separados;
     public $numero_dormitorios;
+    public $telefono_emergencia;
 
     public function guardar(){
         return Hogar::createOrUpdate($this->all());
     }
     public function rules()
     {
-        return [
+        return [    
             'numero_mayores' => 'required|integer|min:0',
             'numero_menores' => 'required|integer|min:0',
             'numero_familias' => 'required|integer|min:0',
@@ -29,6 +30,7 @@ class HogarForm extends Form
             'representante_economico' => 'required|in:Padre,Madre,Ambos,Otro',
             'gastos_separados' => 'required|in:si,no',
             'numero_dormitorios' => 'required|integer|min:0',
-        ];
+            'telefono_emergencia' => 'required|regex:/^[0-9]+$/|max:11',
+        ];      
     }
 }

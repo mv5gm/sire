@@ -14,10 +14,10 @@ class NivelSeeder extends Seeder
     public function run(): void
     {
         $filas = [
-            ['nombre' => 'maternal prescolar'],
-            ['nombre' => '1er nivel prescolar'],
-            ['nombre' => '2do nivel prescolar'],
-            ['nombre' => '3er nivel prescolar'],
+            ['nombre' => 'maternal Pre-Escolar'],
+            ['nombre' => '1er nivel Pre-Escolar'],
+            ['nombre' => '2do nivel Pre-Escolar'],
+            ['nombre' => '3er nivel Pre-Escolar'],
             ['nombre' => '1er grado basica'],
             ['nombre' => '2do grado basica'],
             ['nombre' => '3er grado basica'],

@@ -100,7 +100,7 @@ class EstudianteLive extends Component
         ->join('seccions', 'cursas.seccion_id', '=', 'seccions.id')
         ->select('estudiantes.*')
         ->orderBy('nivels.id')
-        ->paginate();
+        ->paginate(15);
 
         return view('livewire.estudiante-live',compact('estudiantes'));
     }

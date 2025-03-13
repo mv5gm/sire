@@ -38,6 +38,7 @@ class EstadoSeeder extends Seeder
 			["nombre"=>"Yaracuy","id"=>"22"],
 			["nombre"=>"Zulia","id"=>"23"],
 			["nombre"=>"Distrito Capital","id"=>"24"]
+			["nombre"=>"No encontrado","id"=>"25"]
         ];	
 
         foreach ($filas as $fila){

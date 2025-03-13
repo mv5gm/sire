@@ -97,6 +97,10 @@ class EstudianteCrearLive extends Component
         $this->cursaForm->seccion_id = 1;
     }		
 
+    public function updated($propertyName){
+        $this->validateOnly($propertyName);
+    }
+
     public function updatedEstadoId(){
     		
         $this->municipios = Municipio::where('estado_id',$this->estado_id)->get();
@@ -185,6 +189,12 @@ class EstudianteCrearLive extends Component
             $this->inscripcionForm->cursa_id = $cursa->id;
             $this->inscripcionForm->tipo = 'Nuevo';
             $this->inscripcionForm->guardar();
+
+            $this->estudianteForm->reset();
+            $this->representanteForm->reset();
+            $this->representanteFormAutorizado->reset();
+            $this->representanteFormAutorizado2->reset();
+            $this->hogarForm->reset();
 
             DB::commit();
         } catch (\Throwable $th) {

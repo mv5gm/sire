@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('representante_economico',['Padre','Madre','Ambos','Otro']);
             $table->enum('gastos_separados',['si','no']);
             $table->integer('numero_dormitorios');
+            $table->integer('telefono_emergencia');
             $table->timestamps();
         });
     }
