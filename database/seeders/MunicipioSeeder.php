@@ -348,7 +348,7 @@ class MunicipioSeeder extends Seeder
          ["nombre"=>"Simón Bolívar","estado_id"=>"23","id"=>"332"],
          ["nombre"=>"Sucre","estado_id"=>"23","id"=>"333"],
          ["nombre"=>"Valmore Rodríguez","estado_id"=>"23","id"=>"334"],
-         ["nombre"=>"Libertador","estado_id"=>"24","id"=>"335"]
+         ["nombre"=>"Libertador","estado_id"=>"24","id"=>"335"],
          ["nombre"=>"No encontrado","estado_id"=>"25","id"=>"336"]
      ];	
 

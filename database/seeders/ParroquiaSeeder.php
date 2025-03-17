@@ -1152,7 +1152,7 @@ class ParroquiaSeeder extends Seeder
 			["nombre"=>"San Pedro","municipio_id"=>"335"],
 			["nombre"=>"Santa Rosalía","municipio_id"=>"335"],
 			["nombre"=>"Santa Teresa","municipio_id"=>"335"],
-			["nombre"=>"Sucre (Catia)","municipio_id"=>"335"]
+			["nombre"=>"Sucre (Catia)","municipio_id"=>"335"],
 			["nombre"=>"No encontrado","municipio_id"=>"336"]
         ];	
 

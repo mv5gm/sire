@@ -37,7 +37,7 @@ class EstadoSeeder extends Seeder
 			["nombre"=>"Vargas","id"=>"21"],
 			["nombre"=>"Yaracuy","id"=>"22"],
 			["nombre"=>"Zulia","id"=>"23"],
-			["nombre"=>"Distrito Capital","id"=>"24"]
+			["nombre"=>"Distrito Capital","id"=>"24"],
 			["nombre"=>"No encontrado","id"=>"25"]
         ];	
 

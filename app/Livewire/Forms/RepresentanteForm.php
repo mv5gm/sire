@@ -25,6 +25,7 @@ class RepresentanteForm extends Form
     public $telefono;
     public $telefono_movil;
     public $nivel_academico;
+    public $nivel_ingreso;
     public $email;
 
     public function guardar(){
@@ -74,7 +75,8 @@ class RepresentanteForm extends Form
             'telefono' =>'nullable|regex:/^[0-9]+$/|max:11',
             'telefono_movil' => 'nullable|regex:/^[0-9]+$/|max:11',
             'email' =>'nullable|string|max:100',
-            'nivel_academico' =>'required|in:ninguno,primaria,secundaria,universitario'
+            'nivel_academico' =>'required|in:ninguno,primaria,secundaria,universitario',
+            'nivel_ingreso' =>'nullable|string|max:100'
         ];  
     }
     public function validationAttributes(){

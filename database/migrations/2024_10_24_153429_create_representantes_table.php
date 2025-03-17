@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->string('telefono_movil')->nullable();
             $table->enum('nivel_academico',['ninguno','primaria','secundaria','universitario']);
+            $table->string('nivel_ingreso')->nullable();
             $table->string('email')->nullable();
                     
             $table->timestamps();
