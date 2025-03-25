@@ -29,7 +29,7 @@
                 <x-input wire:model.live="estudianteForm.materno" type="text" name="materno" placeholder='Segundo Apellido' class='w-full' value='Lugo'/>
                 <x-input-error for="estudianteForm.materno"/>
 
-				<x-label class='mt-2'>Cedula <small>(Opcional)</small></x-label>
+				<x-label class='mt-4'>Cedula <small>(Opcional)</small></x-label>
                 <x-input wire:model.live='estudianteForm.cedula' type="text" placeholder='Cedula' class='w-full fill-number' title='Solo numeros'/>
                 <x-input-error for="estudianteForm.cedula"/>
 
@@ -109,7 +109,7 @@
 	                <x-input wire:model="representanteForm.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full' value='Zorrilla'/>
 	                <x-input-error for="representanteForm.materno"/>
 
-					<x-label>Cedula</x-label>
+					<x-label class='mt-4'>Cedula</x-label>
 	                <x-input wire:model='representanteForm.cedula' type="number" min='1000000' max='1000000000' placeholder='Cedula del Representante' class='w-full' />
 	                <x-input-error for="representanteForm.cedula" value='28644181'/>
 
@@ -168,7 +168,7 @@
 	                </x-select>
 	                <x-input-error for="representanteForm.condicion_laboral"/>
 
-					<x-label class='mt-4'>Nivel de Ingreso</x-label>
+					<x-label class='mt-4'>Nivel de Ingreso <small>(Opcional)</small></x-label>
 	                <x-input wire:model.live="representanteForm.nivel_ingreso" type="text" placeholder='Nivel de Ingreso' class='w-full' />
 	                <x-input-error for="representanteForm.nivel_ingreso"/>
 
@@ -194,7 +194,7 @@
 
 					<x-label class='mt-4'>Correo <small>(Opcional)</small></x-label>
                     
-                    <x-input wire:model="representanteForm.email" type="text" placeholder='Correo electronico' class='w-full mb-2' value='zuleimyolilugo@gmail.com' />
+                    <x-input wire:model="representanteForm.email" type="text" placeholder='Correo electronico' class='w-full mb-4' value='zuleimyolilugo@gmail.com' />
                     
                     <x-input-error for="representanteForm.email" />
 
@@ -203,7 +203,7 @@
                 	<x-select wire:model='representante_id' class='w-full mb-2'>
 						<option value="">Seleccione</option>
                 		@foreach($representantes as $key)
-                			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno }}</option>
+                			<option value='{{ $key->id }}'>{{ $key->cedula.' '.$key->nombre.' '.$key->paterno }}</option>
                 		@endforeach
 
                 	</x-select>
@@ -251,7 +251,7 @@
 	                <x-input wire:model="representanteFormAutorizado.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full'/>
 	                <x-input-error for="representanteFormAutorizado.materno"/>
 
-					<x-label>Cedula</x-label>
+					<x-label class='mt-4'>Cedula</x-label>
 	                <x-input wire:model='representanteFormAutorizado.cedula' type="number" min='1000000' max='1000000000' placeholder='Cedula del Representante' class='w-full' value='84420286'/>
 	                <x-input-error for="representanteFormAutorizado.cedula"/>
 
@@ -304,7 +304,7 @@
 	                </x-select>
 	                <x-input-error for="representanteFormAutorizado.condicion_laboral"/>
 
-					<x-label class='mt-4'>Nivel de Ingreso</x-label>
+					<x-label class='mt-4'>Nivel de Ingreso <small>(Opcional)</small></x-label>
 	                <x-input wire:model.live="representanteFormAutorizado.nivel_ingreso" type="text" placeholder='Nivel de Ingreso' class='w-full' />
 	                <x-input-error for="representanteFormAutorizado.nivel_ingreso"/>
 
@@ -334,7 +334,7 @@
 
                     <x-label class='mt-4'>Correo <small>(Opcional)</small></x-label>
                     
-                    <x-input wire:model="representanteFormAutorizado.email" type="text" placeholder='Correo electronico' class='w-full mb-2' />
+                    <x-input wire:model="representanteFormAutorizado.email" type="text" placeholder='Correo electronico' class='w-full mb-4' />
                     
                     <x-input-error for="representanteFormAutorizado.email" />
 
@@ -343,7 +343,7 @@
                 	<x-select wire:model='autorizado_id' class='w-full mb-2'>
 						<option value="">Seleccione</option>
                 		@foreach($representantes as $key)
-                			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno }}</option>
+                			<option value='{{ $key->id }}'>{{ $key->cedula.' '.$key->nombre.' '.$key->paterno }}</option>
                 		@endforeach
 
                 	</x-select>
@@ -393,7 +393,7 @@
 		                <x-input wire:model="representanteFormAutorizado2.materno" type="text" name="materno" placeholder='Segundo Apellido del Representante' class='w-full'/>
 		                <x-input-error for="representanteFormAutorizado2.materno"/>
 						
-						<x-label>Cedula</x-label>
+						<x-label class='mt-4'>Cedula</x-label>
 		                <x-input wire:model='representanteFormAutorizado2.cedula' type="number" min='1000000' max='1000000000' placeholder='Cedula del Representante' class='w-full' />
 		                <x-input-error for="representanteFormAutorizado2.cedula"/>
 						
@@ -435,7 +435,7 @@
 		                </x-select>
 		                <x-input-error for="representanteFormAutorizado2.condicion_laboral"/>
 
-						<x-label class='mt-4'>Nivel de Ingreso</x-label>
+						<x-label class='mt-4'>Nivel de Ingreso <small>(Opcional)</small></x-label>
 	               		<x-input wire:model.live="representanteFormAutorizado2.nivel_ingreso" type="text" placeholder='Nivel de Ingreso' class='w-full' />
 	                	<x-input-error for="representanteFormAutorizado2.nivel_ingreso"/>
 
@@ -465,7 +465,7 @@
 
                         <x-label class='mt-4'>Correo</x-label>
                     
-                        <x-input wire:model="representanteFormAutorizado2.email" type="text" placeholder='Correo electronico' class='w-full mb-2' />
+                        <x-input wire:model="representanteFormAutorizado2.email" type="text" placeholder='Correo electronico' class='w-full mb-4' />
                         
                         <x-input-error for="representanteFormAutorizado2.email" />
 
@@ -486,7 +486,7 @@
 	                	<x-select wire:model='autorizado2_id' class='w-full mb-2'>
 							<option value="">Seleccione</option>
 	                		@foreach($representantes as $key)
-	                			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno }}</option>
+	                			<option value='{{ $key->id }}'>{{ $key->cedula.' '.$key->nombre.' '.$key->paterno }}</option>
 	                		@endforeach
 
 	                	</x-select>
@@ -604,7 +604,7 @@
                 <x-input wire:model="medicionForm.talla" type="text" placeholder='Talla' class='w-full' value='6'/>
                 <x-input-error for="medicionForm.talla"/>		
 
-				<x-label class='mt-4'>Peso</x-label>
+				<x-label class='mt-4 mb-4'>Peso</x-label>
                 <x-input wire:model="medicionForm.peso" type="text" placeholder='Peso' class='w-full' value='10'/>
                 <x-input-error for="medicionForm.peso"/>		
 			
