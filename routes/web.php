@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cursa;
+use App\Models\Hogar;
 use App\Models\Representante;
 use App\Models\Representado;
 use App\Models\Estudiante;
@@ -19,6 +20,12 @@ Route::get('/', function () {
 });
 
 Route::get('/pruebas', function () {
+
+    //$hogares = Hogar::with('representados.estudiante','representados.representante')->get();
+    $hogares = Hogar::with(['representados.estudiante', 'representados.representante'])
+    ->whereRelation('representados', 'relacion', 'Legal') // Filtrar representados con relación 'Legal'
+    ->get();
+    return $hogares;
 
     $cursa = Cursa::Buscar('1','1','1','1')->first();
 

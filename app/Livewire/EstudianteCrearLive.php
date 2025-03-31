@@ -15,6 +15,7 @@ use App\Models\Cursa;
 use App\Models\Estado;
 use App\Models\Municipio;
 use App\Models\Parroquia;
+use App\Models\Hogar;
 use App\Livewire\Forms\EstudianteForm;
 use App\Livewire\Forms\RepresentanteForm;
 use App\Livewire\Forms\RepresentadoForm;
@@ -62,12 +63,15 @@ class EstudianteCrearLive extends Component
     public $representanteRegistrado = false;
     public $autorizadoRegistrado = false;
     public $autorizado2Registrado = false;
+    public $hogarRegistrado = false;
 
     public $representante_id;
     public $autorizado_id;
     public $autorizado2_id;
+    public $hogar_id;
 
     public $representantes = [];
+    public $hogares = [];
 
     public function mount(){    
 
@@ -79,7 +83,19 @@ class EstudianteCrearLive extends Component
         	
         $this->estados = Estado::all();
 
-        $this->representantes = Representante::all();
+        $this->representantes = Representante::orderBy('cedula')->get();
+        
+        $this->hogares = Hogar::with(['representados.estudiante', 'representados.representante'])
+        ->whereRelation('representados', 'relacion', '=', 'Legal') // Filtrar representados con relación 'Legal'
+        ->get()
+        ->sortBy(function ($hogar) {
+            // Ordenar por la cédula del primer representante con relación 'Legal'
+            return $hogar->representados
+                ->where('relacion', 'Legal')
+                ->first()
+                ->representante
+                ->cedula ?? null;
+        });
 
         $this->estudianteForm->parto = 'natural';
         $this->estudianteForm->sexo = 'f';
@@ -156,9 +172,15 @@ class EstudianteCrearLive extends Component
                 else{   
                     $representante3 = $this->representanteFormAutorizado2->guardar();
                 }
-            }
+            } 
 
-            $hogar = $this->hogarForm->guardar();
+            if($this->hogarRegistrado){
+
+                $hogar = Hogar::find($this->hogar_id);
+            }
+            else{
+                $hogar = $this->hogarForm->guardar();
+            }
 
             $this->representadoForm->estudiante_id = $estudiante->id;
             $this->representadoForm->representante_id = $representante->id;
@@ -234,6 +256,9 @@ class EstudianteCrearLive extends Component
     }
     public function mostrarAutorizado2Registrado($var){
     	$this->autorizado2Registrado = $var;
+    } 
+    public function mostrarHogarRegistrado($var){
+    	$this->hogarRegistrado = $var;
     }   	
     public function render()
     {	

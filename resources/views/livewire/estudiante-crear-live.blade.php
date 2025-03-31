@@ -10,7 +10,7 @@
 	    <!-- Datos Estudiante -->
 	        
 	        <div class="flex-1 p-2 rounded-lg shadow-md">
-	            <h1 class='text-center p-2 bg-light'>Datos Estudiante</h1>
+	            <h1 class='text-center p-2 bg-light border-2'>Datos Estudiante</h1>
 	            <hr>
 
                 <x-label class='mt-4'>Primer Nombre</x-label>
@@ -80,7 +80,7 @@
 	    <!-- Datos Representates -->
 	        
 	        <div class="flex-1 p-2 rounded-lg shadow-md">
-	            <h1 class="text-center p-2 bg-light">Datos Representante Legal</h1>
+	            <h1 class="text-center p-2 bg-light border-2">Datos Representante Legal</h1>
 	            <hr>
 	            <div class='flex'>
 		            <x-label class='m-2'>
@@ -203,7 +203,7 @@
                 	<x-select wire:model='representante_id' class='w-full mb-2'>
 						<option value="">Seleccione</option>
                 		@foreach($representantes as $key)
-                			<option value='{{ $key->id }}'>{{ $key->cedula.' '.$key->nombre.' '.$key->paterno }}</option>
+                			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno.' '.$key->cedula }}</option>
                 		@endforeach
 
                 	</x-select>
@@ -222,7 +222,7 @@
 
                 @endif	
 
-            	<h1 class='text-center p-2 bg-light'>Datos Autorizado</h1>
+            	<h1 class='text-center p-2 bg-light border-2'>Datos Autorizado</h1>
                 <hr>
                 <div class='flex'>
 		            <x-label class='m-2'>
@@ -296,6 +296,10 @@
 	                    <option value="Otro">Otro(a)</option>        
 	                </x-select>
 
+					<x-label class='mt-4'>Oficio / Profesion</x-label>
+	                <x-input wire:model.live="representanteFormAutorizado.oficio" type="text" name="materno" placeholder='oficio del Representante' class='w-full' value='Comerciante'/>
+	                <x-input-error for="representanteFormAutorizado.oficio"/>	
+
 	                <x-label class='mt-4'>Condicion Laboral</x-label>
 	                <x-select wire:model='representanteFormAutorizado.condicion_laboral' class='w-full'> >
 	                    <option value="">Seleccione</option>
@@ -307,10 +311,6 @@
 					<x-label class='mt-4'>Nivel de Ingreso <small>(Opcional)</small></x-label>
 	                <x-input wire:model.live="representanteFormAutorizado.nivel_ingreso" type="text" placeholder='Nivel de Ingreso' class='w-full' />
 	                <x-input-error for="representanteFormAutorizado.nivel_ingreso"/>
-
-	                <x-label class='mt-4'>Oficio / Profesion</x-label>
-	                <x-input wire:model.live="representanteFormAutorizado.oficio" type="text" name="materno" placeholder='oficio del Representante' class='w-full' value='Comerciante'/>
-	                <x-input-error for="representanteFormAutorizado.oficio"/>
 
 	                <x-label class='mt-4'>Direccion de Habitacion</x-label>
 	                <x-input wire:model.live="representanteFormAutorizado.direccion_habitacion" type="text" placeholder='Direccion de Habitacion' class='w-full' value='Avenida Sucre'/>
@@ -343,7 +343,7 @@
                 	<x-select wire:model='autorizado_id' class='w-full mb-2'>
 						<option value="">Seleccione</option>
                 		@foreach($representantes as $key)
-                			<option value='{{ $key->id }}'>{{ $key->cedula.' '.$key->nombre.' '.$key->paterno }}</option>
+                			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno.' '.$key->cedula }}</option>
                 		@endforeach
 
                 	</x-select>
@@ -364,7 +364,7 @@
 
                 @if($mostrarSegundoAutorizado)
 					
-					<h1 class='text-center p-2 bg-light'>Datos Segundo Autorizado</h1>
+					<h1 class='text-center p-2 bg-light border-2'>Datos Segundo Autorizado</h1>
 		            <hr/>
 					<div class='flex'>
 			            <x-label class='m-2'>
@@ -425,7 +425,23 @@
                             <option value="universitario">Universitario</option>
                         </x-select>
 
+						<x-label class='mt-4'>Parentesco con el estudiante</x-label>
+		                <x-select wire:model="representadoFormAutorizado2.parentesco" class='w-full'>
+		                    <option value="" selected>Seleccione</option>        
+		                    <option value="Madre" >Madre</option>        
+		                    <option value="Padre">Padre</option>        
+		                    <option value="Abuelo(a)">Abuelo(a)</option>        
+		                    <option value="Tio(a)">Tio(a)</option>        
+		                    <option value="Hermano(a)">Hermano(a)</option>        
+		                    <option value="Primo(a)">Primo(a)</option>        
+		                    <option value="Otro">Otro(a)</option>        
+		                </x-select>
+
 						<x-input-error for="representanteFormAutorizado2.nivel_academico" />
+
+						<x-label class='mt-4'>Oficio / Profesion</x-label>
+		                <x-input wire:model="representanteFormAutorizado2.oficio" type="text" name="materno" placeholder='oficio del Representante' class='w-full'/>
+		                <x-input-error for="representanteFormAutorizado2.oficio"/>
 
 		                <x-label class='mt-4'>Condicion Laboral</x-label>
 		                <x-select wire:model='representanteFormAutorizado2.condicion_laboral' class='w-full'> >
@@ -438,10 +454,6 @@
 						<x-label class='mt-4'>Nivel de Ingreso <small>(Opcional)</small></x-label>
 	               		<x-input wire:model.live="representanteFormAutorizado2.nivel_ingreso" type="text" placeholder='Nivel de Ingreso' class='w-full' />
 	                	<x-input-error for="representanteFormAutorizado2.nivel_ingreso"/>
-
-		                <x-label class='mt-4'>Oficio / Profesion</x-label>
-		                <x-input wire:model="representanteFormAutorizado2.oficio" type="text" name="materno" placeholder='oficio del Representante' class='w-full'/>
-		                <x-input-error for="representanteFormAutorizado2.oficio"/>
 
 		                <x-label class='mt-4'>Direccion de Habitacion</x-label>
 		                <x-input wire:model="representanteFormAutorizado2.direccion_habitacion" type="text" placeholder='Direccion de Habitacion' class='w-full'/>
@@ -469,24 +481,13 @@
                         
                         <x-input-error for="representanteFormAutorizado2.email" />
 
-		                <x-label class='mt-4'>Parentesco con el estudiante</x-label>
-		                <x-select wire:model="representadoFormAutorizado2.parentesco" class='w-full'>
-		                    <option value="" selected>Seleccione</option>        
-		                    <option value="Madre" >Madre</option>        
-		                    <option value="Padre">Padre</option>        
-		                    <option value="Abuelo(a)">Abuelo(a)</option>        
-		                    <option value="Tio(a)">Tio(a)</option>        
-		                    <option value="Hermano(a)">Hermano(a)</option>        
-		                    <option value="Primo(a)">Primo(a)</option>        
-		                    <option value="Otro">Otro(a)</option>        
-		                </x-select>
 		            @else
 		            	
 		            	<x-label > Seleccione Representante </x-label>
 	                	<x-select wire:model='autorizado2_id' class='w-full mb-2'>
 							<option value="">Seleccione</option>
 	                		@foreach($representantes as $key)
-	                			<option value='{{ $key->id }}'>{{ $key->cedula.' '.$key->nombre.' '.$key->paterno }}</option>
+	                			<option value='{{ $key->id }}'>{{ $key->nombre.' '.$key->paterno.' '.$key->cedula }}</option>
 	                		@endforeach
 
 	                	</x-select>
@@ -513,62 +514,87 @@
 	    			
 	        <div class="flex-1 p-2 rounded-lg shadow-md">
 	            	
-				<h1 class='text-center p-2 bg-light'>Datos Hogar</h1>
+				<h1 class='text-center p-2 bg-light border-2'>Datos Hogar</h1>
 	            <hr>
 
-	            <x-label class='mt-2'>Numero de personas que viven en el hogar</x-label>
-                <x-input wire:model="hogarForm.numero_mayores" type="text" placeholder='Numero de Mayores de edad' class='w-full mb-2'/>
-                <x-input-error for="hogarForm.numero_mayores"/>
+				<div class='flex'>
+					<x-label class='m-2'>
+						<input type="radio" wire:click="mostrarHogarRegistrado(false)" name='hogarRegistrado'>No registrado
+					</x-label>
+					<x-label class='m-2'>
+						<input type="radio" wire:click="mostrarHogarRegistrado(true)" name='hogarRegistrado'>Registrado
+					</x-label>
+				</div>
 
-                <x-input wire:model="hogarForm.numero_menores" type="text" placeholder='Numero de Menores de edad' class='w-full mb-2'/>
-                <x-input-error for="hogarForm.numero_menores"/>
+				@if(!$hogarRegistrado)
+	            
+					<x-label class='mt-2'>Numero de personas que viven en el hogar</x-label>
+					<x-input wire:model="hogarForm.numero_mayores" type="text" placeholder='Numero de Mayores de edad' class='w-full mb-2'/>
+					<x-input-error for="hogarForm.numero_mayores"/>
 
-                <x-label class='mt-4'>Numero de Familias</x-label>
-                <x-input wire:model="hogarForm.numero_familias" type="text" placeholder='Numero de Familias' class='w-full mb-2'/>
-                <x-input-error for="hogarForm.numero_familias"/>
+					<x-input wire:model="hogarForm.numero_menores" type="text" placeholder='Numero de Menores de edad' class='w-full mb-2'/>
+					<x-input-error for="hogarForm.numero_menores"/>
 
-				<x-label class='mt-4'>Gastos separados</x-label>
-                <x-select wire:model="hogarForm.gastos_separados" class='w-full' >
-                	<option value="" selected >Seleccione</option>
-                	<option value="si" >sí</option>
-                	<option value="no" >no</option>
-                </x-select> 
-                <x-input-error for="hogarForm.gastos_separados"/>
+					<x-label class='mt-4'>Numero de Familias</x-label>
+					<x-input wire:model="hogarForm.numero_familias" type="text" placeholder='Numero de Familias' class='w-full mb-2'/>
+					<x-input-error for="hogarForm.numero_familias"/>
 
-                <x-label class='mt-4'>Numero de ambientes</x-label>
-                <x-input wire:model="hogarForm.numero_ambitos" type="text" placeholder='Numero de Ambientes' class='w-full mb-2'/>
-                <x-input-error for="hogarForm.numero_ambitos"/>
+					<x-label class='mt-4'>Gastos separados</x-label>
+					<x-select wire:model="hogarForm.gastos_separados" class='w-full' >
+						<option value="" selected >Seleccione</option>
+						<option value="si" >sí</option>
+						<option value="no" >no</option>
+					</x-select> 
+					<x-input-error for="hogarForm.gastos_separados"/>
 
-				<x-label class='mt-4'>Numero de dormitorios</x-label>
-                <x-input wire:model="hogarForm.numero_dormitorios" type="text" placeholder='Numero de Dormitorios' class='w-full mb-2'/>
-                <x-input-error for="hogarForm.numero_dormitorios"/>
+					<x-label class='mt-4'>Numero de ambientes</x-label>
+					<x-input wire:model="hogarForm.numero_ambitos" type="text" placeholder='Numero de Ambientes' class='w-full mb-2'/>
+					<x-input-error for="hogarForm.numero_ambitos"/>
 
-                <x-label class='mt-4'>Representante Economico</x-label>
-                <x-select wire:model="hogarForm.representante_economico" class='w-full' >
-                	<option value="" selected >Seleccione</option>
-                	<option value="Padre" >Padre</option>
-                	<option value="Madre" >Madre</option>
-                	<option value="Ambos" >Ambos</option>
-                	<option value="Otro" >Otro</option>
-                </x-select> 
-                <x-input-error for="hogarForm.representante_economico"/>
-        
-                <x-label class='mt-4'>Telefono de emergencia</x-label>
-                    
-                <x-input wire:model="hogarForm.telefono_emergencia" type="text" placeholder='Telefono de Emergencia' class='w-full mb-2' minlength='11' maxlength='11' value='04248377020' />
-                
-                <x-input-error for="hogarForm.telefono_emergencia" />
+					<x-label class='mt-4'>Numero de dormitorios</x-label>
+					<x-input wire:model="hogarForm.numero_dormitorios" type="text" placeholder='Numero de Dormitorios' class='w-full mb-2'/>
+					<x-input-error for="hogarForm.numero_dormitorios"/>
+
+					<x-label class='mt-4'>Representante Economico</x-label>
+					<x-select wire:model="hogarForm.representante_economico" class='w-full' >
+						<option value="" selected >Seleccione</option>
+						<option value="Padre" >Padre</option>
+						<option value="Madre" >Madre</option>
+						<option value="Ambos" >Ambos</option>
+						<option value="Otro" >Otro</option>
+					</x-select> 
+					<x-input-error for="hogarForm.representante_economico"/>
+			
+					<x-label class='mt-4'>Telefono de emergencia</x-label>
+						
+					<x-input wire:model="hogarForm.telefono_emergencia" type="text" placeholder='Telefono de Emergencia' class='w-full mb-2' minlength='11' maxlength='11' value='04248377020' />
+					
+					<x-input-error for="hogarForm.telefono_emergencia" />
+
+				@else
+
+					<x-label> Seleccione Hogar </x-label>
+					<x-select wire:model='hogar_id' class='w-full mb-2'>
+						<option value="">Seleccione</option>
+						@foreach($hogares as $key)
+							<option value='{{ $key->id }}'>
+								{{$key->representados[0]->representante->nombre.' '.$key->representados[0]->representante->paterno.' '.$key->representados[0]->representante->cedula}}
+							</option>
+						@endforeach
+					</x-select>
+
+				@endif
 
 				<x-label class='mt-4'>Vive con:</x-label>
-                	@foreach($estudianteForm->opcionesVive as $key)
-                		<label>
-                			<input type="checkbox" wire:model='estudianteForm.selectedVive' value='{{$key}}' >
-                			{{$key}}
-                		</label>
-                	@endforeach
-                <x-input-error for="estudianteForm.vive_con"/>
-			
-				<h1 class='text-center p-2 bg-light'>Datos de Salud del estudiante</h1>
+					@foreach($estudianteForm->opcionesVive as $key)
+						<label>
+							<input type="checkbox" wire:model='estudianteForm.selectedVive' value='{{$key}}' >
+							{{$key}}
+						</label>
+					@endforeach
+				<x-input-error for="estudianteForm.vive_con"/>
+
+				<h1 class='text-center p-2 bg-light mt-4 border-2'>Datos de Salud del estudiante</h1>
 	            <hr>
 
 				<x-label class='mt-4'>Utiliza Lentes?</x-label>
@@ -609,7 +635,7 @@
                 <x-input-error for="medicionForm.peso"/>		
 			
 			<!-- datos de la inscripcion -->
-				<h1 class='text-center p-2 bg-light'>Datos de inscripcion</h1>	
+				<h1 class='text-center p-2 bg-light mt-4 border-2'>Datos de inscripcion</h1>	
                 <hr>		
 
                 <x-label class='mt-4'>Nivel Academico</x-label>
