@@ -101,7 +101,7 @@
 		                <x-select id="representante_id" wire:model.live="form.representante_id" class='w-full' required>
 		                    <option value="">Seleccione un representante</option>
 		                    @foreach ($representantes as $key)
-		                        <option value="{{ $key->id }}">{{ $key->nombre }}</option>
+		                        <option value="{{ $key->id }}">{{ $key->nombre.' '.$key->paterno.' '.$key->cedula }}</option>
 		                    @endforeach
 		                </x-select>
                 		<x-input-error for="form.representante_id"/>
@@ -112,7 +112,7 @@
 		                <x-select id="estudiante_id" wire:model="form.estudiante_id" class='w-full' required>
 		                    <option value="">Seleccione un estudiante</option>
 		                    @foreach ($estudiantes as $key)
-		                        <option value="{{ $key->id }}">{{ $key->cedula.' '.$key->nombre.' '.$key->paterno }}</option>
+		                        <option value="{{ $key->id }}">{{ $key->nombre.' '.$key->paterno.' '.$key->cedula }}</option>
 		                    @endforeach
 		                </x-select>
                 		<x-input-error for="form.estudiante_id"/>

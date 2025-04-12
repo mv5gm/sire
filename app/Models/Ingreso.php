@@ -38,7 +38,7 @@ class Ingreso extends Model
         $mesesEspaniol = ['Enero','Febrero','Marzo','Abril','Mayo','junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
         foreach ($consulta as $ingreso) {
-            $nombreMes = $mesesEspaniol[$ingreso['mes']+1];
+            $nombreMes = $mesesEspaniol[$ingreso['mes']-1];
             $meses[] = $nombreMes;
             $cantidades[] = $ingreso->total;
         }

@@ -3,14 +3,10 @@
     <div class="flex ">
         <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
         <a>
-            <x-button wire:click="$set('open',true)">
+            <x-button wire:click="registrar" class="bg-green-500 hover:bg-green-600" >
+                <span wire:loading wire:target='registrar'>Cargando...</span>
                 <i class="fa-solid fa-plus mr-2"></i>
-                Registrar
-            </x-button>
-        </a>    
-        <a href="{{route('export')}}">
-            <x-button>
-                <i class="fa-solid fa-file-excel mr-2" ></i>Excel
+                <span wire:loading.remove wire:target='registrar'>Registrar</span>
             </x-button>
         </a>
     </div>
@@ -19,18 +15,20 @@
             <thead>
                 <tr>
                     <td>Descripcion</td>
-                    <td>Cantidad</td>
+                    <td>Cantidad en $</td>
+                    <td>Cantidad en BS</td>
                     <td>Tipo</td>
-                    <td>Opciones</td>
+                    <td width='100px' class='flex'>Opciones</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach($items as $key)
                     <tr wire:key="estudiante-{{$key->id}}" >
                         <td>{{$key->descripcion}}</td>
-                        <td>{{$key->cantidad}} </td>
+                        <td>{{$key->cantidad}}</td>
+                        <td>{{$key->dolar*$key->cantidad}}</td>
                         <td>{{$key->tipo}}</td>
-                        <td>
+                        <td width="100px" class='flex'>
                             <x-button wire:click="editar({{$key->id}})" >
                               <i class="fa-solid fa-pen-to-square"></i>
                             </x-button>
@@ -48,17 +46,30 @@
     </div>
     <x-dialog-modal wire:model='open'>
         <x-slot name='title'>
-            <h1>Registrar Gasto</h1>
+
+            @if(empty($form->id))
+                <h1>Registrar Gasto</h1>
+            @else
+                <h1>Editar Gasto</h1>
+            @endif
         </x-slot>
         <x-slot name='content'>
-            <form class="form" id='form-registrar' wire:submit='registrar' >
+            <form class="form" id='form-registrar' wire:submit='guardar' >
                 <x-label>Descripcion</x-label>
                 <x-input wire:model='form.descripcion' type="text" name="descripcion" placeholder='Descripcion' class='w-full'/>
                 <x-input-error for="form.descripcion"/>
 
-                <x-label class='mt-4'>Cantidad</x-label>
-                <x-input wire:model="form.cantidad" type="number" min='0' max='10000000'  name="cantidad" placeholder='Cantidad' step='0.01' class='w-full' />
+                <x-label class='mt-4'>Precio del dolar</x-label>
+                <x-input wire:model="form.dolar" type="number" min='0' max='10000000'  name="cantidad" placeholder='Precio del Dolar' step='0.01' class='w-full' />
+                <x-input-error for="form.dolar"/>
+
+                <x-label class='mt-4'>Cantidad en $</x-label>
+                <x-input wire:model.live="form.cantidad" type="number" min='0' max='10000000'  name="cantidad" placeholder='Cantidad' step='0.01' class='w-full' />
                 <x-input-error for="form.cantidad"/>
+
+                <x-label class='mt-4'>Cantidad en Bs</x-label>
+                <x-input wire:model.live="cantidadB" type="number" min='0' max='10000000'  name="cantidad" placeholder='Cantidad' step='0.01' class='w-full' />
+                <x-input-error for="cantidadB"/>
 
                 <x-label class='mt-4'>Tipo</x-label>
                 <x-select wire:model.live='form.tipo' class='w-full' >
@@ -66,14 +77,7 @@
                 	<option value="Dolares">Dolares</option>	
                 	<option value="Bolivares">Bolivares</option>	
                 </x-select>
-                <x-input-error for="form.tipo"/>
-
-                <div wire:model.live='openPrecio'>
-                    <x-label class='mt-4'>Precio del dolar (Opcional)</x-label>
-                    <x-input wire:model="form.dolar" type="number" min='0' max='10000000'  name="cantidad" placeholder='Precio del Dolar' step='0.01' class='w-full' />
-                    <x-input-error for="form.dolar"/>
-                </div>
-                
+                <x-input-error for="form.tipo"/>                
             </form>
         </x-slot>
         <x-slot name='footer'>
@@ -85,7 +89,7 @@
                 <span wire:loading wire:target='registrar'>Cargando...</span>
                 <span wire:loading.remove wire:target='registrar'>
                     <i class="fa-solid fa-plus mr-2"></i> 
-                Registrar</span>
+                Guardar</span>
             </x-button>
         </x-slot>
     </x-dialog-modal>

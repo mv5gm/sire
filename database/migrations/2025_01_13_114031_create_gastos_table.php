@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('cantidad',10,2);
             $table->enum('tipo',['Dolares','Bolivares']);
-            $table->integer('dolar')->nullable();
+            $table->decimal('dolar',10,2)->nullable();
             $table->string('descripcion');
             
             $table->timestamps();

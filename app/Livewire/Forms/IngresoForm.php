@@ -52,7 +52,8 @@ class IngresoForm extends Form
 			'dolar' => $this->dolar,
 			'forma' => $this->forma,
 			'codigo' => $this->codigo,
-			'descripcion' => $this->descripcion
+			'descripcion' => $this->descripcion,
+			'fecha' => date('Y-m-d'),
     	];		
 
     	if ($id) {
