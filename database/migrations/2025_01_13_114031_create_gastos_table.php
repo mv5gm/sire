@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('gastos', function (Blueprint $table) {
             $table->id();
             $table->decimal('cantidad',10,2);
-            $table->enum('tipo',['Dolares','Bolivares']);
+            $table->enum('forma',['Divisa','Transferencia','Efectivo']);
             $table->decimal('dolar',10,2)->nullable();
             $table->string('descripcion');
             

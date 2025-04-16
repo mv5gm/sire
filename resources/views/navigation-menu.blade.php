@@ -42,6 +42,7 @@
         'permiso'=>'empleados.index',
         'nombre'=>'empleados.index' ],
 
+        /*
         ['href'=>route('plan.index'),
         'texto'=>'Secciones',
         'icono'=>'fa-solid fa-clipboard mr-2',
@@ -53,7 +54,8 @@
         'icono'=>'fa-solid fa-calendar mr-2',
         'permiso'=>'plan.index',
         'nombre'=>'plan' ],
-
+        */
+        
         ['href'=>route('gastos.index'),
         'texto'=>'Gastos',
         'icono'=>'fa-solid fa-money-bill-transfer mr-2',

@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->decimal('cantidad',10,2);
             $table->enum('mes', range(1, 12));
-            $table->integer('cantidad_horas');
-            $table->integer('cantidad_estudiante');
+            $table->integer('anio');
+            $table->integer('horas')->nullable();
+            $table->integer('matricula')->nullable();
+            $table->enum('forma',['Divisa','Transferencia','Efectivo']);
             
             $table->foreignId('empleado_id')->constrained()->onDelete('cascade');
 

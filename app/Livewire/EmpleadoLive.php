@@ -11,14 +11,24 @@ class EmpleadoLive extends Component
     public $open = false;
     public $openEditar = false;
     public $openEliminar = false;
+    public $openNomina = true;
     
     public $idBorrar;
 
     public $buscar = "";
 
-    public EmpleadoForm $registrarForm;
-    public EmpleadoForm $editarForm;
+    public EmpleadoForm $form;
 
+    public $empleados;
+    public $dolar = 1;
+    public $horas = 1;
+    public $matricula = 1;
+    public $frecuenciaNomina = 1;
+    public $cantidades = [];
+
+    public function mount(){
+        $this->empleados = Empleado::all();
+    }
     public function render()
     {
         $items = Empleado::where('nombre','like','%'.$this->buscar.'%')->paginate(10);
@@ -26,36 +36,31 @@ class EmpleadoLive extends Component
         return view('livewire.empleado-live',compact('items'));
     }
     public function registrar(){
-    	
-    	//dd($this->registrarForm);
+        $this->form->reset();
+        $this->open = true;
+    }
+    public function guardar(){
 
-    	$this->registrarForm->validate();
+    	$this->form->validate();
 
-        $this->registrarForm->guardar();
+        $this->form->guardar();
 
-        $this->registrarForm->reset();
+        $this->form->reset();
 
         $this->open = false;
-
-        $this->dispatch('success');
+        
+        $this->dispatch('success', ['message' => 'Guardado con exito']);
     }
     public function editar($id){
         
         $this->resetValidation();
 
-        $this->openEditar = true;
+        $this->open = true;
 
-        $this->editarForm->editar($id);
+        $this->form->editar($id);
 
     }       
-    public function actualizar(){
-
-        $this->editarForm->actualizar();
-
-        $this->openEditar = false;
-        
-        $this->dispatch('success');
-    }   
+       
     public function borrar($id)
     {       
         $this->idBorrar = $id;
@@ -71,5 +76,48 @@ class EmpleadoLive extends Component
         $this->reset(['idBorrar','openEliminar']);
 
         $this->dispatch('success');
-    }	
+    }
+    
+    public function mostrarNomina(){
+        $this->openNomina = true;
+    }
+    
+    public function updatedDolar(){
+        $this->calculoCantidad();
+    }
+    public function updatedHoras(){
+        $this->calculoCantidad();
+    }
+    public function updatedMatricula(){
+        $this->calculoCantidad();
+    }
+    public function updatedFrecuenciaNomina(){
+        $this->calculoCantidad();
+    }
+
+    public function calculoCantidad(){
+
+        $cantidadesActualizadas = []; // Crear un nuevo arreglo para almacenar las cantidades actualizadas
+
+        foreach ($this->empleados as $key => $value) {
+            // Convertir las variables a números flotantes
+            $dolar = floatval($this->dolar);
+            $horas = floatval($this->horas);
+            $matricula = floatval($this->matricula);
+            $frecuenciaNomina = floatval($this->frecuenciaNomina);
+
+            if ($value->tipo == 'Maestro') {
+
+                $cantidadesActualizadas[$value->id] = (floatval($value->matricula) * $matricula * $dolar) / $frecuenciaNomina;
+            } elseif ($value->tipo == 'Docente') {
+                
+                $cantidadesActualizadas[$value->id] = ($dolar * $horas * $value->horas * 4) / $frecuenciaNomina ;
+            } else {
+                
+                $cantidadesActualizadas[$value->id] = (floatval($value->sueldo)) / $frecuenciaNomina;
+            }
+        }
+        // Reasignar el arreglo completo para que Livewire detecte los cambios
+        $this->cantidades = $cantidadesActualizadas;
+    }
 }		

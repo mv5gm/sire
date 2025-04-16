@@ -11,5 +11,5 @@ class Gasto extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
-    protected $fillable = [ 'descripcion','cantidad','tipo','dolar' ];
+    protected $fillable = [ 'descripcion','cantidad','forma','dolar' ];
 }

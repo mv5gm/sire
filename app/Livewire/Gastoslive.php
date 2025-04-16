@@ -15,7 +15,7 @@ class Gastoslive extends Component
 	public $buscar;
 	public $idBorrar;
 
-    public $cantidadB;
+    public $textConversion;
 
 	public GastoForm $form;
 
@@ -78,33 +78,30 @@ class Gastoslive extends Component
 
         $this->dispatch('success');
     }
-    public function updatingFormTipo(){
-
-    	//dd($this->form->tipo);
+    public function updatedFormDolar(){
+        $this->calcularConversion();
     }
-
-    public function updatedCantidadB(){
-        $cantidadB = floatval(str_replace(',', '.', $this->cantidadB)); // Manejar comas como separadores decimales
-        $dolar = floatval(str_replace(',', '.', $this->form->dolar)); // Manejar comas como separadores decimales
-
-        //dd($this->cantidadB,$dolar);
-
-        if ($dolar > 0) {
-            $this->form->cantidad = round($cantidadB / $dolar, 2); // Realizar la división y redondear a 2 decimales
-
-        } else {
-            $this->form->cantidad = 0; // Valor predeterminado si el divisor es 0
-        }
+    public function updatedFormCantidad(){
+        $this->calcularConversion();
     }
-
-    public function updatedFormCantidad (){
-        $cantidad = floatval($this->form->cantidad); // Convertir a número flotante
-        $dolar = floatval($this->form->dolar); // Convertir a número flotante
-    
+    public function updatedFormForma(){
+        $this->calcularConversion();
+    }
+    public function calcularConversion(){
+        $cantidad = (float) ($this->form->cantidad ?? 0);
+        $dolar = (float) ($this->form->dolar ?? 1); // Valor predeterminado de 1 si no se establece
+        
         if ($dolar > 0) {
-            $this->cantidadB = round($cantidad * $dolar, 2); // Realizar la multiplicación
+            if ($this->form->forma == 'divisa') {
+                $conversion = $cantidad * $dolar;
+                $unidad = 'Bs';
+            } else {
+                $conversion = $cantidad / $dolar;
+                $unidad = '$';
+            }
+            $this->textConversion = 'Conversion: ' . number_format($conversion, 2) . ' ' . $unidad;
         } else {
-            $this->cantidadB = 0; // Valor predeterminado si el divisor es 0
+            $this->textConversion = 'Error: El valor del dólar no puede ser 0.';
         }
     }
 }

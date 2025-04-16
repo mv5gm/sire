@@ -20,8 +20,10 @@ return new class extends Migration
             $table->string('paterno');
             $table->string('materno');
             $table->string('direccion');
-            $table->integer('horas');
-            $table->enum('tipo',['Obrero','Docente','Dierctivo','Administrativo','Mantenimiento']);
+            $table->integer('horas')->nullable();
+            $table->integer('matricula')->nullable();
+            $table->decimal('sueldo',10,2)->nullable();
+            $table->enum('tipo',['Obrero','Docente','Maestro','Administrativo']);
             $table->enum('banco',
                 [
                     'BANCO DE VENEZUELA',

@@ -11,7 +11,7 @@ class Empleado extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
-    protected $fillable = ['cedula','nombre','segundo','paterno','materno','direccion','horas','tipo','banco','cuenta','tipo_cuenta'];
+    protected $fillable = ['cedula','nombre','segundo','paterno','materno','direccion','horas','tipo','banco','cuenta','tipo_cuenta','matricula','sueldo'];
 
     public function impartes(){
     	return $this->hasMany(Imparte::class);

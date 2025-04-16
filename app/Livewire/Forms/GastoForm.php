@@ -10,23 +10,21 @@ class GastoForm extends Form
     public $id;
     public $descripcion;
     public $cantidad;
-    public $tipo;
+    public $forma;
     public $dolar;
 
     public function guardar()
-    {
+    { 
+        $this->dolar = $this->dolar ?? 1; 
+
+        $this->validate();
+
         if(empty($this->id)){
-            Gasto::create($this->validatedData());
+            Gasto::create($this->all());
         }
         else{
-            Gasto::findOrFail($this->id)->update($this->validatedData());    
+            Gasto::findOrFail($this->id)->update($this->all());    
         }
-    }
-
-    public function actualizar()
-    {
-        $gasto = Gasto::findOrFail($this->id);
-        $gasto->update($this->validatedData());
     }
 
     public function editar($id)
@@ -40,9 +38,8 @@ class GastoForm extends Form
         return [
             'descripcion' => 'required|string|min:3|max:100',
             'cantidad' => 'required|decimal:0,2|numeric|between:0.1,10000',
-            'tipo' => 'required|in:Dolares,Bolivares',
-            'dolar' => 'required_if:tipo,Dolares|numeric|between:0.1,10000',
-        ];
+            'forma' => 'required|in:Divisa,Transferencia,Efectivo',
+            'dolar' => 'nullable|numeric|between:0.1,10000|required_if:forma,Divisa',];
     }
 
     private function validatedData()
