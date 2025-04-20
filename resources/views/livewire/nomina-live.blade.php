@@ -63,7 +63,7 @@
                             </label>
                         </div>
                             
-                        @if( $frecuenciaNomina == '2' )
+                        @if( $tipo == '2' )
                             <div class='flex p-2'>
                                 <label for="">Quincena
                                     <x-select wire:model.live='quincena' class='w-full'>

@@ -108,8 +108,9 @@ class NominaLive extends Component
             $dolar = floatval($this->dolar);
             $horas = floatval($this->horas);
             $matricula = floatval($this->matricula);
-            $tipo = floatval($this->tipo);
-            $tipo = $tipo == 'Mensual' ? 1: 2;
+            $tipo = $this->tipo == 'Mensual' ? 1: 2;
+
+            //dd($tipo);
 
             if ($value->tipo == 'Maestro') {
 
@@ -126,7 +127,7 @@ class NominaLive extends Component
         $this->cantidades = $cantidadesActualizadas;
     }
     public function guardarNomina(){
-
+        
         $this->form->guardarNomina($this->cantidades,$this->tipo,$this->mes,$this->anio,$this->quincena);
         $this->dispatch('success',['message' => 'Nomina guardada con exito']);
         $this->openNomina = false;
