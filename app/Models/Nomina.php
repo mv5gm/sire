@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreateOrUpdate;
+use App\Models\Empleado;
 
 class Nomina extends Model
 {
@@ -12,5 +13,10 @@ class Nomina extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
-    protected $fillable = ['mes','anio','horas','matricula','empleado_id'];
+    protected $fillable = ['cantidad','mes','anio','horas','matricula','empleado_id','forma','tipo','quincena'];
+
+    public function empleado(){
+        return $this->belongsTo(Empleado::class);
+    }
+
 }

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('horas')->nullable();
             $table->integer('matricula')->nullable();
             $table->enum('forma',['Divisa','Transferencia','Efectivo']);
+            $table->enum('tipo',['Quincenal','Mensual']);
+            $table->enum('quincena',['Primera','Segunda'])->nullable();
             
             $table->foreignId('empleado_id')->constrained()->onDelete('cascade');
 

@@ -13,6 +13,7 @@ use App\Models\Inscripcion;
 use App\Models\Empleado;
 use App\Models\User;
 use App\Models\Ingreso;
+use App\Models\Nomina;
 use App\Livewire\CursaLive;
 
 Route::get('/', function () {
@@ -20,31 +21,19 @@ Route::get('/', function () {
 });
 
 Route::get('/pruebas', function () {
-
-    //$hogares = Hogar::with('representados.estudiante','representados.representante')->get();
-    $hogares = Hogar::with(['representados.estudiante', 'representados.representante'])
-    ->whereRelation('representados', 'relacion', 'Legal') // Filtrar representados con relación 'Legal'
+    
+    $buscar = '';
+    $items = Nomina::with('empleado')
+    ->whereHas('empleado', function ($query) {
+        $buscar = '';
+    $query->where('nombre', 'like', '%' . $buscar . '%');
+    })
+    ->orWhere('mes','like','%' . $buscar . '%')
+    ->orWhere('anio','like','%' . $buscar . '%')
     ->get();
-    return $hogares;
 
-    $cursa = Cursa::Buscar('1','1','1','1')->first();
-
-    return $cursa;
-
-    return Representado::where('estudiante_id','9')->where('relacion','Legal')->count(); 
-
-    return User::find(3)->getAllPermissions();
-    //return Cursa::pluck('nivel_id');
-
-    //return $estudiante = Inscripcion::where('estudiante_id','20')->with('cursa')->with('estudiante')->first();
-	$sql = 'SELECT sum(cantidad) dolares,sum(cantidad)*dolar bolivares,forma,tipo FROM pagos  group BY forma,tipo';
-
-    //return DB::select($sql);
-
-    //return Pago::select('sum(cantidad) dolares')->groupBy('forma')->get();
-    $items = Cursa::where('aescolar_id','like','%'.''.'%')->with('nivel')->with('seccion')->with('aescolar')->paginate();
-     $items = Empleado::where('nombre','like','%'.''.'%')->paginate(10);
     return $items;
+
 });
 
 Route::middleware([
@@ -74,6 +63,8 @@ Route::resource('pagos',App\Http\Controllers\PagoController::class)->middleware(
 Route::resource('ingresos',App\Http\Controllers\IngresoController::class)->middleware(['auth','can:ingresos.index']);
         
 Route::resource('empleados',App\Http\Controllers\EmpleadoController::class)->middleware(['auth','can:empleados.index']);
+
+Route::resource('nominas',App\Http\Controllers\NominaController::class)->middleware(['auth','can:empleados.index']);
         
 Route::resource('plan',App\Http\Controllers\CursaController::class)->middleware(['auth','can:plan.index']);
 

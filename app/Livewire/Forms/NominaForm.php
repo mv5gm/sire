@@ -14,14 +14,14 @@ class NominaForm extends Form
     public $horas;
     public $matricula;
     public $empleado_id;
+    public $cantidad;
+    public $tipo;
     public $forma;
+    public $quincena;
 
     public $open = false;
     public $openEliminar = false;
 
-    public function registrar(){
-        $this->id = null;
-    }   
     public function editar($id){
         $this->id = $id;
         
@@ -35,16 +35,25 @@ class NominaForm extends Form
         else{
             Nomina::findOrFail($this->id)->update($this->all());    
         }
-    }   
-    public function borrar($id){
-        $this->id = $id;
-        $this->openEliminar = true;
-    }   
-    public function eliminar(){
-        Nomina::findOrFail($this->id)->delete();
-        $this->openEliminar = false;
+    }
+    
+    public function guardarNomina($cantidades,$frecuencia,$mes,$anio,$quincena){
+        
+        $quincena = $frecuencia == 1 ? null : $quincena;
 
-    }   
+        dd($cantidades);
+
+        foreach($cantidades as $key => $cantidad){
+            Nomina::create([
+                'mes' => $this->mes,
+                'anio' => $this->anio,
+                'empleado_id' => $key,
+                'cantidad' => $cantidad,
+                'quincena' => $quincena,
+                'tipo' => $frecuencia,
+            ]);
+        }
+    }
 
     public function rules(){
         return [
@@ -53,7 +62,10 @@ class NominaForm extends Form
         'horas' => 'nullable|integer|min:1|max:1000|required_if:tipo,Docente',
         'matricula' => 'nullable|integer|min:1|max:1000|required_if:tipo,Matricula',
         'empleado_id' => 'required|exists:empleados,id',
-        'forma' =>'required|in:Divisa,Transferencia,Efectivo'
+        'forma' =>'required|in:Divisa,Transferencia,Efectivo',
+        'tipo' =>'required|in:Quincenal,Mensual',
+        'quincena' =>'nullable|in:Primera,Segunda',
+        'cantidad' =>'required|decimal:0,2',
         ];
     }
     public function validationAttributes(){
@@ -63,7 +75,8 @@ class NominaForm extends Form
             'horas' => 'Horas',
             'matricula' => 'Matricula',
             'empleado_id' => 'Empleado',
-            'forma' => 'Forma de Pago'
+            'forma' => 'Forma de Pago',
+            'tipo' => 'Tipo de Nomina',
         ];
     }    
 }           

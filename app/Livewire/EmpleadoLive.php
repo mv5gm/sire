@@ -9,7 +9,6 @@ use App\Livewire\Forms\EmpleadoForm;
 class EmpleadoLive extends Component
 {	
     public $open = false;
-    public $openEditar = false;
     public $openEliminar = false;
     public $openNomina = true;
     
@@ -20,12 +19,7 @@ class EmpleadoLive extends Component
     public EmpleadoForm $form;
 
     public $empleados;
-    public $dolar = 1;
-    public $horas = 1;
-    public $matricula = 1;
-    public $frecuenciaNomina = 1;
-    public $cantidades = [];
-
+    
     public function mount(){
         $this->empleados = Empleado::all();
     }
@@ -76,48 +70,5 @@ class EmpleadoLive extends Component
         $this->reset(['idBorrar','openEliminar']);
 
         $this->dispatch('success');
-    }
-    
-    public function mostrarNomina(){
-        $this->openNomina = true;
-    }
-    
-    public function updatedDolar(){
-        $this->calculoCantidad();
-    }
-    public function updatedHoras(){
-        $this->calculoCantidad();
-    }
-    public function updatedMatricula(){
-        $this->calculoCantidad();
-    }
-    public function updatedFrecuenciaNomina(){
-        $this->calculoCantidad();
-    }
-
-    public function calculoCantidad(){
-
-        $cantidadesActualizadas = []; // Crear un nuevo arreglo para almacenar las cantidades actualizadas
-
-        foreach ($this->empleados as $key => $value) {
-            // Convertir las variables a números flotantes
-            $dolar = floatval($this->dolar);
-            $horas = floatval($this->horas);
-            $matricula = floatval($this->matricula);
-            $frecuenciaNomina = floatval($this->frecuenciaNomina);
-
-            if ($value->tipo == 'Maestro') {
-
-                $cantidadesActualizadas[$value->id] = (floatval($value->matricula) * $matricula * $dolar) / $frecuenciaNomina;
-            } elseif ($value->tipo == 'Docente') {
-                
-                $cantidadesActualizadas[$value->id] = ($dolar * $horas * $value->horas * 4) / $frecuenciaNomina ;
-            } else {
-                
-                $cantidadesActualizadas[$value->id] = (floatval($value->sueldo)) / $frecuenciaNomina;
-            }
-        }
-        // Reasignar el arreglo completo para que Livewire detecte los cambios
-        $this->cantidades = $cantidadesActualizadas;
     }
 }		

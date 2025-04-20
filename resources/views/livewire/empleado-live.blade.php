@@ -12,7 +12,8 @@
                 </span>
             </x-button>
 
-            <x-button wire:click="mostrarNomina">
+            <a href="{{route('nominas.index')}}">  
+            <x-button >
                 <span wire:loading wire:target='mostrarNomina'>
                     <i class='fa-solid fa-rotate fa-spin'></i>
                 </span>
@@ -20,64 +21,9 @@
                     <i class="fa-solid fa-money-bill"></i><i class="fa-solid fa-user "></i> Nomina
                 </span>
             </x-button>
+            </a>
         </a>
     </div>
-    
-    @if( $openNomina )
-        <div class='m-4 border border-gray-300 rounded-lg shadow-lg bg-white'>
-            <div class='flex'>
-                <h1 class='text-center p-4 flex-1'>Pagar Nomina</h1>
-                <button wire:click='$set("openNomina",false)'><i class='fa-solid fa-xmark'></i></button>
-            </div>
-            <div class='p-4'>
-                <form id='form-nomina' wire:submit='guardarNomina' >
-                    <div class='flex flex-wrap'>
-                        <x-input wire:model.live='dolar' type='number' step='0.01' min='1' placeholder='Precio del Dolar' /> 
-                            <x-input wire:model.live='horas' type='number' step='0.01' min='1' placeholder='Precio de la hora academica' /> 
-                            <x-input wire:model.live='matricula' type='number' step='0.01' min='1' placeholder='Cantidad de Estudiantes' /> 
-                            <select wire:model.live='frecuenciaNomina'>
-                                <option value="1">Frecuencia de Nomina</option>
-                                <option value="1">Mensual</option>
-                                <option value="2">Quincenal</option>
-                            </select>
-                    </div>
-                    <table class='w-full mt-2'>
-                        <thead>
-                            <tr>
-                                <td>Cedula</td>
-                                <td>Nombre y Apellido</td>
-                                <td>Cantidad en Bs</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                    @foreach($empleados as $key)
-                        <tr>
-                            <td> {{$key->cedula}} </td>    
-                            <td> {{$key->nombre.' '.$key->paterno}} </td>
-                            <td><x-input type="number" min='1' step='0.01' wire:model.defer="cantidades.{{$key->id}}" class='w-full' /> </td>
-                        </tr>
-                    @endforeach
-                        </tbody>
-                    </table>    
-                </form>
-            </div>
-            <div class='bg-light p-4 border rounded-lg'>
-                <x-secondary-button wire:click="$set('openNomina',false)" class='mr-2' wire:loading.remove wire:target='guardarNomina' >
-                    <i class="fa-solid fa-ban mr-2"></i> 
-                    Cancelar
-                </x-secondary-button>
-                <x-button type='submit' form='form-nomina'>
-                    <span wire:loading wire:target='guardarNomina'>
-                        <i class='fa-solid fa-rotate fa-spin'></i>
-                    </span>
-                    <span wire:loading.remove wire:target='guardarNomina'>
-                        <i class="fa-solid fa-money-bill mr-2"></i> 
-                        Guardar
-                    </span>
-                </x-button>
-            </div>
-        </div>
-    @endif
 
     <div>
         <table class="tabla w-full mt-4">
@@ -306,7 +252,7 @@
 
     <x-dialog-modal wire:model='openEliminar'>
         <x-slot name='title'>
-            <h1>Eliminar Pago</h1>
+            <h1>Eliminar Empleado</h1>
         </x-slot>
         <x-slot name='content'>
             <form id='form-eliminar' wire:submit='eliminar' >

@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCreateOrUpdate;
+use App\Models\Imparte;
+use App\Models\Abono;
+use App\Models\Nomina;
 
 class Empleado extends Model
 {
@@ -18,5 +21,8 @@ class Empleado extends Model
     }
     public function abonos(){
     	return $this->hasMany(Abono::class);
+    }
+    public function nominas(){
+    	return $this->hasMany(Nomina::class);
     }
 }
