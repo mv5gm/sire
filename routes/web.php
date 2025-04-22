@@ -53,6 +53,14 @@ Route::middleware([
     })->name('dashboard');
 });
 
+Route::get('/descargar-nomina', function () {
+    $filePath = public_path('nomina.txt');
+    if (file_exists($filePath)) {
+        return response()->download($filePath)->deleteFileAfterSend(false);
+    } else {
+        abort(404, 'El archivo no existe.');
+    }
+})->name('descargar.nomina');
 
 Route::resource('estudiantes',App\Http\Controllers\EstudianteController::class)->middleware(['auth','can:estudiantes.index']);
 

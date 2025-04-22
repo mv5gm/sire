@@ -12,12 +12,6 @@
         'permiso'=>'users.index',
         'nombre'=>'users.index' ],
 
-        ['href'=>route('roles.index'),
-        'texto'=>'Roles',
-        'icono'=>'fa-solid fa-user-gear mr-2',
-        'permiso'=>'roles.index',
-        'nombre'=>'roles.index' ],
-
         ['href'=>route('estudiantes.index'),
         'texto'=>'Estudiantes',
         'icono'=>'fa-solid fa-graduation-cap mr-2',

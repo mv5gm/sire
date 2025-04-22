@@ -27,7 +27,7 @@
     </div>
     
     @if( $openNomina )
-        <div class='m-4 border border-gray-300 rounded-lg shadow-lg bg-white'>
+        <div class='m-4 border border-gray-300 rounded-lg shadow-lg bg-white text-sm'>
             <div class='flex'>
                 <h1 class='text-center p-4 flex-1'>Pagar Nomina</h1>
                 <button wire:click='$set("openNomina",false)'><i class='fa-solid fa-xmark p-4'></i></button>
@@ -63,7 +63,7 @@
                             </label>
                         </div>
                             
-                        @if( $tipo == '2' )
+                        @if( $tipo == 'Quincenal' )
                             <div class='flex p-2'>
                                 <label for="">Quincena
                                     <x-select wire:model.live='quincena' class='w-full'>
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <table class='w-full mt-4'>
-                        <thead>
+                        <thead class=''>
                             <tr>
                                 <td>Cedula</td>
                                 <td>Nombre y Apellido</td>
@@ -168,7 +168,7 @@
                         <td>{{$key->cantidad}}</td>
                         <td>{{$key->empleado->nombre}} {{$key->empleado->segundo}} {{$key->empleado->paterno}} {{$key->empleado->materno}}</td>
                         <td>{{$key->forma}}</td>
-                        <td>{{$key->tipo}}</td>
+                        <td>{{$key->tipo}} {{ $key->quincena }} </td>
                         <td>{{$meses[$key->mes-1]}} / {{$key->anio}} </td>
                                                 
                         <td width='100px' class='flex'>
@@ -206,16 +206,16 @@
                 <x-input-error for="form.cantidad"/>
 
                 <x-label class='mt-4'>Empleado</x-label>
-                <x-select wire:model='form.empleado_id'>
+                <x-select wire:model='form.empleado_id' class="w-full">
                     <option value="">Seleccione un empleado</option>
                     @foreach($empleados as $key)
-                        <option value="{{$key->id}}">{{$key->nombre.' '.$key->paterno}}</option>
+                        <option value="{{$key->id}}">{{$key->cedula.' '.$key->nombre.' '.$key->paterno}}</option>
                     @endforeach
                 </x-select>
                 <x-input-error for="form.empleado_id"/>
 
                 <x-label class='mt-4'>Mes</x-label>
-                <x-select wire:model='form.mes'>
+                <x-select wire:model='form.mes' class="w-full">
                     <option value="">Seleccione un Mes</option>
                     <option value="1">Enero</option>
                     <option value="2">Febrero</option>
@@ -237,16 +237,18 @@
                 <x-input-error for="form.anio"/>
 
                 <x-label class='mt-4'>Tipo de Nómina</x-label>
-                <x-select wire:model.live='form.tipo'>
+                <x-select wire:model.live='form.tipo' class="w-full">
                     <option value="">Seleccione</option>
                     <option value="Quincenal">Quincenal</option>
                     <option value="Mensual">Mensual</option>
                 </x-select>
                 <x-input-error for="form.tipo"/>
 
+                <i class='fa-solid fa-rotate fa-spin' wire:loading wire.target='form.tipo'></i>
+
                 @if($form->tipo == 'Quincenal')
                     <x-label class='mt-4'>Tipo de Quincena</x-label>
-                    <x-select wire:model.live='form.quincena'>
+                    <x-select wire:model.live='form.quincena' class="w-full">
                         <option value="">Seleccione</option>
                         <option value="Primera">Primera</option>
                         <option value="Segunda">Segunda</option>

@@ -8,9 +8,10 @@
                 Registrar
             </x-button>
         </a>    
-        <a href="{{route('export')}}">
-            <x-button>
-                <i class="fa-solid fa-file-excel mr-2" ></i>Excel
+        <a href="{{route('roles.index')}}">
+            <x-button  class="ml-2" >
+                <i class="fa-solid fa-user-gear mr-2"></i>
+                Roles
             </x-button>
         </a>
     </div>

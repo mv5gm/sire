@@ -5,6 +5,8 @@ namespace App\Livewire\Forms;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 use App\Models\Nomina;
+use App\Models\Empleado;
+use Illuminate\Support\Facades\Storage;
 
 class NominaForm extends Form
 {
@@ -19,6 +21,8 @@ class NominaForm extends Form
     public $forma;
     public $quincena;
 
+    public $texto;
+
     public $open = false;
     public $openEliminar = false;
 
@@ -29,6 +33,7 @@ class NominaForm extends Form
         $this->fill($item->toArray());
     }
     public function guardar(){
+
         if(empty($this->id)){
             Nomina::create($this->all());
         }
@@ -37,22 +42,45 @@ class NominaForm extends Form
         }
     }
     
-    public function guardarNomina($cantidades,$frecuencia,$mes,$anio,$quincena){
-        
-        $quincena = $frecuencia == 1 ? null : $quincena;
+    public function guardarNomina($cantidades, $tipo, $mes, $anio, $quincena)
+    {   
+        $quincena = $tipo == 'Mensual' ? null : $quincena;
 
-        dd($cantidades);
+        $filePath = public_path('nomina.txt');
+        $fileHandle = fopen($filePath, 'w');
 
-        foreach($cantidades as $key => $cantidad){
-            Nomina::create([
-                'mes' => $this->mes,
-                'anio' => $this->anio,
-                'empleado_id' => $key,
-                'cantidad' => $cantidad,
-                'quincena' => $quincena,
-                'tipo' => $frecuencia,
-            ]);
-        }
+        $encabezado = "GRAN MARISCAL DE AYACUCHO\n";
+
+        $this->texto = $encabezado;
+
+        fwrite($fileHandle, $encabezado);
+
+        \DB::transaction(function () use ($cantidades, $mes, $anio, $quincena, $tipo, $fileHandle) {
+            foreach ($cantidades as $key => $cantidad) {
+                Nomina::create([
+                    'mes' => $mes,
+                    'anio' => $anio,
+                    'empleado_id' => $key,
+                    'cantidad' => $cantidad,
+                    'quincena' => $quincena,
+                    'tipo' => $tipo,
+                    'forma' => 'Transferencia',
+                ]);
+
+                $empleado = Empleado::find($key);
+                $cuenta = $empleado->cuenta;
+                $tipo_cuenta = $empleado->tipo_cuenta;
+
+                $line = "Cantidad: $cantidad, Cuenta: $cuenta, Tipo de cuenta: $tipo_cuenta\n";
+                $this->texto .= $line;
+                fwrite($fileHandle, $line);
+            }
+        });
+
+        fclose($fileHandle);
+
+        // Redirigir a la ruta de descarga
+        //return redirect()->route('descargar.nomina');
     }
 
     public function rules(){

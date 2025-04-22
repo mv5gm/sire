@@ -11,7 +11,7 @@ class NominaLive extends Component
 {   
     public $open = false;
     public $openEliminar = false;
-    public $openNomina = true;
+    public $openNomina = false;
     
     public $buscar = "";
 
@@ -21,10 +21,10 @@ class NominaLive extends Component
     public $dolar = 1;
     public $horas = 1;
     public $matricula = 1;
-    public $tipo = 1;
+    public $tipo = 'Mensual';
     public $anio;
     public $mes;
-    public $quincena = 1;
+    public $quincena = 'Primera';
     public $cantidades = [];
 
     public function render()
@@ -43,7 +43,7 @@ class NominaLive extends Component
     {
         $this->empleados = Empleado::all();
         $this->anio = date('Y');
-        $this->mes = date('m');
+        $this->mes = Intval(date('m'));
     }
     public function registrar(){
         $this->form->reset();
@@ -52,6 +52,8 @@ class NominaLive extends Component
     public function guardar(){
 
     	$this->form->validate();
+
+        //$this->nominaExiste();
 
         $this->form->guardar();
 
@@ -108,10 +110,8 @@ class NominaLive extends Component
             $dolar = floatval($this->dolar);
             $horas = floatval($this->horas);
             $matricula = floatval($this->matricula);
-            $tipo = $this->tipo == 'Mensual' ? 1: 2;
-
-            //dd($tipo);
-
+            $tipo = $this->tipo == 'Mensual' ? 1 : 2;
+                
             if ($value->tipo == 'Maestro') {
 
                 $cantidadesActualizadas[$value->id] = round((floatval($value->matricula) * $matricula * $dolar) / $tipo,2);
@@ -128,8 +128,45 @@ class NominaLive extends Component
     }
     public function guardarNomina(){
         
+        foreach ($this->cantidades as $empleadoId => $cantidad) {
+            // Verificar si ya existe un registro mensual para el mismo empleado, año y mes
+            $existeNominaMensual = Nomina::where('empleado_id', $empleadoId)
+            ->where('anio', $this->anio)
+            ->where('mes', $this->mes)
+            ->where('tipo', 'Mensual')
+            ->exists();
+
+            if ($existeNominaMensual) {
+            $this->dispatch('error', ['message' => "El empleado ID $empleadoId ya tiene un pago mensual registrado para este mes. No se pueden ingresar nóminas quincenales."]);
+            return; // Detener el proceso si se encuentra un conflicto
+            }
+
+            // Verificar si ya existe un registro quincenal para el mismo empleado, año y mes
+            $existeNomina = Nomina::where('empleado_id', $empleadoId)
+            ->where('anio', $this->anio)
+            ->where('mes', $this->mes)
+            ->when($this->tipo == 'Quincenal', function ($query) {
+                $query->where('quincena', $this->quincena);
+            })
+            ->exists();
+
+            if ($existeNomina) {
+            if ($this->tipo == 'Quincenal' && $this->quincena == 'Primera') {
+                $this->dispatch('error', ['message' => "El empleado ID $empleadoId ya tiene un pago registrado para la primera quincena de este mes."]);
+            } else {
+                $this->dispatch('error', ['message' => "El empleado ID $empleadoId ya tiene un pago registrado para este mes."]);
+            }
+            return; // Detener el proceso si se encuentra un conflicto
+            }
+        }
+
         $this->form->guardarNomina($this->cantidades,$this->tipo,$this->mes,$this->anio,$this->quincena);
         $this->dispatch('success',['message' => 'Nomina guardada con exito']);
         $this->openNomina = false;
-    }   
+        return redirect()->route('descargar.nomina');
+    }
+    
+    public function nominaExiste($empleado_id,$anio,$mes,$quincena){
+        
+    }
 }       

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ingresos', function (Blueprint $table) {
             $table->id();
             $table->decimal('cantidad',10,2);
-            $table->decimal('dolar',10,2);
+            $table->decimal('dolar',10,2)->nullable();
             $table->date('fecha');
             $table->enum('forma',['Efectivo','Transferencia','Divisa']);
             $table->string('codigo')->nullable();

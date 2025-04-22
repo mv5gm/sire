@@ -18,7 +18,7 @@ class IngresoLive extends Component
     use WithPagination;
     public IngresoForm $form;
 
-    public $open = true;
+    public $open = false;
     public $openEditar = false;
     public $openEliminar = false;
     public $estudiantes;	

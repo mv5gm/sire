@@ -31,14 +31,14 @@ class IngresoForm extends Form
     		
     	return [
 	    	'cantidad' => 'required|numeric|min:1',
-	    	'dolar' => 'required|numeric|min:1',
+	    	'dolar' => 'nullable|required_if:forma,Transferencia,Efectivo|numeric|min:1',
 	    	'forma' => 'required|in:Efectivo,Transferencia,Divisa',
 	    	'codigo' => 'required_if:forma,Transferencia|nullable|max:255',
 	    	'descripcion' => 'nullable|max:255',
 	    	'esPago' => 'boolean',
 	    	'estudiante_id' => 'required_if:esPago,true',
 	    	'representante_id' => 'required_if:esPago,true',
-	    	'tipoPago' => 'required_if:esPago,true',
+	    	'tipoPago' => 'nullable|required_if:esPago,true',
 	    	'mesesSeleccionados' => 'required_if:tipoPago,Mensualidad',
     	];		
     }		
