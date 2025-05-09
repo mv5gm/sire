@@ -73,7 +73,16 @@
                     <option value="m">Masculino</option>
                     <option value="f">Femenina</option>
                 </x-select>
-                <x-input-error for="estudianteForm.sexo"/>		
+                <x-input-error for="estudianteForm.tipo"/>	
+				
+				<x-label class='mt-4'>Tipo de Estudiante</x-label>
+                <x-select wire:model="estudianteForm.tipo" class='w-full form-control'>
+                    <option value="" disabled="">Seleccione</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Especial">Especial</option>
+                    <option value="Exonerado">Exonerado</option>
+                </x-select>
+                <x-input-error for="estudianteForm.tipo"/>	
                 
 	        </div>
 	

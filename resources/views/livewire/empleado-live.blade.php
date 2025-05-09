@@ -11,20 +11,8 @@
                     <i class="fa-solid fa-plus mr-2"></i> Registrar
                 </span>
             </x-button>
-
-            <a href="{{route('nominas.index')}}">  
-            <x-button >
-                <span wire:loading wire:target='mostrarNomina'>
-                    <i class='fa-solid fa-rotate fa-spin'></i>
-                </span>
-                <span wire:loading.remove wire:target='mostrarNomina'>    
-                    <i class="fa-solid fa-money-bill"></i><i class="fa-solid fa-user "></i> Nomina
-                </span>
-            </x-button>
-            </a>
         </a>
     </div>
-
     <div>
         <table class="tabla w-full mt-4">
             <thead>
@@ -123,21 +111,62 @@
                     <x-label class='mt-4'>Cantidad de horas por semana</x-label>
                     <x-input type='text' wire:model='form.horas' class="w-full" placeholder='Cantidad de horas por semana' />
                     <x-input-error for="form.horas"/>
-
                 @endif
 
                 @if($form->tipo == 'Maestro')
-                    <x-label class='mt-4'>Matricula</x-label>
-                    <x-input type='text' wire:model='form.matricula' class="w-full" placeholder='Cantidad de estudiantes' />
-                    <x-input-error for="form.matricula"/>
+                    <div class='border p-2 mt-4'>
+                        <h3 class='p-1'>Asignar Secciones</h3>
+                        <x-label class='mt-4'>Nivel Academico</x-label>
+                        <x-select wire:model="cursa.nivel_id" name="nivel" class='w-full form-control'>
+                            <option value="" disabled >Seleccione</option>
+                            @foreach($nivels as $key)
+                                <option value='{{$key->id}}'>{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-input-error for="cursa.nivel_id"/>
+                        
+                        <x-label class='mt-4'>Seccion</x-label>
+                        <x-select wire:model="cursa.seccion_id" name="seccion" class='w-full form-control'>
+                            <option value="" disabled>Seleccione</option>
+                            @foreach($seccions as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-input-error for="cursa.seccion_id"/>
+
+                        <x-label class='mt-4'>Año escolar</x-label>
+                        <x-select wire:model="cursa.aescolar_id" name="aescolar" class='w-full form-control'>
+                            <option value="" disabled>Seleccione</option>
+                            @foreach($aescolars as $key)
+                                <option value="{{$key->id}}">{{$key->inicio}}-{{$key->final}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-input-error for="cursa.aescolar_id"/>
+                    </div>
+                    
+                    <h3 class='m-2'> Secciones Anteriores </h3>
+                    
+                    @foreach($impartes as $key)
+                        <div class='p-2 m-2 bg-light border flex radius'>
+                            <div class='flex flex-1'>
+                                <p class='mr-2'> {{ $key->cursa->nivel->nombre }} </p>
+                                <p class='mr-2'> {{ $key->cursa->seccion->nombre }} </p>
+                                <p> {{ $key->cursa->aescolar->inicio.'-'.$key->cursa->aescolar->final }} </p>
+                            </div>
+                            <div>
+                                <a wire:click="borrarImparte({{$key->id}})" class='p-1 cursor-pointer' title='Eliminar'>
+                                    <i class="fa-solid fa-x"></i>
+                                </a>    
+                            </div>    
+                        </div>
+                    @endforeach
 
                 @endif
 
                 @if( $form->tipo == 'Administrativo' || $form->tipo == 'Obrero' )
                     <x-label class='mt-4'>Sueldo</x-label>
-                    <x-input type='text' wire:model='form.sueldo' class="w-full" placeholder='Sueldo' />
+                    <x-input type='text' wire:model='form.sueldo' class="w-full" placeholder='Sueldo en Dolares' />
                     <x-input-error for="form.sueldo"/>
-
                 @endif
 
                 <div wire:loading wire:target="form.tipo" class="mt-4">
@@ -147,80 +176,10 @@
                 <x-label class='mt-4'>Banco</x-label>
             	<x-select wire:model='form.banco' class='w-full ' name='banco'>
             		
-            		<option value="">Seleccione</option>
-
-            		<option value="BANCO DE VENEZUELA">
-            			BANCO DE VENEZUELA
-            		</option>
-            		<option value="BANCO CENTRAL DE VENEZUELA">
-                    	BANCO CENTRAL DE VENEZUELA
-            		</option>
-            		<option value="BANCO DEL TESORO">
-            			BANCO DEL TESORO	
-            		</option>
-            		<option value="BANCO DEL COMERCIO EXTERIOR (BANCOEX)">
-            			BANCO DEL COMERCIO EXTERIOR (BANCOEX)	
-            		</option>
-            		<option value="BANCO DE EXPORTACION Y COMERCIO">
-            			BANCO DE EXPORTACION Y COMERCIO	
-            		</option>
-            		<option value="BANESCO">
-            			BANESCO	
-            		</option>
-            		<option value="BANCO INDUSTRIAL DE VENEZUELA">
-            			BANCO INDUSTRIAL DE VENEZUELA	
-            		</option>
-            		<option value="BANCO BICENTENARIO">
-            			BANCO BICENTENARIO	
-            		</option>
-            		<option value="BANCO PROVINCIAL">
-            			BANCO PROVINCIAL	
-            		</option>
-            		<option value="CITIBANK SUCURSAL VENEZUELA">
-            			CITIBANK SUCURSAL VENEZUELA	
-            		</option>
-            		<option value="BANCO OCCIDENTAL DEL DESCUENTO">
-            			BANCO OCCIDENTAL DEL DESCUENTO	
-            		</option>
-            		<option value="CORP BANCA">
-            			CORP BANCA	
-            		</option>
-            		<option value="BANCO EXTERIOR">
-            			BANCO EXTERIOR	
-            		</option>
-                    <option value="BANPLUS">
-                    	BANPLUS	
-                    </option>
-                    <option value="BANCO NACIONAL DEL CREDITO">
-                    	BANCO NACIONAL DEL CREDITO	
-                    </option>
-                    <option value="BANCO ACTIVO">
-                    	BANCO ACTIVO	
-                    </option>
-                    <option value="BANCO DEL CARIBE">
-                    	BANCO DEL CARIBE	
-                    </option>
-                    <option value="BANCO FONDO COMUN">
-                    	BANCO FONDO COMUN
-                    </option>
-                    <option value="BANCO MERCANTIL">
-                    	BANCO MERCANTIL	
-                    </option>
-                    <option value="100% BANCO">
-                    	100% BANCO	
-                    </option>
-                    <option value="BANCO SOFITASA">
-                    	BANCO SOFITASA
-                    </option>
-                    <option value="BANCO ESPIRITU SANTO">
-                    	BANCO ESPIRITU SANTO
-                    </option>
-                    <option value="BANCO PLAZA">
-                    	BANCO PLAZA	
-                    </option>
-                    <option value="BANFANB">
-                    	BANFANB
-                    </option>
+                    <option value="">Seleccione</option>
+                    @foreach( $bancos as $bank)
+                        <option value="{{ $bank }}">{{ $bank }}</option>
+                    @endforeach
             	</x-select>
                 <x-input-error for="form.banco"/>
 
@@ -267,6 +226,30 @@
             <x-danger-button type='submit' form='form-eliminar'>
                 <span wire:loading wire:target='eliminar'>Cargando...</span>
                 <span wire:loading.remove wire:target='eliminar'>
+                    <i class="fa-solid fa-trash mr-2"></i> 
+                    Eliminar
+                </span>
+            </x-danger-button>
+        </x-slot>
+    </x-dialog-modal>
+
+    <x-dialog-modal wire:model='openEliminarImparte'>
+        <x-slot name='title'>
+            <h1>Desvincular Maestro con esta Seccion</h1>
+        </x-slot>
+        <x-slot name='content'>
+            <form id='form-eliminar-imparte' wire:submit='eliminarImparte' >
+                <h3>Seguro de desvincular ?</h3>
+            </form>
+        </x-slot>
+        <x-slot name='footer'>
+            <x-secondary-button wire:click="$set('openEliminarImparte',false)" class='mr-2' wire:loading.remove wire:target='eliminar' >
+                <i class="fa-solid fa-ban mr-2"></i> 
+                Cancelar
+            </x-secondary-button>
+            <x-danger-button type='submit' form='form-eliminar-imparte'>
+                <span wire:loading wire:target='eliminarImparte'><i class='fa fa-rotate spin'></i></span>
+                <span wire:loading.remove wire:target='eliminarImparte'>
                     <i class="fa-solid fa-trash mr-2"></i> 
                     Eliminar
                 </span>

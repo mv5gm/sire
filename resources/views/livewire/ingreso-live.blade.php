@@ -7,11 +7,6 @@
                 <i class="fa-solid fa-plus mr-2"></i>
                 Registrar
             </x-button>
-        </a>    
-        <a href="{{route('export')}}">
-            <x-button>
-                <i class="fa-solid fa-file-excel mr-2" ></i>Excel
-            </x-button>
         </a>
     </div>
     <div>
@@ -57,7 +52,7 @@
     </div>
     <x-dialog-modal wire:model='open'>
         <x-slot name='title'>
-            <h1 class="center">{{ $id ? 'Actualizar' : 'Registrar' }} Ingreso</h1>
+            <h1 class="center">{{ $form->id ? 'Actualizar' : 'Registrar' }} Ingreso</h1>
         </x-slot>
         <x-slot name='content'>
            		
@@ -79,69 +74,18 @@
                     @endforeach	
                 </x-select>
                 <x-input-error for="form.forma"/>
-                @if($esTransferencia)
+                @if($form->forma == 'Transferencia')
                 	<x-label>Codigo</x-label>
                 	<x-input wire:model='form.codigo' type="text" placeholder='Codigo' class='w-full mb-2'/>
                 	<x-input-error for="form.codigo"/>
                 @endif  
-                <x-label>Descripcion <small>(opcional)</small></x-label>
+                <x-label>Descripcion <small>(Opcional)</small></x-label>
                 <x-input wire:model='form.descripcion' type="text" placeholder='Descripcion' class='w-full mb-2'/>
                 <x-input-error for="form.descripcion"/>
-                 <!-- Checkbox para indicar si es un pago -->
-		        <div>		
-		            <label>		
-		                <input type="checkbox" wire:model.live="form.esPago"> ¿Es un pago de Representante?
-		            </label>
-		        </div>
-
-                @if($form->esPago)
-					<!-- Selector de representante -->
-                	<div>
-		                <label for="representante_id" class='w-full'>Representante:</label>
-		                <x-select id="representante_id" wire:model.live="form.representante_id" class='w-full' required>
-		                    <option value="">Seleccione un representante</option>
-		                    @foreach ($representantes as $key)
-		                        <option value="{{ $key->id }}">{{ $key->nombre.' '.$key->paterno.' '.$key->cedula }}</option>
-		                    @endforeach
-		                </x-select>
-                		<x-input-error for="form.representante_id"/>
-		            </div>
-		            <!-- Selector de estudiante -->
-		            <div>
-		                <label for="estudiante_id" class='w-full'>Estudiante:</label>
-		                <x-select id="estudiante_id" wire:model="form.estudiante_id" class='w-full' required>
-		                    <option value="">Seleccione un estudiante</option>
-		                    @foreach ($estudiantes as $key)
-		                        <option value="{{ $key->id }}">{{ $key->nombre.' '.$key->paterno.' '.$key->cedula }}</option>
-		                    @endforeach
-		                </x-select>
-                		<x-input-error for="form.estudiante_id"/>
-		            </div>
-
-		            <!-- Selector de tipo de pago -->
-		            <div>
-		                <label for="tipoPago" class='w-full'>Tipo de pago:</label>
-		                <x-select id="tipoPago" wire:model.live="form.tipoPago" class='w-full' required>
-		                    <option value="">Seleccione un tipo de pago</option>
-		                    @foreach ($form->tiposPago as $key)
-		                        <option value="{{ $key }}">{{ $key }}</option>
-		                    @endforeach
-		                </x-select>
-                		<x-input-error for="form.tipoPago"/>
-		            </div>	
-
-		            <!-- Selector de meses (solo si el tipo de pago es mensualidad) -->
-		            @if ($form->tipoPago == 'Mensualidad')
-		                <div>
-		                    <label class='w-full'>Meses a pagar:</label>
-		                    @foreach ($form->meses as $key => $mes)
-		                        <label class='p-2'>
-		                            <input type="checkbox" wire:model="form.mesesSeleccionados" value="{{ $key+1 }}"> {{ $mes }}
-		                        </label>
-		                    @endforeach
-		                </div>
-		            @endif
-                @endif
+                
+                <x-label>Fecha <small>(Opcional)</small></x-label>
+                <x-input wire:model='form.fecha' type="date" class='w-full mb-2'/>
+                <x-input-error for="form.fecha"/>
             </form>
         </x-slot>
         <x-slot name='footer'>
@@ -153,7 +97,7 @@
                 <span wire:loading wire:target='guardar'>Cargando...</span>
                 <span wire:loading.remove wire:target='guardar'>
                     <i class="fa-solid fa-plus mr-2"></i> 
-                {{ $id ? 'Actualizar' : 'Registrar' }}</span>
+                {{ $form->id ? 'Actualizar' : 'Registrar' }}</span>
             </x-button>
         </x-slot>
     </x-dialog-modal>

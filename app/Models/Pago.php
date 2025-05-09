@@ -12,7 +12,7 @@ class Pago extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
-    protected $fillable = ['cantidad','dolar','fecha','forma','representante_id','estudiante_id','ingreso_id','tipo','codigo'];
+    protected $fillable = ['representante_id','estudiante_id','ingreso_id','tipo'];
 
     public function ingreso(){
     	return $this->belongsTo(Ingreso::class);

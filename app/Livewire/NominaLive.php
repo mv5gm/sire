@@ -20,7 +20,8 @@ class NominaLive extends Component
     public $empleados;
     public $dolar = 1;
     public $horas = 1;
-    public $matricula = 1;
+    public $normal = 1;
+    public $especial = 1;
     public $tipo = 'Mensual';
     public $anio;
     public $mes;
@@ -101,6 +102,12 @@ class NominaLive extends Component
     public function updatedTipo(){
         $this->calculoCantidad();
     }
+    public function updatedNormal(){
+        $this->calculoCantidad();
+    }
+    public function updatedEspecial(){
+        $this->calculoCantidad();
+    }
     public function calculoCantidad(){
 
         $cantidadesActualizadas = []; // Crear un nuevo arreglo para almacenar las cantidades actualizadas
@@ -109,18 +116,21 @@ class NominaLive extends Component
             // Convertir las variables a números flotantes
             $dolar = floatval($this->dolar);
             $horas = floatval($this->horas);
-            $matricula = floatval($this->matricula);
+            $normal = floatval($this->normal);
+            $especial = floatval($this->especial);
+
             $tipo = $this->tipo == 'Mensual' ? 1 : 2;
                 
             if ($value->tipo == 'Maestro') {
+                $empleado = Empleado::find($value->id);
 
-                $cantidadesActualizadas[$value->id] = round((floatval($value->matricula) * $matricula * $dolar) / $tipo,2);
+                $cantidadesActualizadas[$value->id] = round(floatval($empleado->calcularSueldoMaestro($normal,$especial) * $dolar ) / $tipo,2);
             } elseif ($value->tipo == 'Docente') {
                 
                 $cantidadesActualizadas[$value->id] = round(($dolar * $horas * $value->horas * 4) / $tipo,2 );
             } else {
                 
-                $cantidadesActualizadas[$value->id] = round((floatval($value->sueldo)) / $tipo ,2);
+                $cantidadesActualizadas[$value->id] = round((floatval($value->sueldo) * $dolar ) / $tipo ,2);
             }
         }
         // Reasignar el arreglo completo para que Livewire detecte los cambios

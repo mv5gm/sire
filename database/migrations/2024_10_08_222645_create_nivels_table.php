@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('nivels', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->enum('categoria',['Inicial','Basica','Media General','Superior'])->nullable();
             $table->timestamps();
         });
     }

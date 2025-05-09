@@ -11,6 +11,8 @@ class Imparte extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
+    protected $fillable = ['empleado_id','cursa_id','saber','momento'];
+
     public function empleado(){
     	return $this->belongsTo(Empleado::class);
     }
@@ -18,6 +20,6 @@ class Imparte extends Model
     	return $this->hasMany(Encuentro::class);
     }
     public function cursa(){
-    	return $this->hasMany(Encuentro::class);
+    	return $this->belongsTo(Cursa::class);
     }
 }

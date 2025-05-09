@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pago_mes', function (Blueprint $table) {
             $table->id();
-            $table->enum('mes', range(1, 12));
+            $table->enum('mes', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']);
             $table->integer('anio');
             $table->foreignId('pago_id')->constrained()->onDelete('cascade');
             $table->timestamps();

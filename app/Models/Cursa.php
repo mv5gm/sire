@@ -46,6 +46,15 @@ class Cursa extends Model
         }
         return $result->id;
     }
+    
+    public static function obtener($aescolar_id, $nivel_id, $seccion_id, $salon_id)
+    {
+        return  Cursa::where('nivel_id',$nivel_id)
+                ->where('salon_id',$salon_id)
+                ->where('aescolar_id',$aescolar_id)
+                ->where('seccion_id',$seccion_id)
+                ->first();
+    }   
     public static function scopeBuscar($query, $aescolarId, $nivelId, $seccionId, $salonId)
     {
         return $query->where('aescolar_id', $aescolarId)

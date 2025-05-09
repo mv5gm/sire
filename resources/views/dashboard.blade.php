@@ -1,21 +1,32 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Panel de control') }}
+        <i class='fa-solid fa-chart-line mr-2'></i>    
+        {{ __('Panel de control') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class='p-6 lg:p-8 bg-white border-b border-gray-200'>
-                    <h1 class="text-2xl font-bold">Posicion Consolidada</h1>
-                    <p class="mt-4">Total Ingresos</p>
+                    <div class='flex items-center justify-between'>
+                        <h1 class="text-2xl font-bold">Estadisticas Financieras</h1>
+                        <a href=" {{route('movimientos')}} ">
+                            <i class='fa-solid fa-money-bill'></i>
+                            Ver Movimientos Financieros
+                        </a>
+                    </div>
+                </div>
+                <div class="p-6 lg:p-8 bg-white border-b border-gray-200">  
+                    @livewire('alumno-live')
                 </div>
                 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">  
                     <div style="width: 75%; margin: auto;">
-                        <canvas id="myChart"></canvas>
+                        @php
+                           // <canvas id="myChart"></canvas>
+                        @endphp
                     </div>
+
                     <script>
                         document.addEventListener('DOMContentLoaded', function () {
                             const ctx = document.getElementById('myChart').getContext('2d');

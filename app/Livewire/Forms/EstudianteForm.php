@@ -30,6 +30,7 @@ class EstudianteForm extends Form
     public $vive_con;
     public $parto;
     public $alergias;
+    public $tipo;
 
     public $parroquia_id = 1;
     
@@ -57,53 +58,37 @@ class EstudianteForm extends Form
 
         $ins =  Inscripcion::where('estudiante_id',$estudianteId)->with('cursa')->with('estudiante')->first();
 
-        $this->fillFromModel($ins->estudiante, $this->all());
-        /*
-        $this->cedula = $ins->estudiante->cedula;
-        $this->nombre = $ins->estudiante->nombre;
-        $this->segundo = $ins->estudiante->segundo;
-        $this->paterno = $ins->estudiante->paterno;
-        $this->materno = $ins->estudiante->materno;
-        $this->sexo = $ins->estudiante->sexo;
-        $this->lugar = $ins->estudiante->lugar;
-        $this->fecha = $ins->estudiante->fecha;  
-        $this->situacion = $ins->estudiante->situacion;  
-        $this->residencia = $ins->estudiante->residencia;  
-        $this->parroquia_id = $ins->estudiante->parroquia_id;  
-
-        $this->seccion_id = $ins->cursa->seccion_id;
-        $this->nivel_id = $ins->cursa->nivel_id;
-        $this->aescolar_id = $ins->cursa->aescolar_id;
-        $this->cursaId = $ins->cursa->id;
-
-        [$this->vive_con,$this->parto] = explode('-',$ins->estudiante->vive_con);
-        */
+        $this->fill(Estudiante::find($estudianteId)->toArray());
     }   
 
     public function actualizar(){
 
-		$estudiante = Estudiante::find($this->id);
+        $estudiante = Estudiante::find($this->id);
 
         $estudiante->update($this->all());
 
-        $ins = Inscripcion::where('estudiante_id',$estudiante->id)->where('cursa_id',$this->cursaId)->first();  
 
-        $cursa = Cursa::where('seccion_id',$this->seccion_id)->where('nivel_id',$this->nivel_id)->where('aescolar_id',$this->aescolar_id)->first();
+        //$ins = Inscripcion::where('estudiante_id',$estudiante->id)->where('cursa_id',$this->cursaId)->first();  
 
-        if(  isset($cursa->id) ){
+        //$cursa = Cursa::where('seccion_id',$this->seccion_id)->where('nivel_id',$this->nivel_id)->where('aescolar_id',$this->aescolar_id)->first();
 
-            $ins->cursa_id = $cursa->id;
-        }
+        //if(  isset($cursa->id) ){
+
+        //    $ins->cursa_id = $cursa->id;
+        //}
         
-        $ins->save();
+        //$ins->save();
 
-        $this->reset();    
+        //$this->reset();    
     }
 
     public function rules(){   
             
         return [
-            'cedula' =>"nullable|unique:estudiantes,cedula,".$this->cedula,
+            'cedula' =>[
+                'nullable',
+                Rule::unique('estudiantes', 'cedula')->ignore($this->id),
+            ],
             'nombre' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ\s]+$/|min:3|max:70',
             'segundo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ\s]+$/|max:70',
             'paterno' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ\s]+$/|min:3|max:70',
@@ -117,6 +102,7 @@ class EstudianteForm extends Form
             'vive_con' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ()\s]+$/|max:100',
             'parto' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚ\s]+$/|max:100',
             'alergias' =>'required|in:asma,respiratorias,rinitis,ninguna',
+            'tipo' =>'required|in:Normal,Especial,Exonerado',
             'parroquia_id' =>'required|exists:parroquias,id',
             
         ];  

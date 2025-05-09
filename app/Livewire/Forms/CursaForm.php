@@ -9,9 +9,9 @@ use App\Models\Cursa;
 class CursaForm extends Form
 {		
     public $id;
-    public $aescolar_id;
-    public $nivel_id;
-    public $seccion_id;
+    public $aescolar_id = 1;
+    public $nivel_id = 1;
+    public $seccion_id = 1;
     public $salon_id = 1;
     	
     public function guardar()

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('cantidad',10,2);
             $table->decimal('dolar',10,2)->nullable();
-            $table->date('fecha');
+            $table->date('fecha')->default(DB::raw('CURRENT_DATE'));
             $table->enum('forma',['Efectivo','Transferencia','Divisa']);
             $table->string('codigo')->nullable();
             $table->string('descripcion')->nullable();

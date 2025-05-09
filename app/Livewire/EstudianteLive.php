@@ -15,6 +15,7 @@ use App\Models\Cursa;
 use App\Models\Estado;
 use App\Models\Municipio;
 use App\Models\Parroquia;
+use App\Livewire\Forms\CursaForm;
 use App\Livewire\Forms\EstudianteForm;
 use App\Livewire\Forms\RepresentanteForm;
 //use App\Livewire\Forms\EstudianteEditarForm;
@@ -43,6 +44,7 @@ class EstudianteLive extends Component
     #[Url]
     public $buscar = "";
         
+    public CursaForm $cursa;
     public EstudianteForm $form;
     public RepresentanteForm $representanteRegistrar;
     //public EstudianteEditarForm $estudianteEditar;
@@ -91,16 +93,14 @@ class EstudianteLive extends Component
     {
         $this->representantes = Representante::select('id','cedula','nombre','paterno')->get();
 
-      $estudiantes = Estudiante::
-        where('estudiantes.nombre','like','%'.$this->buscar.'%')
-        ->orWhere('estudiantes.cedula','like','%'.$this->buscar.'%')
-        ->join('inscripcions', 'estudiantes.id', '=', 'inscripcions.estudiante_id')
-        ->join('cursas', 'inscripcions.cursa_id', '=', 'cursas.id')
-        ->join('nivels', 'cursas.nivel_id', '=', 'nivels.id')
-        ->join('seccions', 'cursas.seccion_id', '=', 'seccions.id')
-        ->select('estudiantes.*')
-        ->orderBy('nivels.id')
-        ->paginate(15);
+        $estudiantes = Estudiante::where('estudiantes.nombre', 'like', '%' . $this->buscar . '%')
+            ->orWhere('estudiantes.cedula', 'like', '%' . $this->buscar . '%')
+            ->join('inscripcions', 'estudiantes.id', '=', 'inscripcions.estudiante_id')
+            ->join('cursas', 'inscripcions.cursa_id', '=', 'cursas.id')
+            ->join('nivels', 'cursas.nivel_id', '=', 'nivels.id')
+            ->orderBy('nivels.id', 'asc')
+            ->select('estudiantes.*')
+            ->paginate(15);
 
         return view('livewire.estudiante-live',compact('estudiantes'));
     }
@@ -142,16 +142,26 @@ class EstudianteLive extends Component
         $this->openEditar = true;
         
         $this->form->editar($estudianteId);
+
+        $cursa = Estudiante::obtenerCursa($estudianteId);
+
+        $this->cursa->aescolar_id = $cursa->aescolar_id;
+        $this->cursa->nivel_id = $cursa->nivel_id;
+        $this->cursa->seccion_id = $cursa->seccion_id;
     }       
     public function actualizar(){
 
         $this->form->validate();
         $this->form->actualizar();
 
+        Estudiante::registrarInscripcion($this->form->id,$this->cursa->aescolar_id,$this->cursa->seccion_id,$this->cursa->nivel_id);
+
+        $this->form->reset();
+
         $this->openEditar = false;
         
         $this->dispatch('success');
-    }   
+    }                        
     public function borrar($estudianteId)
     {       
         $this->idBorrar = $estudianteId;

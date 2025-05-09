@@ -7,10 +7,10 @@ use App\Models\Hogar;
 use App\Models\Representante;
 use App\Models\Representado;
 use App\Models\Estudiante;
+use App\Models\Empleado;
 use App\Models\Nivel;
 use App\Models\Pago;
 use App\Models\Inscripcion;
-use App\Models\Empleado;
 use App\Models\User;
 use App\Models\Ingreso;
 use App\Models\Nomina;
@@ -21,19 +21,72 @@ Route::get('/', function () {
 });
 
 Route::get('/pruebas', function () {
+
+    //return Empleado::tipoBanco();
+
+    $empleado = Empleado::find(7);
     
-    $buscar = '';
-    $items = Nomina::with('empleado')
-    ->whereHas('empleado', function ($query) {
-        $buscar = '';
-    $query->where('nombre', 'like', '%' . $buscar . '%');
-    })
-    ->orWhere('mes','like','%' . $buscar . '%')
-    ->orWhere('anio','like','%' . $buscar . '%')
-    ->get();
+    //return $empleado->calcularSueldoMaestro(10,5);
 
-    return $items;
+    function obtenerMovimientos($forma)
+    {
+        $ingresos = DB::table('ingresos')->where('forma', $forma)
+            ->select(
+                'id',
+                'cantidad',
+                'forma',
+                'created_at',
+                DB::raw("'Ingreso' as tipo"),
+                DB::raw("'ingresos' as origen")
+            );
 
+        $gastos = DB::table('gastos')->where('forma', $forma)
+            ->select(
+                'id',
+                'cantidad',
+                'forma',
+                'created_at',
+                DB::raw("'Gasto' as tipo"),
+                DB::raw("'gastos' as origen")
+            );
+
+        $nominas = DB::table('nominas')->where('forma', $forma)
+            ->select(
+                'id',
+                'cantidad',
+                DB::raw("'Transferencia' as forma"),
+                'created_at',
+                DB::raw("'Nomina' as tipo"),
+                DB::raw("'nominas' as origen")
+            );
+
+        $movimientos = $ingresos
+            ->union($gastos)
+            ->union($nominas);
+
+        // Agregar el campo `posicion` acumulativo respetando el orden descendente
+        $movimientosConPosicion = [];
+            
+        $posicion = 0;
+
+        foreach($movimientos->orderBy('created_at', 'desc')->get() as $index => $movimiento) {
+            
+            $posicion += ($movimiento->tipo == 'Ingreso') ? $movimiento->cantidad : -$movimiento->cantidad;
+            $movimientoConPosicion = new \stdClass();
+            
+            $movimientoConPosicion->id = $movimiento->id;
+            $movimientoConPosicion->cantidad = $movimiento->cantidad;
+            $movimientoConPosicion->posicion = $posicion;
+            $movimientoConPosicion->forma = $movimiento->forma;
+            $movimientoConPosicion->tipo = $movimiento->tipo;
+            $movimientoConPosicion->created_at = $movimiento->created_at;
+
+            $movimientosConPosicion[] = $movimientoConPosicion;
+        }
+
+        return $movimientosConPosicion;
+    }
+    return obtenerMovimientos('Divisa');
 });
 
 Route::middleware([
@@ -87,3 +140,9 @@ Route::resource('roles',App\Http\Controllers\RoleController::class)->middleware(
 Route::get('export',[App\Http\Controllers\ExportController::class,'excel'])->name('export')->middleware(['auth','can:estudiantes.index' ]);
         
 Route::get('reportePagos/{estudiante_id}/{representante_id}/{aescolar}/{tipo}',[App\Http\Controllers\PagoController::class,'reporte'])->name('reportes.pagos')->middleware(['auth','can:estudiantes.index' ]);
+
+Route::get('movimientos',function(){
+    
+    return view('movimientos');
+
+})->name('movimientos')->middleware(['auth','can:gastos.index']);

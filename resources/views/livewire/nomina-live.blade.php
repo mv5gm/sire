@@ -50,7 +50,13 @@
                         <div class='flex p-2'>
                             <label for="">
                                 Precio por Estudiante
-                                <x-input wire:model.live='matricula' type='number' step='0.01' min='1' placeholder='Cantidad de Estudiantes' class='w-full' /> 
+                                <x-input wire:model.live='normal' type='number' step='0.01' min='1' placeholder='Precio que se paga por estudiente especial' class='w-full' /> 
+                            </label>
+                        </div>
+                        <div class='flex p-2'>
+                            <label for="">
+                                Precio por Estudiante Especial
+                                <x-input wire:model.live='especial' type='number' step='0.01' min='1' placeholder='Precio que se paga por estudiente especial' class='w-full' /> 
                             </label>
                         </div>
                         <div class='flex p-2'>
@@ -119,7 +125,10 @@
                             @if($key->tipo == 'Docente')
                                 {{$key->horas}} (Horas)
                             @elseif($key->tipo == 'Maestro')
-                                {{$key->matricula}} (Estudiantes)
+                                Estudiantes:
+                                @foreach($key->obtenerEstudiantesPorTipo() as $key2)
+                                    {{ $key2->tipo.' : '.$key2->cantidad }}                               
+                                @endforeach 
                             @else    
                                 {{$key->sueldo}}
                             @endif

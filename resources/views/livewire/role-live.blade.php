@@ -8,11 +8,6 @@
                 Registrar
             </x-button>
         </a>    
-        <a href="{{route('export')}}">
-            <x-button>
-                <i class="fa-solid fa-file-excel mr-2" ></i>Excel
-            </x-button>
-        </a>
     </div>
     <div>
         <table class="tabla w-full mt-4">

@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('impartes', function (Blueprint $table) {
             $table->id();
             $table->enum('momento',['I','II','III']);
-            $table->enum('saber',['Castellano','Física','Matematica','Química','Educacion Fisica']);
+            $table->enum('saber',['Castellano','Ingles','Matematicas','Educacion Fisica','Arte y Patrimonio','Ciencias Naturales','Fisica','Quimica','Biologia','Ciencias de la Tierra','Geografia, Historia y Ciudadania','Formacion Para La Soberania Nacional','Orientacion Y Convivencia','Participación en Grupos de Creación, Recreación y Producción ','Educacion Basica']);
 
             $table->foreignId('empleado_id')->constrained()->onDelete('cascade');
             $table->foreignId('cursa_id')->constrained()->onDelete('cascade');
             
+            $table->unique(['momento','saber','empleado_id','cursa_id']);
+
             $table->timestamps();
         });
     }

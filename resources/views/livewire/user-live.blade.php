@@ -7,12 +7,6 @@
                 <i class="fa-solid fa-plus mr-2"></i>
                 Registrar
             </x-button>
-        </a>    
-        <a href="{{route('roles.index')}}">
-            <x-button  class="ml-2" >
-                <i class="fa-solid fa-user-gear mr-2"></i>
-                Roles
-            </x-button>
         </a>
     </div>
     <div>

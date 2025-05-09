@@ -80,8 +80,6 @@
                 <x-input wire:model.live="form.cantidad" type="number" min='0' max='10000000'  name="cantidad" placeholder='Cantidad' step='0.01' class='w-full' />
                 <x-input-error for="form.cantidad"/>
 
-                <p class='mt-4'> {{$textConversion}} </p>
-
             </form>
         </x-slot>
         <x-slot name='footer'>
