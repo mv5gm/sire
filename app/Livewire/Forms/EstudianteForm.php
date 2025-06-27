@@ -109,13 +109,22 @@ class EstudianteForm extends Form
     }       
     public function validationAttributes(){
         return [
-            'segundo' => 'segundo nombre',
-            'paterno' => 'primer apellido',
-            'materno' => 'segundo apellido',
-            'lugar' => 'lugar de nacimiento',
-            'fecha' => 'fecha de nacimiento',
-            'institucion_procedencia' => 'institucion de peocedencia',
-            'vive_con' => 'vive con:',
+            'cedula' => 'Cedula de estudiante',
+            'nombre' =>'nombre de estudiante',
+            'segundo' => 'segundo nombre de estudiante',
+            'paterno' => 'primer apellido de estudiante',
+            'materno' => 'segundo apellido de estudiante',
+            'lugar' => 'lugar de nacimiento de estudiante',
+            'fecha' => 'fecha de nacimiento de estudiante',
+            'sexo' =>'sexo de estudiante',
+            'institucion_procedencia' =>'institucion de procedencia de estudiante',
+            'lentes' =>'lentes de estudiante',
+            'tratamiento' =>'tratamiento de estudiante',
+            'vive_con' =>'estudiante vive con...',
+            'parto' =>'Tipo de parto de estudiante',
+            'alergias' =>'alergias de estudiante',
+            'tipo' =>'tipo de estudiantes',
+            'parroquia_id' =>'parroquia de estudiante',
         ];
     }	
 }		

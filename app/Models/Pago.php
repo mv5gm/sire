@@ -12,10 +12,10 @@ class Pago extends Model
     use HasCreateOrUpdate;
     use HasFactory;
 
-    protected $fillable = ['representante_id','estudiante_id','ingreso_id','tipo'];
+    protected $fillable = ['representante_id','estudiante_id','ingreso_id','tipo','exonerado'];
 
-    public function ingreso(){
-    	return $this->belongsTo(Ingreso::class);
+    public function ingresos(){
+    	return $this->belongsToMany(Ingreso::class);
     }
     public function estudiante(){
     	return $this->belongsTo(Estudiante::class);
@@ -23,7 +23,7 @@ class Pago extends Model
     public function representante(){
     	return $this->belongsTo(Representante::class);
     }
-    public function pagosMeses(){
-    	return $this->hasMany(PagoMes::class);
+    public function mensualidads(){
+    	return $this->belongsToMany(Mensualidad::class);
     }
 }

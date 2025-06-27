@@ -5,21 +5,30 @@
     @endphp
 
     <div class="flex ">
-        <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
+        <div class='w-full'>
+            <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
+        </div>
         <a>
-            <x-button wire:click="registrar">
-                <span wire:loading wire:target='registrar'>
+            <x-button wire:loading wire:target='registrar'>
+                <span >
                     <i class='fa-solid fa-rotate fa-spin'></i>
                 </span>
-                <span wire:loading.remove wire:target='registrar'>    
+            </x-button>
+        </a>
+        <a>    
+            <x-button wire:click="registrar" wire:loading.remove wire:target='registrar' >
+                <span  class='flex'>    
                     <i class="fa-solid fa-plus mr-2"></i> Registrar
                 </span>
             </x-button>
-            <x-button wire:click="mostrarNomina">
-                <span wire:loading wire:target='mostrarNomina'>
-                    <i class='fa-solid fa-rotate fa-spin'></i>
-                </span>
-                <span wire:loading.remove wire:target='mostrarNomina'>    
+        </a>
+        <a>    
+            <x-button wire:loading wire:target='mostrarNomina' >
+                <i class='fa-solid fa-rotate fa-spin'></i>
+            </x-button>
+            
+            <x-button wire:click="mostrarNomina" class='flex' wire:loading.remove wire:target='mostrarNomina' >
+                <span class='flex'>    
                     <i class="fa-solid fa-money-bill"></i><i class="fa-solid fa-user "></i> Nomina
                 </span>
             </x-button>
@@ -27,7 +36,7 @@
     </div>
     
     @if( $openNomina )
-        <div class='m-4 border border-gray-300 rounded-lg shadow-lg bg-white text-sm'>
+        <div class='my-4 border border-gray-300 rounded-lg shadow-lg bg-white text-sm'>
             <div class='flex'>
                 <h1 class='text-center p-4 flex-1'>Pagar Nomina</h1>
                 <button wire:click='$set("openNomina",false)'><i class='fa-solid fa-xmark p-4'></i></button>
@@ -134,7 +143,14 @@
                             @endif
 
                             </td>
-                            <td><x-input type="number" min='1' step='0.01' wire:model.defer="cantidades.{{$key->id}}" class='w-full' /> </td>
+                            <td>
+                                <x-input type="number" min='1' step='0.01' wire:model.defer="cantidades.{{$key->id}}" class='w-full' /> 
+                            </td>
+                             <td>
+                                <button type="button" wire:click="eliminarEmpleado({{ $key->id }})" class="btn btn-danger btn-sm">
+                                    <span><i class='fa-solid fa-trash'></i></span>
+                                </button>
+                            </td>
                         </tr>
                     @endforeach
                         </tbody>

@@ -6,7 +6,10 @@ use Livewire\Component;
 use App\Models\Representante;
 use App\Models\Representado;
 use App\Models\Estudiante;
+use App\Models\Hogar;
 use App\Livewire\Forms\RepresentanteForm;
+use App\Livewire\Forms\RepresentadoForm;
+use App\Livewire\Forms\HogarForm;
 use App\Livewire\Forms\AsignarEstudianteRepresentante;
 use Livewire\WithPagination;
 
@@ -17,31 +20,40 @@ class RepresentanteLive extends Component
     public $open = false;
     public $openEditar = false;
     public $openEliminar = false;
+    public $asignarEstudiante = false;
+    public $hogarRegistrado = false;
 
     #[Url]
     public $buscar = "";
     #[Url]
     public $buscarEstudiante = "";
         
-    public RepresentanteForm $registrarForm;
-    public RepresentanteForm $editarForm;
-    public asignarEstudianteRepresentante $estudianteForm;
+    public RepresentanteForm $form;
+    public RepresentadoForm $representado;
+    public HogarForm $hogar;
             
     public $idBorrar;
-    public $idBorrarEst;
-    public $estudiante_id;
+    public $idBorrarRepresentado;
     public $estudiantes;
+    public $hogars = [];
+    public $hogar_id;
 
-    public $idRepresentante;
-    public $listaEstudiante = [];
+    public $representante_id;
+    public $estudiantes_representados = [];
 
-    public $openEstudiante = false;
-    public $openEliminarEst = false;
+    public $openRepresentado = false;
+    public $openEliminarRepresentado = false;
 
     public function mount(){
         $this->estudiantes = Estudiante::all();
+        $this->hogars = Hogar::join('representados', 'representados.hogar_id', '=', 'hogars.id')
+            ->join('representantes', 'representados.representante_id', '=', 'representantes.id')
+            ->select('hogars.id', 'representantes.nombre as nombre', 'representantes.paterno as paterno', 'representantes.cedula as cedula','representados.relacion as relacion')
+            ->where('representados.relacion','Legal')
+            ->get()->toArray();
+        //dd($this->hogars);
     }   
-    public function updatingSearch()
+    public function updatingBuscar()
     {
         $this->resetPage();
     }
@@ -54,16 +66,19 @@ class RepresentanteLive extends Component
         return view('livewire.representante-live',compact('items'));
     }   
     public function registrar(){
+        $this->resetValidation();
+        $this->open = true;
+        $this->form->reset();
+    }
+    public function guardar(){
         
-        $this->registrarForm->validate();
+        $this->form->guardar();
 
-        $this->registrarForm->guardar();
-
-        $this->registrarForm->reset();
+        $this->form->reset();
 
         $this->open = false;
 
-        $this->dispatch('success');
+        $this->dispatch('success',['mensaje'=>'Operacion exitosa']);
 
         $this->resetPage();
     }       
@@ -71,18 +86,10 @@ class RepresentanteLive extends Component
         
         $this->resetValidation();
 
-        $this->openEditar = true;
+        $this->open = true;
         
-        $this->editarForm->editar($id);
-    }       
-    public function actualizar(){
-
-        $this->editarForm->actualizar();
-
-        $this->openEditar = false;
-        
-        $this->dispatch('success');
-    }   
+        $this->form->editar($id);
+    }          
     public function borrar($id)
     {       
         $this->idBorrar = $id;
@@ -96,38 +103,61 @@ class RepresentanteLive extends Component
 
         $this->reset(['idBorrar','openEliminar']);
     }
-    public function estudiante($id){     
-        
-        $this->resetValidation();
+    public function representadoVer($id){     
+    
+        $this->representante_id = $id;
 
-        $this->reset(['listaEstudiante']);
-        $this->openEstudiante = true;
-        $this->idRepresentante = $id;
+        $this->reset(['estudiantes_representados']);
+        $this->openRepresentado = true;
 
-        $this->listaEstudiante = Estudiante::whereHas('representados',function($query) use ($id){$query->where('representante_id',$id);})
-        ->with(['representados'=>function($query) use ($id){
-            $query->where('representante_id',$id)->select('estudiante_id','relacion');
-        }])->get();
+        $this->estudiantes_representados = Representado::join('estudiantes', 'representados.estudiante_id', '=', 'estudiantes.id')
+            ->join('representantes', 'representados.representante_id', '=', 'representantes.id')
+            ->where('representantes.id', $id)
+            ->select('representados.id', 'estudiantes.nombre', 'estudiantes.paterno', 'estudiantes.cedula','representados.relacion')
+            ->get();      
     }	
-    public function estudianteAsignar(){
-         
-        $this->estudianteForm->validate();
-        $this->estudianteForm->guardar($this->idRepresentante);  
+    public function representadoGuardar(){   
+        //dd($this->hogarRegistrado);
 
-        $this->dispatch('success');
-        $this->estudiante($this->idRepresentante);
-    }       
-    public function borrarEst($idEst){
-        $this->idBorrarEst = $idEst;
-        $this->openEliminarEst = true;
+        \DB::beginTransaction();
+
+        try {
+            
+            if($this->hogarRegistrado){
+                $hogar_id = $this->hogar_id;
+            }  
+            else{
+                $this->hogar->validate();
+                $hogar_id = $this->hogar->guardar()->id;
+            }   
+
+            $this->representado->representante_id = $this->representante_id;
+            $this->representado->hogar_id = $hogar_id;
+            $this->representado->validate();
+            $this->representado->guardar();
+            \DB::commit();
+            $this->dispatch('success',['message'=>'Operacion exitosa!']);
+            $this->representadoVer($this->representante_id);
+
+            $this->hogar->reset();
+            $this->representado->reset();
+
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            //dd($e->getMessage());
+            $this->dispatch('error', ['message' => 'Ocurrió un error: ' . $e->getMessage()]);
+        }
+    }           
+    public function borrarRepresentado($id){
+        //dd('iolap');
+        $this->idBorrarRepresentado = $id;
+        $this->openEliminarRepresentado = true;
     }   
-    public function eliminarEst(){
+    public function eliminarRepresentado(){
+        Representado::find($this->idBorrarRepresentado)->delete();
+        $this->dispatch('success',['message'=>'Operacion exitosa!']);
+        $this->reset(['openEliminarRepresentado','idBorrarRepresentado']);
         
-        Representado::where('estudiante_id',$this->idBorrarEst)->delete();
-        $this->dispatch('success');
-        $this->reset(['openEliminarEst']);
-        
-        $this->estudiante($this->idRepresentante);
+        $this->representadoVer($this->representante_id);
     }   	
-}
-		
+}       

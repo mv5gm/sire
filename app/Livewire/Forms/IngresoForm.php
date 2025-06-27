@@ -38,6 +38,8 @@ class IngresoForm extends Form
 
     public function guardar(){
     	
+		$this->fecha = $this->fecha == '' ? date('Y-m-d') : $this->fecha;
+
     	$itemData = [
     		'cantidad' => $this->cantidad,
 			'dolar' => $this->dolar,
@@ -52,7 +54,9 @@ class IngresoForm extends Form
     		
             $item->update($itemData);	
     	}		
-    	else{	
+    	else{
+			//dd($this->fecha);
+
     		$item = Ingreso::create($itemData);			
     	}			
         $this->id = null;

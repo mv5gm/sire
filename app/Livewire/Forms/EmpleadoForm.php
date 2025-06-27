@@ -54,7 +54,7 @@ class EmpleadoForm extends Form
 			'sueldo' => 'nullable|decimal:0,2|min:1|required_if:tipo,Administrativo,Obrero',
     		'tipo' => 'required|in:Obrero,Docente,Maestro,Administrativo',
     		'banco' => 'required|in:BANCO DE VENEZUELA,BANCO CENTRAL DE VENEZUELA,BANCO DEL TESORO,BANCO DEL COMERCIO EXTERIOR (BANCOEX),BANCO DE EXPORTACION Y COMERCIO,BANESCO,BANCO INDUSTRIAL DE VENEZUELA,BANCO BICENTENARIO,BANCO PROVINCIAL,CITIBANK SUCURSAL VENEZUELA,BANCO OCCIDENTAL DEL DESCUENTO,CORP BANCA,BANCO EXTERIOR,BANPLUS,BANCO NACIONAL DEL CREDITO,BANCO ACTIVO,BANCO DEL CARIBE,BANCO FONDO COMUN,BANCO MERCANTIL,100% BANCO,BANCO SOFITASA,BANCO ESPIRITU SANTO,BANCO PLAZA,BANFANB',
-			'cuenta' => 'required|digits:20',
+			'cuenta' => 'required|unique:empleados,cuenta,'.$this->id.'|digits:20',
     		'tipo_cuenta' => 'required|in:Ahorro,Corriente,Digital'
     	];	
     }			

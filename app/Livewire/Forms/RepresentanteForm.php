@@ -40,27 +40,12 @@ class RepresentanteForm extends Form
 
         $item = Representante::find($id);
 
-        $this->cedula = $item->cedula;
-        $this->nombre = $item->nombre;
-        $this->segundo = $item->segundo;
-        $this->paterno = $item->paterno;
-        $this->materno = $item->materno;
-        $this->direccion = $item->direccion;
-        $this->telefono = $item->telefono;
+        $this->fill($item->toArray());
     }		
 
-    public function actualizar(){
-
-		$item = Representante::find($this->id);
-
-        $item->update($this->all());
-
-        $this->reset();
-	        
-    }
     public function rules(){
         return [
-            'cedula' =>'required|unique:representantes,cedula|integer|min:1000000|max:100000000',
+            'cedula' =>'required|unique:representantes,cedula,'.$this->id.'|integer|min:1000000|max:100000000',
             'nombre' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ\s]+$/|min:3|max:50',
             'segundo' =>'nullable|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ\s]+$/|max:50',
             'paterno' =>'required|regex:/^[a-zA-ZÑñáéíóúÁÉÍÓÚüÜ\s]+$/|min:3|max:50',
@@ -81,9 +66,23 @@ class RepresentanteForm extends Form
     }
     public function validationAttributes(){
         return [
-            'segundo' => 'segundo nombre',
-            'paterno' => 'primer apellido',
-            'materno' => 'segundo apellido'
+            'cedula' => 'cedula de representante',
+            'nombre' => 'nombre de representante',
+            'segundo' => 'segundo nombre de representante',
+            'paterno' => 'primer apellido de representante',
+            'materno' => 'segundo apellido de representante',
+            'estado_civil' => 'estado civil de representantes',
+            'condicion_laboral' =>'Condicion laboral de representante',
+            'oficio' =>'Oficio de representante',
+            'direccion_habitacion' =>'Direccion de Habitacion de representante',
+            'direccion_trabajo' =>'direccion de trabajo de representante',
+            'lugar_nacimiento' =>'lugar de nacimiento de representante',
+            'fecha' =>'fecha de nacimiento de representante',
+            'telefono' =>'telefono fijo de representante',
+            'telefono_movil' => 'telefono movil de representante',
+            'email' =>'Correo Electronico de representante',
+            'nivel_academico' =>'Nivel academico de representante',
+            'nivel_ingreso' =>'nivel de ingreso de representante',
         ];
     }
 }

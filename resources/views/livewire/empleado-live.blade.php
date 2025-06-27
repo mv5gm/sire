@@ -1,13 +1,19 @@
 <div>       
     {{-- The best athlete wants his opponent at his best. --}}
     <div class="flex ">
-        <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
+        <div class='w-full'>
+            <x-input class="w-full mr-4" type="text" wire:model.live="buscar" name="" placeholder="Buscar..."/>
+        </div>
         <a>
-            <x-button wire:click="registrar">
-                <span wire:loading wire:target='registrar'>
+            <x-button wire:loading wire:target='registrar'>
+                <span >
                     <i class='fa-solid fa-rotate fa-spin'></i>
                 </span>
-                <span wire:loading.remove wire:target='registrar'>    
+            </x-button>
+        </a>        
+        <a>         
+            <x-button wire:click="registrar" wire:loading.remove wire:target='registrar'>
+                <span class='flex items-center'>
                     <i class="fa-solid fa-plus mr-2"></i> Registrar
                 </span>
             </x-button>

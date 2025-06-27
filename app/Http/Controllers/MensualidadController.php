@@ -2,33 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Estudiante;
-use App\Http\Requests\StoreEstudianteRequest;
-use App\Http\Requests\UpdateEstudianteRequest;
+use App\Models\Mensualidad;
+use App\Http\Requests\StoreMensualidadRequest;
+use App\Http\Requests\UpdateMensualidadRequest;
 
-class EstudianteController extends Controller
+class MensualidadController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-   
     public function index()
-    {       
-        return view('estudiantes');
-    }       
+    {
+        //
+    }
 
-    /**     
+    /**
      * Show the form for creating a new resource.
-     */     
+     */
     public function create()
-    {       
-        return view('estudiantes.crear');
-    }       
+    {
+        //
+    }
 
-    /**     
+    /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEstudianteRequest $request)
+    public function store(StoreMensualidadRequest $request)
     {
         //
     }
@@ -36,7 +35,7 @@ class EstudianteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Estudiante $estudiante)
+    public function show(Mensualidad $mensualidad)
     {
         //
     }
@@ -44,7 +43,7 @@ class EstudianteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Estudiante $estudiante)
+    public function edit(Mensualidad $mensualidad)
     {
         //
     }
@@ -52,7 +51,7 @@ class EstudianteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEstudianteRequest $request, Estudiante $estudiante)
+    public function update(UpdateMensualidadRequest $request, Mensualidad $mensualidad)
     {
         //
     }
@@ -60,7 +59,7 @@ class EstudianteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Estudiante $estudiante)
+    public function destroy(Mensualidad $mensualidad)
     {
         //
     }

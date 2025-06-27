@@ -13,7 +13,6 @@ class PagoForm extends Form
     public $id;
     public $representante_id;
     public $estudiante_id;
-    public $ingreso_id;
     public $tipo;
 
     public function guardar(){

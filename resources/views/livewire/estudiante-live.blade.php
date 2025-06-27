@@ -6,10 +6,13 @@
             
             <x-button wire:click='mostrarFormulario'>
                 <i class="fa-solid fa-plus mr-2"></i>
-                Registrar
+                Inscripcion
+            </x-button>
+            <x-button wire:click='mostrarFormularioEstudiante'>
+                <i class="fa-solid fa-plus mr-2"></i>
+                Estudiante
             </x-button>
         </div>
-        
     </div>
     <div>
         <table class="tabla w-full mt-4">
@@ -36,11 +39,7 @@
                               <i class="fa-solid fa-pen-to-square"></i>
                             </x-button>
                             @endcan
-                            @can('estudiantes.edit')
-                            <x-button wire:click="representante({{$key->id}})" >
-                              <i class="fa-solid fa-user-tie"></i>
-                            </x-button>
-                            @endcan
+                            
                             @can('estudiantes.destroy')
                             <x-danger-button wire:click="borrar({{$key->id}})">
                                 <i class="fa-solid fa-trash"></i>
@@ -170,6 +169,179 @@
             <x-button type='submit' form='form-actualizar' >
                 <span wire:loading wire:target='actualizar'>Cargando...</span>
                 <span wire:loading.remove wire:target="actualizar">
+                    <i class="fa-regular fa-floppy-disk mr-2"></i> 
+                    Guardar
+                </span>
+            </x-button>
+        </x-slot>
+    </x-dialog-modal>
+
+    <x-dialog-modal wire:model='open'>
+        <x-slot name='title'>
+            <h1>Registrar Estudiante</h1>
+        </x-slot>
+        <x-slot name='content'>
+            <form class='form' id='form-registrar' wire:submit='registrarEstudiante' >
+                <h3 class='border p-2 mt-4 text-center'>Datos Personales</h3>
+                
+                <x-label>Cedula</x-label>
+                <x-input wire:model='form.cedula' type="number" name="cedula" placeholder='Cedula' class='w-full'/>
+                <x-input-error for="form.cedula"/>
+
+                <x-label class='mt-4'>Primer Nombre</x-label>
+                <x-input wire:model="form.nombre" type="text" name="nombre" placeholder='Primer Nombre' class='w-full'/>
+                <x-input-error for="form.nombre"/>
+
+                <x-label class='mt-4'>Segundo Nombre</x-label>
+                <x-input wire:model="form.segundo" type="text" name="segundo" placeholder='Segundo Nombre' class='w-full'/>
+                <x-input-error for="form.segundo"/>
+                
+                <x-label class='mt-4'>Primer Apellido</x-label>
+                <x-input wire:model="form.paterno" type="text" name="paterno" placeholder='Primer Apellido' class='w-full'/>
+                <x-input-error for="form.paterno"/>
+                
+                <x-label class='mt-4'>Segundo Apellido</x-label>
+                <x-input wire:model="form.materno" type="text" name="materno" placeholder='Segundo Apellido' class='w-full'/>
+                <x-input-error for="form.materno"/>
+                
+                <x-label class='mt-4'>Fecha de nacimiento</x-label>
+                <x-input wire:model="form.fecha" type="date" name="fecha" placeholder='Fecha de nacimiento' class='w-full'/>
+                <x-input-error for="form.fecha"/>
+                
+                <x-label class='mt-4'>Lugar de nacimiento</x-label>
+                <div class="border p-1">    
+                    <div class="flex flex-column flex-md-row">    
+                        <x-select wire:model.live='estado_id' class="flex-grow-1 m-1">
+                            <option value="">Estado</option>
+                            @foreach($estados as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-select wire:model.live='municipio_id' class="flex-grow-1 m-1">
+                            <option value="">Municipio</option>
+                            @foreach($municipios as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                        <x-select wire:model.live='form.parroquia_id' class="flex-grow-1 m-1">
+                            <option value="">Parroquia</option>
+                            @foreach($parroquias as $key)
+                                <option value="{{$key->id}}">{{$key->nombre}}</option>
+                            @endforeach
+                        </x-select>
+                    </div>    
+                    <x-input wire:model="form.lugar" type="text" name="lugar" placeholder='Referencia' class='w-full'/>
+                    <x-input-error for="form.lugar"/>
+                </div>
+                
+                <x-label class='mt-4'>Sexo</x-label>
+                <x-select wire:model="form.sexo" name="sexo" class='w-full form-control'>
+                    <option value="" >Seleccione</option>
+                    <option value="m">Masculino</option>
+                    <option value="f">Femenina</option>
+                </x-select>
+                <x-input-error for="form.sexo"/>
+
+                <x-label class='mt-4'>Tipo de Estudiante</x-label>
+                <x-select wire:model="form.tipo" class='w-full form-control'>
+                    <option value="" >Seleccione</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Especial">Especial</option>
+                    <option value="Exonerado">Exonerado</option>
+                </x-select>
+                <x-input-error for="form.tipo"/>
+                
+                <x-label class='mt-4'>Institucion de procedencia</x-label>
+                <x-input wire:model="form.institucion_procedencia" type="text" placeholder='Institucion de procedencia' class='w-full'/>
+                <x-input-error for="form.institucion_procedencia"/>
+
+                <h3 class='border p-2 mt-4 text-center'>Datos Medicos</h3>
+
+                <x-label class='mt-4'>Utilza lentes?</x-label>
+                <x-select wire:model="form.lentes" name="lentes" class='w-full form-control'>
+                    <option value="" >Seleccione</option>
+                    <option value="si">Si</option>
+                    <option value="no">No</option>
+                </x-select>
+                <x-input-error for="form.lentes"/>
+
+                <x-label class='mt-4'>Tratamiento</x-label>
+                <x-input wire:model="form.tratamiento" type="text" placeholder='Tratamiento' class='w-full'/>
+                <x-input-error for="form.tratamiento"/>
+
+                <x-label class='mt-4'>Vive con:</x-label>
+					@foreach($form->opcionesVive as $key)
+						<label>
+							<input type="checkbox" wire:model='form.selectedVive' value='{{$key}}' >
+							{{$key}}
+						</label>
+					@endforeach
+				<x-input-error for="estudianteForm.vive_con"/>
+                
+                <x-label class='mt-4'>Parto</x-label>
+                <x-select wire:model="form.parto" class='w-full form-control'>
+                    <option value="" >Seleccione</option>
+                    <option value="natural">Natural</option>
+                    <option value="cesarea">Cesarea</option>
+                </x-select>
+                <x-input-error for="form.parto"/>
+
+                <x-label class='mt-4'>Alergias</x-label>
+                <x-select wire:model="form.alergias" class='w-full form-control'>
+                    <option value="" >Seleccione</option>
+                    <option value="asma">Asma</option>
+                    <option value="respiratorias">Respiratorias</option>
+                    <option value="rinitis">Rinitis</option>
+                    <option value="ninguna">Ninguna</option>
+                </x-select>
+                <x-input-error for="form.alergias"/>
+                
+                <div class='border p-2 mt-4'>
+                    <h3 class='p-1 border text-center'> Datos de la Inscripcion</h3>
+                    <x-label class='mt-4'>Nivel Academico</x-label>
+                    <x-select wire:model="cursa.nivel_id" name="nivel" class='w-full form-control'>
+                        <option value=""  >Seleccione</option>
+                        @foreach($nivels as $key)
+                            <option value='{{$key->id}}'>{{$key->nombre}}</option>
+                        @endforeach
+                    </x-select>
+                    <x-input-error for="cursa.nivel_id"/>
+                    
+                    <x-label class='mt-4'>Seccion</x-label>
+                    <x-select wire:model="cursa.seccion_id" name="seccion" class='w-full form-control'>
+                        <option value="" >Seleccione</option>
+                        @foreach($seccions as $key)
+                            <option value="{{$key->id}}">{{$key->nombre}}</option>
+                        @endforeach
+                    </x-select>
+                    <x-input-error for="cursa.seccion_id"/>
+
+                    <x-label class='mt-4'>Año escolar</x-label>
+                    <x-select wire:model="cursa.aescolar_id" name="aescolar" class='w-full form-control'>
+                        <option value="" >Seleccione</option>
+                        @foreach($aescolars as $key)
+                            <option value="{{$key->id}}">{{$key->inicio}}-{{$key->final}}</option>
+                        @endforeach
+                    </x-select>
+                    <x-input-error for="cursa.aescolar_id"/>
+
+                    <x-label class='mt-4'>Fecha de la Inscripcion</x-label>    
+                    <x-input type='date' wire:model="inscripcion.fecha" class='w-full form-control'/>
+                        
+                    <x-input-error for="inscripcion.fecha"/>
+                </div>
+            </form> 
+        </x-slot>   
+        <x-slot name='footer'>
+            <x-secondary-button wire:click="$set('open',false)" class='mr-2' >
+                <i class="fa-solid fa-ban mr-2"></i> 
+            Cancelar
+            </x-secondary-button>
+            <x-button type='submit' form='form-registrar'>
+                <span wire:loading wire:target='registrarEstudiante'>
+                    <i class='fa-solid fa-rotate fa-spin'></i>
+                </span>
+                <span wire:loading.remove wire:target="registrarEstudiante">
                     <i class="fa-regular fa-floppy-disk mr-2"></i> 
                     Guardar
                 </span>

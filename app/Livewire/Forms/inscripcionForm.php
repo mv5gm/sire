@@ -27,6 +27,14 @@ class inscripcionForm extends Form
             'cursa_id' => 'required|integer|exists:cursas,id',
             'tipo' => 'required|string|max:255',
             'fecha' => 'required|date',
+        ];  
+    }       
+    public function validationAttributes(){
+        return [
+            'estudiante_id' => 'estudainte de la inscripcion',
+            'cursa_id' => 'curso de la inscripcion',
+            'tipo' => 'tipo de la inscripcion',
+            'fecha' => 'fecha de la inscripcion',
         ];
-    }
-}
+    }   
+}       

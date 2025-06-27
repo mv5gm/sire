@@ -161,12 +161,12 @@ class NominaLive extends Component
             ->exists();
 
             if ($existeNomina) {
-            if ($this->tipo == 'Quincenal' && $this->quincena == 'Primera') {
-                $this->dispatch('error', ['message' => "El empleado ID $empleadoId ya tiene un pago registrado para la primera quincena de este mes."]);
-            } else {
-                $this->dispatch('error', ['message' => "El empleado ID $empleadoId ya tiene un pago registrado para este mes."]);
-            }
-            return; // Detener el proceso si se encuentra un conflicto
+                if ($this->tipo == 'Quincenal' && $this->quincena == 'Primera') {
+                    $this->dispatch('error', ['message' => "El empleado ID $empleadoId ya tiene un pago registrado para la primera quincena de este mes."]);
+                } else {
+                    $this->dispatch('error', ['message' => "El empleado ID $empleadoId ya tiene un pago registrado para este mes."]);
+                }
+                return; // Detener el proceso si se encuentra un conflicto
             }
         }
 
@@ -178,5 +178,18 @@ class NominaLive extends Component
     
     public function nominaExiste($empleado_id,$anio,$mes,$quincena){
         
+    }
+    public function eliminarEmpleado($empleadoId)
+    {
+        // Filtra el arreglo para quitar el empleado con el ID dado
+        $this->empleados = $this->empleados->filter(function($empleado) use ($empleadoId) {
+            return $empleado->id != $empleadoId;
+        })->values(); // Reindexa el arreglo
+
+        // También puedes eliminar la cantidad asociada si existe
+        if(isset($this->cantidades[$empleadoId])) {
+            unset($this->cantidades[$empleadoId]);
+        }
+        $this->calculoCantidad();
     }
 }       

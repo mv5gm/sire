@@ -45,6 +45,9 @@
             .form input , .form label ,.form select{
                 font-size: 13px;
             }
+            .oculto { 
+                display: none; 
+            }
         </style>
     </head>
     <body class="font-sans antialiased">
@@ -85,45 +88,23 @@
                 }
             });
 
-
-            /*
-            window.addEventListener('success', event => {
-                toastr.success(event[0].message);
-            });
-
-            window.addEventListener('warning', event => {
-                toastr.warning(event[0].message);
-            });
-
-            window.addEventListener('error', event => {
-                toastr.error(event[0].message);
-            });
-            */
-
         </script>
 
         @livewireScripts
             
         <script type="text/javascript">
-             
-            Livewire.on('success', (event) => {
-                toastr.success(event[0].message);
-            }); 
-            Livewire.on('error', (event) => {
-                toastr.error(event[0].message);
-            }); 
-
+           if (!window.livewireSuccessListener) {
+                window.livewireSuccessListener = true;
+                Livewire.on('success', (event) => {
+                    toastr.success(event[0].message);
+                });
+                Livewire.on('error', (event) => {
+                    toastr.error(event[0].message);
+                });
+            }
         </script>
 
-        <!-- Mensaje de éxito -->
-        @if (session()->has('message'))
-            <script type="text/javascript">
-               // toastr.success( {{ session('message') }} );
-            </script>
-            
-        @endif 
-
         @yield('scripts')
-
+        
     </body>
 </html>

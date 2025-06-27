@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
             $table->enum('tipo',['Aranceles','Uniformes','Mensualidad']);
+            $table->enum('exonerado',['si','no'])->default('no');
             
             $table->foreignId('representante_id')->constrained()->onDelete('cascade');
             $table->foreignId('estudiante_id')->constrained()->onDelete('cascade');
-            $table->foreignId('ingreso_id')->constrained()->onDelete('cascade');
                 
             $table->timestamps();
         });     

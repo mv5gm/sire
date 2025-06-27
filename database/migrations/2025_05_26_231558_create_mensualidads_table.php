@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pago_mes', function (Blueprint $table) {
+        Schema::create('mensualidads', function (Blueprint $table) {
             $table->id();
             $table->enum('mes', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']);
             $table->integer('anio');
-            $table->foreignId('pago_id')->constrained()->onDelete('cascade');
+            $table->integer('porcentaje')->default(100);
+            $table->enum('exonerado',['no','si'])->default('no');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pago_mes');
+        Schema::dropIfExists('mensualidads');
     }
 };

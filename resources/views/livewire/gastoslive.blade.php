@@ -79,7 +79,6 @@
                 <x-label class='mt-4'>Cantidad</x-label>
                 <x-input wire:model.live="form.cantidad" type="number" min='0' max='10000000'  name="cantidad" placeholder='Cantidad' step='0.01' class='w-full' />
                 <x-input-error for="form.cantidad"/>
-
             </form>
         </x-slot>
         <x-slot name='footer'>

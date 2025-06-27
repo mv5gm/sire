@@ -38,7 +38,7 @@ class EmpleadoLive extends Component
     
     public function mount(){
         $this->empleados = Empleado::all();
-        $this->nivels = Nivel::all();
+        $this->nivels = Nivel::where('categoria','Basica')->orWhere('categoria','Inicial')->get();
         $this->seccions = Seccion::all();
         $this->aescolars = Aescolar::all();
         $this->bancos = Empleado::tipoBanco();

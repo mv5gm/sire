@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\DB;
 		
 class EstudianteCrearLive extends Component
 {		
+    use WithPagination;
+
     public $mostrarFormulario = false;
 
     protected $listeners = ['mostrarFormularioCrearEstudiante' => 'mostrarFormulario'];
@@ -182,6 +184,8 @@ class EstudianteCrearLive extends Component
                 $hogar = $this->hogarForm->guardar();
             }
 
+            //dd($this->hogar_id);
+
             $this->representadoForm->estudiante_id = $estudiante->id;
             $this->representadoForm->representante_id = $representante->id;
             $this->representadoForm->hogar_id = $hogar->id;
@@ -223,6 +227,7 @@ class EstudianteCrearLive extends Component
             DB::rollBack();
             $error = $th;
         }   
+        $this->resetPage(); // Esto solo funciona si usas WithPagination
 
         $estado = ($error == '') ? 'success' : 'error';
         $mensaje = ($error == '') ? 'Guardado con éxito' : $error->getMessage().'-'.$error->getLine();
@@ -250,6 +255,7 @@ class EstudianteCrearLive extends Component
     }		
     public function mostrarRepresentanteRegistrado($var){
     	$this->representanteRegistrado = $var;
+        $this->dispatch('select2');
     }
     public function mostrarAutorizadoRegistrado($var){
     	$this->autorizadoRegistrado = $var;

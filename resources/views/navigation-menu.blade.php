@@ -24,18 +24,18 @@
         'permiso'=>'representantes.index',
         'nombre'=>'representantes.index' ],
 
-        ['href'=>route('ingresos.index'),
-        'texto'=>'Ingresos',
-        'icono'=>'fa-solid fa-money-bill mr-2',
-        'permiso'=>'ingresos.index',
-        'nombre'=>'ingresos.index' ],
-
         ['href'=>route('empleados.index'),
         'texto'=>'Empleados',
         'icono'=>'fa-solid fa-building-user mr-2',
         'permiso'=>'empleados.index',
         'nombre'=>'empleados.index' ],
 
+        ['href'=>route('ingresos.index'),
+        'texto'=>'Ingresos',
+        'icono'=>'fa-solid fa-money-bill mr-2',
+        'permiso'=>'ingresos.index',
+        'nombre'=>'ingresos.index' ],
+        
         /*
         ['href'=>route('plan.index'),
         'texto'=>'Secciones',

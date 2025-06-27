@@ -1,4 +1,3 @@
 GRAN MARISCAL DE AYACUCHO
-Cantidad: 3600, Cuenta: 00000000000000000000, Tipo de cuenta: Corriente
-Cantidad: 1125, Cuenta: 00000000000000000000, Tipo de cuenta: Corriente
-Cantidad: 4050, Cuenta: 00000000000000000000, Tipo de cuenta: Corriente
+Cantidad: 8000, Cuenta: 01020306120000043180, Tipo de cuenta: Corriente
+Cantidad: 4000, Cuenta: 00000000000000000000, Tipo de cuenta: Corriente

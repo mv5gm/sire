@@ -20,6 +20,7 @@ use App\Livewire\Forms\EstudianteForm;
 use App\Livewire\Forms\RepresentanteForm;
 //use App\Livewire\Forms\EstudianteEditarForm;
 use App\Livewire\Forms\asignarRepresentanteEstudiante;
+use App\Livewire\Forms\inscripcionForm;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 
@@ -49,6 +50,7 @@ class EstudianteLive extends Component
     public RepresentanteForm $representanteRegistrar;
     //public EstudianteEditarForm $estudianteEditar;
     public asignarRepresentanteEstudiante $representanteForm;
+    public inscripcionForm $inscripcion;
             
     public $nivels;
     public $seccions;
@@ -135,6 +137,41 @@ class EstudianteLive extends Component
 
         $this->resetPage();
     }       
+    public function registrarEstudiante(){
+        $error = '';
+        try {
+            
+            //dd($this->form->fecha);
+
+            DB::beginTransaction();
+            $this->cursa->validate();
+
+            $estudiante = $this->form->guardar();
+
+            $cursa = Cursa::Buscar($this->cursa->aescolar_id,
+                                    $this->cursa->nivel_id,
+                                    $this->cursa->seccion_id,
+                                    '1')->first();
+
+            $this->inscripcion->estudiante_id = $estudiante->id;
+            $this->inscripcion->cursa_id = $cursa->id;
+            $this->inscripcion->tipo = 'Nuevo';
+            $this->inscripcion->guardar();
+
+            DB::commit();
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            //dd($th);
+            $error = $th;
+        }
+
+        $estado = ($error == '') ? 'success' : 'error';
+        $mensaje = ($error == '') ? 'Guardado con éxito' : $error->getMessage().'-'.$error->getLine();
+        $this->reset(['open','cursa']);
+        $this->dispatch($estado,['message'=>$mensaje]);
+    }   
+
     public function editar($estudianteId){
         
         $this->resetValidation();
@@ -160,7 +197,7 @@ class EstudianteLive extends Component
 
         $this->openEditar = false;
         
-        $this->dispatch('success');
+        $this->dispatch('success',['message'=>'Actualizado con exito']);
     }                        
     public function borrar($estudianteId)
     {       
@@ -174,6 +211,7 @@ class EstudianteLive extends Component
         $estudiante->delete();   
 
         $this->reset(['idBorrar','openEliminar']);
+        $this->dispatch('success',['message'=>'Eliminado Con exito']);
     }       
     public function representante($id){     
         
@@ -222,5 +260,8 @@ class EstudianteLive extends Component
     {
         $this->dispatch('mostrarFormularioCrearEstudiante');
     }
+    public function mostrarFormularioEstudiante(){
+        $this->open = true;
 
+    }
 }		

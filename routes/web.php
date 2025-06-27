@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::get('/pruebas', function () {
 
-    //return Empleado::tipoBanco();
+    phpinfo();
 
     $empleado = Empleado::find(7);
     
